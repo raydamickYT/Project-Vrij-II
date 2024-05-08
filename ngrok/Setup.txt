@@ -1,0 +1,10 @@
+1: ngrok config add-authtoken 2g8mSWlgO0mZdwkUkvhoWJ1W8bo_4WoscWFEuwLTD18qxfW7
+2; ngrok http 7842
+
+check port:
+netstat -aon | findstr :[port]
+netstat -aon | findstr :7842
+
+
+http://www.airconsole.com/#http://... 
+Example: http://www.airconsole.com/#http://316d-92-185-48-107.ngrok-free.app
