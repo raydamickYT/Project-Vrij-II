@@ -1,44 +1,53 @@
-// const express = require('express');
-// const path = require('path');
-// const app = express();
-// const port = 3000;
-
-// // Statische bestanden serveren
-// app.use(express.static('public'));
-
-// // Route voor de hoofdpagina
-// app.get('/', (req, res) => {
-//   res.sendFile(path.join(__dirname, '/public/index.html'));
-// });
-// app.get('/about', (req, res) => {
-//   res.sendFile(path.join(__dirname, '/public/about.html'));
-// });
-
-// // Server starten
-// app.listen(port, () => {
-//   console.log(`Server luistert op http://localhost:${port}`);
-// });
 const WebSocket = require('ws');
-const server = new WebSocket.Server({ port: 3000 });
+const http = require('http');
+const express = require('express');
 
-server.on('connection', socket => {
-    console.log('Een nieuwe client is verbonden!');
+const app = express();
+const port = 3000; // stel je port in
 
-    socket.on('message', message => {
-        console.log('Ontvangen bericht: ' + message);
-        socket.send('Bericht ontvangen: ' + message);
+// Maak een HTTP server met Express
+const server = http.createServer(app);
+
+// Maak de WebSocket server aan
+const wss = new WebSocket.Server({ server });
+
+function broadcastConnectionCount() {
+    const count = wss.clients.size;  // Haal het aantal verbonden clients op
+    wss.clients.forEach(client => {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify({ type: 'count', count: count })); //schrijf de count weg in een json
+        }
+    });
+}
+
+wss.on('connection', function connection(ws) {
+    console.log('Client verbonden');
+    broadcastConnectionCount(); //update alle clients wanneer een nieuwe verbinding wordt gemaakt.
+
+    ws.on('message', function incoming(message) {
+        console.log('Ontvangen bericht:', message);
+        ws.send('Echo: ' + message); // Stuur een echo terug naar de client
     });
 
-    socket.on('close', () => {
-        console.log('Client heeft de verbinding verbroken.');
+    ws.on('close', () => {
+        console.log('Verbinding gesloten');
+        broadcastConnectionCount();
     });
 
-    socket.on('error', (error) => {
-        console.error('WebSocket-fout: ' + error);
+    ws.on('error', error => {
+        console.error('Fout:', error);
     });
 });
 
-console.log('WebSocket-server draait op ws://localhost:3000');
+// Serveer bestanden uit de 'public' directory
+app.use(express.static('public'));
+
+// Stel de server in om te luisteren op poort 3000
+server.listen(port, () => {
+    console.log('Server luistert op http://localhost:' + port);
+});
+
+
 
 
 
