@@ -18,33 +18,27 @@
 // app.listen(port, () => {
 //   console.log(`Server luistert op http://localhost:${port}`);
 // });
+const WebSocket = require('ws');
+const server = new WebSocket.Server({ port: 3000 });
 
-const express = require('express');
-const http = require('http');
-const socketIo = require('socket.io');
+server.on('connection', socket => {
+    console.log('Een nieuwe client is verbonden!');
 
-const app = express();
-const server = http.createServer(app);
-const io = socketIo(server);
+    socket.on('message', message => {
+        console.log('Ontvangen bericht: ' + message);
+        socket.send('Bericht ontvangen: ' + message);
+    });
 
-const port = 3000;
+    socket.on('close', () => {
+        console.log('Client heeft de verbinding verbroken.');
+    });
 
-app.use(express.static('public'));
-
-io.on('connection', (socket) => {
-  console.log('Een gebruiker is verbonden');
-
-  socket.on('disconnect', () => {
-    console.log('Een gebruiker is losgekoppeld');
-  });
-
-  socket.on('message', (msg) => {
-    console.log('Bericht ontvangen:', msg);
-    io.emit('message', msg); // Echo het bericht naar alle clients
-  });
+    socket.on('error', (error) => {
+        console.error('WebSocket-fout: ' + error);
+    });
 });
 
-server.listen(port, () => {
-  console.log(`Server luistert op http://localhost:${port}`);
-});
+console.log('WebSocket-server draait op ws://localhost:3000');
+
+
 
