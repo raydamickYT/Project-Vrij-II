@@ -1,14 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mijn Eerste Pagina</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <h1>Hallo, welkom op mijn pagina!</h1>
     <p>Dit is een voorbeeld van een eenvoudige HTML-pagina geserveerd door Node.js met Express.</p>
-    <a href="/about">Meer over ons</a>
+    <p>hoi testje</p>
+    <a href="about.html">Meer over ons</a>
+    <h1>WebSocket Client</h1>
+    <button id="Join Lobby">join lobby</button>
+    <script>
+        const socket = new WebSocket('ws://localhost:3000');
+
+        socket.onopen = function (event) {
+            console.log('Verbinding geopend:', event);
+        };
+
+        socket.onmessage = function (event) {
+            console.log('Bericht van server:', event.data);
+        };
+
+        socket.onerror = function (error) {
+            console.error('WebSocket fout:', error);
+        };
+
+        socket.onclose = function (event) {
+            console.log('WebSocket verbinding gesloten:', event);
+        };
+
+        document.getElementById('Join Lobby').addEventListener('click', () => {
+            const message = { lobbyStatus: 'inLobby', message: 'Deze client is gemarkeerd als: zit in de lobby' };
+            socket.send(JSON.stringify(message));
+            if (socket.readyState === WebSocket.OPEN) {
+            } else {
+                console.log('WebSocket is niet open.');
+            }
+        });
+    </script>
 </body>
+
 </html>
