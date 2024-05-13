@@ -33,6 +33,7 @@ function broadcastToLobby(message) {
 // Serveer bestanden uit de 'public' directory
 app.use(express.static('public'));
 
+//#region Websocket Setup
 //FUNCTION CALLS 
 //websockets
 wss.on('connection', function connection(ws) {
@@ -68,8 +69,7 @@ wss.on('connection', function connection(ws) {
         console.error('Fout:', error);
     });
 });
-
-
+//#endregion
 
 // Stel de server in om te luisteren op poort 3000
 server.listen(port, () => {
