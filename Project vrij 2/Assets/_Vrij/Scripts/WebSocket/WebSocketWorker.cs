@@ -95,11 +95,11 @@ public class WebSocketWorker : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             if (ws != null && ws.IsAlive)
             {
-                ws.Send("hello");
+                ws.Send(JsonUtility.ToJson(new MessageData{ message = "hello"}));
                 Debug.Log("keypressed");
             }
             else
@@ -125,5 +125,11 @@ public class WebSocketWorker : MonoBehaviour
     {
         public string type;
         public int count;
+    }
+
+    [System.Serializable]
+    public class MessageData
+    {
+        public string message;
     }
 }

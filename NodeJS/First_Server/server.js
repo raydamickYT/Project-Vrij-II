@@ -16,20 +16,32 @@ wss.on('connection', function connection(ws, req) {
     console.log('Client verbonden');
 
     if (req.url === '/unity') {
+        ws.clientType = 'Unity';  // Voeg een vlag toe om te identificeren dat dit de Unity client is
         unityClient = ws;
         console.log('Unity client connected');
+    } else {
+        ws.clientType = 'WebClient';  // Markeer als een reguliere webclient
+        console.log('Web client connected');
     }
 
     ws.on('message', function incoming(data) {
         let decodedMessage;
+        console.log(ws.clientType);
         try {
             decodedMessage = JSON.parse(data);
-            console.log(decodedMessage.message);
             if (!decodedMessage) {
                 console.log('Leeg bericht ontvangen.');
                 return;
             }
-            console.log(decodedMessage.lobbyStatus);
+
+            if (ws.clientType === 'Unity') {
+                console.log("unity stuurt de groeten");
+                broadcastToLobby(decodedMessage);
+                return;
+            }
+            else{
+                console.log("niet unity");
+            }
 
             if (decodedMessage.lobbyStatus === 'inLobby') {
                 handleLobbyJoin(ws, decodedMessage);
@@ -81,9 +93,21 @@ function handleLobbyJoin(ws, message) {
 function forwardMessageToUnity(message) {
     if (unityClient) {
         unityClient.send(JSON.stringify(message));
-        console.log(JSON.parse.stringify(message.message + unityClient));
     }
 }
+
+function broadcastToLobby(message) {
+    clientsInLobby.forEach(client => {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify(message));
+            console.log('Bericht verstuurd naar client in de lobby');
+        } else {
+            console.log('Client verbinding niet open');
+        }
+    });
+}
+
+
 
 server.listen(port, () => {
     console.log('Server luistert op http://localhost:' + port);
