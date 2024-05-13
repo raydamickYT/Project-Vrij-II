@@ -1,81 +1,90 @@
 const WebSocket = require('ws');
 const http = require('http');
 const express = require('express');
-const { connect } = require('http2');
 
 const app = express();
-const port = 3000; // stel je port in
-
-// Maak een HTTP server met Express
+const port = 3000;
 const server = http.createServer(app);
-// Maak de WebSocket server aan
 const wss = new WebSocket.Server({ server });
+
 const clientsInLobby = new Set();
+let unityClient = null;
 
-function broadcastConnectionCount() {
-    var count = wss.clients.size;  // Haal het aantal verbonden clients op
-    console.log("clients connected: " + count)
-    wss.clients.forEach(client => {
-        if (client.readyState === WebSocket.OPEN) {
-            client.send(JSON.stringify({ type: 'count', count: count })); //schrijf de count weg in een json
-        }
-    });
-}
-
-function broadcastToLobby(message) {
-    for (const client of clientsInLobby) {
-        if (client.readyState === WebSocket.OPEN) {
-            client.send(message);
-        }
-    }
-}
-
-// Serveer bestanden uit de 'public' directory
 app.use(express.static('public'));
 
-//#region Websocket Setup
-//FUNCTION CALLS 
-//websockets
-wss.on('connection', function connection(ws) {
+wss.on('connection', function connection(ws, req) {
     console.log('Client verbonden');
-    broadcastConnectionCount(); //update alle clients wanneer een nieuwe verbinding wordt gemaakt.
 
-    ws.on('message', function incoming(Data) {
-        const StringMessage = JSON.parse(Data);
-        console.log(StringMessage.lobbyStatus)
-        if (!StringMessage) {
-            console.log('Leeg bericht ontvangen.');
-            return; // Voorkom verdere verwerking van een leeg bericht
-        }
-        if (StringMessage.lobbyStatus === 'inLobby') {
-            clientsInLobby.add(ws);
-            console.log("mensen die in een lobby zitten: " + clientsInLobby.size);
-            ws.send("joined lobby succesfully")
-        }
-        else {
-            console.log("client niet in lobby, lobbystatus: " + StringMessage.lobbyStatus);
-            ws.send("echo: failed to join lobby.")
+    if (req.url === '/unity') {
+        unityClient = ws;
+        console.log('Unity client connected');
+    }
+
+    ws.on('message', function incoming(data) {
+        let decodedMessage;
+        try {
+            decodedMessage = JSON.parse(data);
+            console.log(decodedMessage.message);
+            if (!decodedMessage) {
+                console.log('Leeg bericht ontvangen.');
+                return;
+            }
+            console.log(decodedMessage.lobbyStatus);
+
+            if (decodedMessage.lobbyStatus === 'inLobby') {
+                handleLobbyJoin(ws, decodedMessage);
+            } else {
+                if (unityClient != null) {
+                    forwardMessageToUnity(decodedMessage);
+                }
+                else {
+                    console.log("unity client is unassigned")
+                }
+            }
+        } catch (error) {
+            console.log('Fout bij het parsen van het bericht:', error);
         }
     });
 
     ws.on('close', () => {
         console.log('Verbinding gesloten');
-        clientsInLobby.delete(ws); //ws is de socket (kort voor websocket)
-        console.log("mensen die in een lobby zitten: " + clientsInLobby.size);
+        clientsInLobby.delete(ws);
+        if (ws === unityClient) {
+            unityClient = null;
+        }
         broadcastConnectionCount();
     });
 
     ws.on('error', error => {
         console.error('Fout:', error);
     });
-});
-//#endregion
 
-// Stel de server in om te luisteren op poort 3000
+    broadcastConnectionCount();
+});
+
+function broadcastConnectionCount() {
+    const count = wss.clients.size;
+    console.log("clients connected: " + count);
+    wss.clients.forEach(client => {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify({ type: 'count', count: count }));
+        }
+    });
+}
+
+function handleLobbyJoin(ws, message) {
+    clientsInLobby.add(ws);
+    console.log("Mensen die in een lobby zitten: " + clientsInLobby.size);
+    ws.send("Joined lobby successfully");
+}
+
+function forwardMessageToUnity(message) {
+    if (unityClient) {
+        unityClient.send(JSON.stringify(message));
+        console.log(JSON.parse.stringify(message.message + unityClient));
+    }
+}
+
 server.listen(port, () => {
     console.log('Server luistert op http://localhost:' + port);
 });
-
-
-
-

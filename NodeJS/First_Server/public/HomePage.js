@@ -27,7 +27,7 @@ document.getElementById('Join Lobby').addEventListener('click', () => {
 
 document.getElementById('UnityActions').addEventListener('click', () => {
     if (socket.readyState === WebSocket.OPEN) {
-        const message = {}; //zet wat in de message
+        const message = {message: "dit is een test bericht naar unity"}; //zet wat in de message
         socket.send(JSON.stringify(message));
     } else {
         console.log('WebSocket is niet open.');

@@ -30,7 +30,7 @@ public class WebSocketWorker : MonoBehaviour
         }
     }
 
-    public string Url;
+    public string Url = "ws://localhost:3000/unity"; //die /unity er achter is om aan de webserver te laten zien dat dit unity is die connect
 
     public WebSocket WebSocket
     {

@@ -334,7 +334,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ConnectedClients: 0
-  Url: ws://localhost:3000
+  Url: ws://localhost:3000/unity
 --- !u!4 &1634943841
 Transform:
   m_ObjectHideFlags: 0
