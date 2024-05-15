@@ -97,7 +97,7 @@ public class WebSocketWorker : MonoBehaviour
                         Debug.Log("Connected clients: " + message.count);
                         break;
                     case "PerformUnityAction":
-                        DelegateManager.Instance.ExecuteJumpDelegate?.Invoke();
+                        DelegateManager.Instance.AddInputToListDelegate?.Invoke();
                         Debug.Log("Action performed successfully");
                         break;
                     default:
@@ -114,11 +114,31 @@ public class WebSocketWorker : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        // if (Input.GetKeyDown(KeyCode.Space))
+        // {
+        //     if (ws != null && ws.IsAlive)
+        //     {
+        //         ServerMessage msg = new ServerMessage { message = "hello", type = "ShowButton" };
+        //         string jsonMessage = JsonUtility.ToJson(msg);
+        //         ws.Send(jsonMessage);
+        //         // ws.Send(JsonUtility.ToJson(new ServerMessage { message = "hello", type = "ShowButton" }));
+        //         Debug.Log("keypressed");
+        //     }
+        //     else
+        //     {
+        //         Debug.LogError("Server is niet verbonden. Check de url");
+        //         return;
+        //     }
+        // }
+    }
+
+    private void SendMessageToServer(Text TextData, string type)
+    {
+        if (ws != null && ws.IsAlive)
         {
-            if (ws != null && ws.IsAlive)
+            if (TextData != null)
             {
-                ServerMessage msg = new ServerMessage { message = "hello", type = "ShowButton" };
+                ServerMessage msg = new ServerMessage { message = TextData.text, type = type };
                 string jsonMessage = JsonUtility.ToJson(msg);
                 ws.Send(jsonMessage);
                 // ws.Send(JsonUtility.ToJson(new ServerMessage { message = "hello", type = "ShowButton" }));
@@ -126,21 +146,10 @@ public class WebSocketWorker : MonoBehaviour
             }
             else
             {
-                Debug.LogError("Server is niet verbonden. Check de url");
-                return;
+                ServerMessage msg = new ServerMessage { message = "", type = type };
+                string jsonMessage = JsonUtility.ToJson(msg);
+                ws.Send(jsonMessage);
             }
-        }
-    }
-
-    private void SendMessageToServer(Text TextData, string type)
-    {
-        if (ws != null && ws.IsAlive)
-        {
-            ServerMessage msg = new ServerMessage { message = TextData.text, type = type };
-            string jsonMessage = JsonUtility.ToJson(msg);
-            ws.Send(jsonMessage);
-            // ws.Send(JsonUtility.ToJson(new ServerMessage { message = "hello", type = "ShowButton" }));
-            Debug.Log("keypressed");
         }
         else
         {

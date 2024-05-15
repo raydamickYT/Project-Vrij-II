@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,26 +6,35 @@ using UnityEngine.UI;
 
 public class ProgressBarManager : MonoBehaviour
 {
-    [SerializeField] private Slider slider;
+    [SerializeField] private Slider slider; //nog veranderen dat de max hiervan wordt gezet aan het begin van het spel (moet de de totaal aantal players zijn)
+    public Action ToggleSlider;
 
     // Start is called before the first frame update
     void Start()
     {
+        ToggleSlider = () =>
+        {
+            slider.gameObject.SetActive(!slider.gameObject.activeSelf); //hij kan nu zichzelf gwn aan en uit zetten.
+            if (slider.value != 0)
+            {
+                // slider.value = 0;
+            }
+        };
+        ToggleSlider?.Invoke();
+
     }
     void OnEnable()
     {
         DelegateManager.Instance.UpdateSliderDelegate += UpdateSliderProgress;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void UpdateSliderProgress(float Inputs)
     {
-
+        slider.value = Inputs;
     }
-
-    public void UpdateSliderProgress(float data)
+    public void SetSliderMax(int maxValue)
     {
-        slider.value = data;
+        slider.maxValue = maxValue;
     }
 
     void OnDestroy()

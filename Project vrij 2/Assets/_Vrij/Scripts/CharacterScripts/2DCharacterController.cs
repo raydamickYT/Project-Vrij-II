@@ -4,15 +4,18 @@ using UnityEngine.UI;
 
 public class Simple2DCharacterController : MonoBehaviour
 {
-    private RandomJump randomJump;
+    public InputLib inputLib;
+    public ProgressBarManager progressBarManager;
     public float movementSpeed = 5f;
     public float jumpForce = 700f;
     private Rigidbody2D rb;
     private bool isGrounded = true;
+    [Range(0, 1)]
+    public float SuccessGrens = 0.6f;
+
 
     void Start()
     {
-        randomJump = new RandomJump();
         rb = GetComponent<Rigidbody2D>();
     }
     private void OnEnable()
@@ -34,16 +37,23 @@ public class Simple2DCharacterController : MonoBehaviour
             ExecuteJump();
         }
     }
+    private void FixedUpdate()
+    {
+        progressBarManager.UpdateSliderProgress(inputLib.InputAmount);
+    }
+
     private void ExecuteJump()
     {
         if (isGrounded)
         {
-            bool canJump = randomJump.RandJumpVoid(); // Check of de random jump ons toestaat om te springen.
-            if (canJump)
+            int InputSize = inputLib.InputAmount;
+
+            if (InputSize > (inputLib.ConnectedClients * SuccessGrens))
             {
                 rb.AddForce(new Vector2(0f, jumpForce));
                 isGrounded = false;
             }
+            //else doe niks
         }
     }
 
@@ -69,19 +79,30 @@ public class Simple2DCharacterController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "EventTriggerText") //later ff kijken of er een andere manier is om dit te doen.
+        switch (other.tag)
         {
-            //begin hier iets.
-            if (other.GetComponent<Text>() != null)
-            {
-            Debug.Log("trigger");
-                DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(),"InformationText");
-            }
-            return;
-        }
-        if (other.tag == "EventTriggerOther")
-        {
-                DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(),"ShowButton");
+            case "EventTriggerText":
+                if (other.GetComponent<Text>() != null)
+                {
+                    Debug.Log("trigger");
+                    DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(), "InformationText");
+                }
+                break;
+            case "EventTriggerOther":
+                DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(), "ShowButton"); //we willen dat de players hun input kunnen geven dus laten we in de webclient de knop zien
+                progressBarManager.SetSliderMax(inputLib.ConnectedClients);
+                progressBarManager.ToggleSlider?.Invoke(); //voor visual feedback laten we ook een progress bar zien met de hoeveelheid mensen die in de lobby zitten
+                break;
+            case "EventTriggerPerformAction":
+                // DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(), "ShowButton");
+                ExecuteJump();
+                DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(), "ShowButton"); //we willen dat de players hun input kunnen geven dus laten we in de webclient de knop zien
+                progressBarManager.ToggleSlider?.Invoke(); 
+                DelegateManager.Instance.WipeInputListDelegate?.Invoke(); //ff resetten
+
+                break;
+            default:
+                break;
         }
     }
 

@@ -84,7 +84,7 @@ function broadcastConnectionCount() {
     });
 }
 
-function handleLobbyJoin(ws, message) {
+function handleLobbyJoin(ws, messageData) {
     clientsInLobby.add(ws);
     console.log("Mensen die in een lobby zitten: " + clientsInLobby.size);
     const convertedMessage = {success: true, message: "Joined lobby successfully"}; //zet wat in de message

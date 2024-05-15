@@ -32,6 +32,7 @@ public class DelegateManager : MonoBehaviour
     public Action OtherEventTriggerDetected;
     public Action<float> UpdateSliderDelegate;
     public Action ExecuteJumpDelegate;
+    public Action AddInputToListDelegate, WipeInputListDelegate;
 
 
     public void Awake()

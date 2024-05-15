@@ -21,10 +21,11 @@ public class TextManager : MonoBehaviour
 
     public void ShowText(Text Data, string s)
     {
-        Debug.Log(Data.text);
-        Debug.Log("hey");
-        localText.text = Data.text;
-        StartCoroutine(TextTimer(4));
+        if (Data != null) //omdat we deze ook callen als we het niet nodig hebben
+        {
+            localText.text = Data.text;
+            StartCoroutine(TextTimer(4));
+        }
     }
 
     void OnDestroy()
