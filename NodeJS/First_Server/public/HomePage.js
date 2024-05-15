@@ -2,6 +2,7 @@ const socket = new WebSocket('ws://localhost:3000');
 
 socket.onopen = function (event) {
     console.log('Verbinding geopend:', event);
+    toggleButton();
 };
 
 socket.onmessage = function (event) {
@@ -39,15 +40,16 @@ document.getElementById('Join Lobby').addEventListener('click', () => {
 
 document.getElementById('UnityActions').addEventListener('click', () => {
     if (socket.readyState === WebSocket.OPEN) {
-        const message = {success: true, message: "operatie voltooid"}; //zet wat in de message
+        const message = {success: true, message: "operatie voltooid", type: "PerformUnityAction"}; //zet wat in de message
         socket.send(JSON.stringify(message));
     } else {
         console.log('WebSocket is niet open.');
     }
 });
 
+
 function toggleButton() {
-    var btn = document.getElementById('myButton');
+    var btn = document.getElementById('UnityActions');
     if (btn.style.display === 'none') {
         btn.style.display = 'block';  // Toon de knop als deze verborgen is
     } else {

@@ -80,17 +80,26 @@ public class WebSocketWorker : MonoBehaviour
             try
             {
                 var message = JsonUtility.FromJson<ServerMessage>(e.Data);
-                if (message.type == "count")
+
+                if (message == null || string.IsNullOrEmpty(message.type))
                 {
-                    ConnectedClients = message.count;
-                    Debug.Log("Connected clients: " + message.count);
-                    return; //heeft geen zin om overal nog door heen te lopen
+                    Debug.LogError("Invalid or incomplete message data.");
+                    return;
                 }
-                if (message.type == "success")
+
+                switch (message.type)
                 {
-                    DelegateManager.Instance.ExecuteJumpDelegate?.Invoke();
-                    Debug.Log("bericht succes: " + message.success);
-                    return; //heeft geen zin om overal nog door heen te lopen
+                    case "count":
+                        ConnectedClients = message.count;
+                        Debug.Log("Connected clients: " + message.count);
+                        break;
+                    case "PerformUnityAction":
+                        DelegateManager.Instance.ExecuteJumpDelegate?.Invoke();
+                        Debug.Log("Action performed successfully");
+                        break;
+                    default:
+                        Debug.LogWarning("Received unknown type: " + message.type);
+                        break;
                 }
             }
             catch (System.Exception ex)
@@ -106,7 +115,7 @@ public class WebSocketWorker : MonoBehaviour
         {
             if (ws != null && ws.IsAlive)
             {
-                ServerMessage msg = new ServerMessage { message = "hello" , type = "ShowButton" };
+                ServerMessage msg = new ServerMessage { message = "hello", type = "ShowButton" };
                 string jsonMessage = JsonUtility.ToJson(msg);
                 ws.Send(jsonMessage);
                 // ws.Send(JsonUtility.ToJson(new ServerMessage { message = "hello", type = "ShowButton" }));
