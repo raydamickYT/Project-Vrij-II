@@ -15,6 +15,10 @@ public class Simple2DCharacterController : MonoBehaviour
         randomJump = new RandomJump();
         rb = GetComponent<Rigidbody2D>();
     }
+    private void OnEnable()
+    {
+        DelegateManager.Instance.ExecuteJumpDelegate += ExecuteJump;
+    }
 
     void Update()
     {
@@ -25,7 +29,14 @@ public class Simple2DCharacterController : MonoBehaviour
             rb.velocity = movement;
         }
 
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        if (Input.GetButtonDown("Jump"))
+        {
+            ExecuteJump();
+        }
+    }
+    private void ExecuteJump()
+    {
+        if (isGrounded)
         {
             bool canJump = randomJump.RandJumpVoid(); // Check of de random jump ons toestaat om te springen.
             if (canJump)

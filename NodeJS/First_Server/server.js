@@ -36,7 +36,7 @@ wss.on('connection', function connection(ws, req) {
 
             if (ws.clientType === 'Unity') {
                 console.log("unity stuurt de groeten");
-                broadcastToLobby(decodedMessage);
+                broadcastToLobby(decodedMessage); //je moet dus in de lobby zitten om hier wat mee te kunnen.
                 return;
             }
             else{
@@ -87,7 +87,8 @@ function broadcastConnectionCount() {
 function handleLobbyJoin(ws, message) {
     clientsInLobby.add(ws);
     console.log("Mensen die in een lobby zitten: " + clientsInLobby.size);
-    ws.send("Joined lobby successfully");
+    const convertedMessage = {success: true, message: "Joined lobby successfully"}; //zet wat in de message
+    ws.send(JSON.stringify(convertedMessage));
 }
 
 function forwardMessageToUnity(message) {

@@ -18,3 +18,7 @@ a {
     color: #672fe7;
     /* text-decoration: wavy; */
 }
+
+.hidden {
+    display: none;
+}

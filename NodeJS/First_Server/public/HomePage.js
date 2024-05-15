@@ -6,6 +6,18 @@ socket.onopen = function (event) {
 
 socket.onmessage = function (event) {
     console.log('Bericht van server:', event.data);
+   
+    try {
+        var debuggedMessage = JSON.parse(event.data);
+        console.log(debuggedMessage.message + "2nd try");
+        if(debuggedMessage.type === "ShowButton"){
+            console.log(debuggedMessage.type + " Type");
+            toggleButton();
+        }
+    } catch (error) {
+        console.error('Error parsing JSON:', error);
+        console.log('Received data:', event.data);
+    }
 };
 
 socket.onerror = function (error) {
@@ -32,4 +44,13 @@ document.getElementById('UnityActions').addEventListener('click', () => {
     } else {
         console.log('WebSocket is niet open.');
     }
-})
+});
+
+function toggleButton() {
+    var btn = document.getElementById('myButton');
+    if (btn.style.display === 'none') {
+        btn.style.display = 'block';  // Toon de knop als deze verborgen is
+    } else {
+        btn.style.display = 'none';  // Verberg de knop als deze zichtbaar is
+    }
+};

@@ -84,6 +84,13 @@ public class WebSocketWorker : MonoBehaviour
                 {
                     ConnectedClients = message.count;
                     Debug.Log("Connected clients: " + message.count);
+                    return; //heeft geen zin om overal nog door heen te lopen
+                }
+                if (message.type == "success")
+                {
+                    DelegateManager.Instance.ExecuteJumpDelegate?.Invoke();
+                    Debug.Log("bericht succes: " + message.success);
+                    return; //heeft geen zin om overal nog door heen te lopen
                 }
             }
             catch (System.Exception ex)
@@ -99,7 +106,10 @@ public class WebSocketWorker : MonoBehaviour
         {
             if (ws != null && ws.IsAlive)
             {
-                ws.Send(JsonUtility.ToJson(new MessageData{ message = "hello"}));
+                ServerMessage msg = new ServerMessage { message = "hello" , type = "ShowButton" };
+                string jsonMessage = JsonUtility.ToJson(msg);
+                ws.Send(jsonMessage);
+                // ws.Send(JsonUtility.ToJson(new ServerMessage { message = "hello", type = "ShowButton" }));
                 Debug.Log("keypressed");
             }
             else
@@ -124,12 +134,8 @@ public class WebSocketWorker : MonoBehaviour
     public class ServerMessage
     {
         public string type;
+        public bool success;
         public int count;
-    }
-
-    [System.Serializable]
-    public class MessageData
-    {
         public string message;
     }
 }
