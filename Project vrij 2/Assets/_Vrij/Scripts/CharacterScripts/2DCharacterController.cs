@@ -71,16 +71,17 @@ public class Simple2DCharacterController : MonoBehaviour
     {
         if (other.tag == "EventTriggerText") //later ff kijken of er een andere manier is om dit te doen.
         {
+            Debug.Log("trigger");
             //begin hier iets.
             if (other.GetComponent<Text>() != null)
             {
-                DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>());
+                DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(),"InformationText");
             }
             return;
         }
         if (other.tag == "EventTriggerOther")
         {
-
+                DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(),"ShowButton");
         }
     }
 

@@ -19,7 +19,7 @@ public class TextManager : MonoBehaviour
         }
     }
 
-    public void ShowText(Text Data)
+    public void ShowText(Text Data, string s)
     {
         Debug.Log(Data.text);
         localText.text = Data.text;

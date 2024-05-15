@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.UI;
 using WebSocketSharp;
 
 public class WebSocketWorker : MonoBehaviour
@@ -38,7 +39,6 @@ public class WebSocketWorker : MonoBehaviour
         private set { ws = value; }
     }
 
-    string DataReceived;
 
     void Awake()
     {
@@ -52,6 +52,9 @@ public class WebSocketWorker : MonoBehaviour
             Destroy(gameObject);
         }
         WebSocketSetup();
+
+        //delegates
+        DelegateManager.Instance.TextEventTriggerDetected += SendMessageToServer;
     }
     private void WebSocketSetup()
     {
@@ -126,6 +129,23 @@ public class WebSocketWorker : MonoBehaviour
                 Debug.LogError("Server is niet verbonden. Check de url");
                 return;
             }
+        }
+    }
+
+    private void SendMessageToServer(Text TextData, string type)
+    {
+        if (ws != null && ws.IsAlive)
+        {
+            ServerMessage msg = new ServerMessage { message = TextData.text, type = type };
+            string jsonMessage = JsonUtility.ToJson(msg);
+            ws.Send(jsonMessage);
+            // ws.Send(JsonUtility.ToJson(new ServerMessage { message = "hello", type = "ShowButton" }));
+            Debug.Log("keypressed");
+        }
+        else
+        {
+            Debug.LogError("Server is niet verbonden. Check de url");
+            return;
         }
     }
 
