@@ -22,6 +22,7 @@ public class TextManager : MonoBehaviour
     public void ShowText(Text Data, string s)
     {
         Debug.Log(Data.text);
+        Debug.Log("hey");
         localText.text = Data.text;
         StartCoroutine(TextTimer(4));
     }

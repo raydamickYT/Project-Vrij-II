@@ -42,14 +42,14 @@ public class DelegateManager : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            // Destroy(gameObject); //comment als je events niet meer werken
         }
     }
 
 
     public void OnDestroy()
     {
-        TextEventTriggerDetected = null;
+        // TextEventTriggerDetected = null;
         OtherEventTriggerDetected = null;
     }
 }
