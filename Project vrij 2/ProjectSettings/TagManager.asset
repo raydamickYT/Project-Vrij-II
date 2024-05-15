@@ -7,6 +7,9 @@ TagManager:
   - Ground
   - Fall
   - RespawnPoint
+  - EventTriggerOther
+  - EventTriggerText
+  - EventTrigger
   layers:
   - Default
   - TransparentFX

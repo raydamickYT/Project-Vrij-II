@@ -6,13 +6,11 @@ using UnityEngine.UI;
 
 public class RandomJump
 {
-    public Slider CanJumpSlider;
     public float RandJump;
     public float Border = 50;
-    public RandomJump(Slider _slider)
+    public RandomJump()
     {
-        CanJumpSlider = _slider;
-        UpdateSlider(50);
+        DelegateManager.Instance.UpdateSliderDelegate?.Invoke(50);
     }
 
     public bool RandJumpVoid()
@@ -20,18 +18,17 @@ public class RandomJump
         RandJump = Random.Range(0, 100);
         if (RandJump > Border)
         {
-            UpdateSlider(RandJump);
+            // UpdateSlider(RandJump);
+            DelegateManager.Instance.UpdateSliderDelegate?.Invoke(RandJump);
             return true;
         }
         else
         {
-            UpdateSlider(RandJump);
+            // UpdateSlider(RandJump);
+            DelegateManager.Instance.UpdateSliderDelegate?.Invoke(RandJump);
             return false;
         }
     }
-    private void UpdateSlider(float value)
-    {
-        CanJumpSlider.value = value;
-    }
-    
+
+
 }

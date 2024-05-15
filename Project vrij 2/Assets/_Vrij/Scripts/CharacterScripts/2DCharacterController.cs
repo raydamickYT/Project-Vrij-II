@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class Simple2DCharacterController : MonoBehaviour
 {
-    [SerializeField] private Slider _slider;
     private RandomJump randomJump;
     public float movementSpeed = 5f;
     public float jumpForce = 700f;
@@ -13,15 +12,18 @@ public class Simple2DCharacterController : MonoBehaviour
 
     void Start()
     {
-        randomJump = new RandomJump(_slider);
+        randomJump = new RandomJump();
         rb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
     {
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        Vector2 movement = new Vector2(moveHorizontal * movementSpeed, rb.velocity.y);
-        rb.velocity = movement;
+        if (isGrounded)
+        {
+            float moveHorizontal = Input.GetAxis("Horizontal");
+            Vector2 movement = new Vector2(1 * movementSpeed, rb.velocity.y);
+            rb.velocity = movement;
+        }
 
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
@@ -56,7 +58,19 @@ public class Simple2DCharacterController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.tag == "EventTriggerText") //later ff kijken of er een andere manier is om dit te doen.
+        {
+            //begin hier iets.
+            if (other.GetComponent<Text>() != null)
+            {
+                DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>());
+            }
+            return;
+        }
+        if (other.tag == "EventTriggerOther")
+        {
 
+        }
     }
 
     private IEnumerator PullPlayerUp()
