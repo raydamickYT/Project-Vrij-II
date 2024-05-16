@@ -1,0 +1,14 @@
+first time use:
+1. installeer de node.js package in de folder "NodeJS installer"
+
+----------------------------------------------------
+1. open de console
+2. navigeer naar de path van deze folder met
+cd /d C:/your/path/here
+3. enter de command: node server.js
+
+
+als het goed is begint hij nu een local host onder de url: localhost:3000
+deze kan je in je browser zetten en dan kan je lokaal de interactions uitproberen met je level.
+
+4. ben je klaar met de server? druk dan op ctr + c voordat je afsluit. Je weet dat de server is afgesloten als je weer tekst kan ingeven in de cmd.
