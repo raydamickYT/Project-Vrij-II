@@ -22,3 +22,30 @@ a {
 .hidden {
     display: none;
 }
+
+/*mobile*/
+/* Stijlen specifiek voor schermen kleiner dan 600 pixels breed */
+@media (max-width: 600px) {
+    body {
+        background-color: #f0f0f0;
+        font-size: 14px;
+    }
+
+    .hidden-on-mobile {
+        display: none;
+    }
+}
+
+/* Stijlen specifiek voor schermen tussen 600 en 1200 pixels breed */
+@media (min-width: 601px) and (max-width: 1200px) {
+    body {
+        background-color: #e0e0e0;
+    }
+}
+
+/* Stijlen voor schermen in portretmodus */
+@media (orientation: portrait) {
+    body {
+        color: blue;
+    }
+}

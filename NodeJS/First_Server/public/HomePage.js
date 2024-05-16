@@ -1,33 +1,47 @@
-const socket = new WebSocket('ws://localhost:3000');
+var socket;
+document.addEventListener("DOMContentLoaded", function() {
+    // Bouw de WebSocket URL dynamisch op
+    var wsHost = window.location.hostname;
+    var wsPort = window.location.port ? `:${window.location.port}` : ''; 
+    var wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    var wsPath = '/ws'; // Pas deze aan als je WebSocket pad anders is
 
-socket.onopen = function (event) {
-    console.log('Verbinding geopend:', event);
-    toggleButton();
-};
+    var wsUrl = `${wsProtocol}//${wsHost}${wsPort}${wsPath}`;
+    socket = new WebSocket(wsUrl);
 
-socket.onmessage = function (event) {
-    console.log('Bericht van server:', event.data);
-   
-    try {
-        var debuggedMessage = JSON.parse(event.data);
-        console.log(debuggedMessage.message + "2nd try");
-        if(debuggedMessage.type === "ShowButton"){
-            console.log(debuggedMessage.type + " Type");
-            toggleButton();
+    console.log(wsUrl);
+
+    // Handler voor als de WebSocket-verbinding wordt geopend
+    socket.onopen = function(event) {
+        console.log('WebSocket verbinding geopend:', event);
+        toggleButton(); // Activeer een knop of een andere UI-element als dat nodig is
+    };
+
+
+    socket.onmessage = function (event) {
+        console.log('Bericht van server:', event.data);
+       
+        try {
+            var debuggedMessage = JSON.parse(event.data);
+            console.log(debuggedMessage.message + "2nd try");
+            if(debuggedMessage.type === "ShowButton"){
+                console.log(debuggedMessage.type + " Type");
+                toggleButton();
+            }
+        } catch (error) {
+            console.error('Error parsing JSON:', error);
+            console.log('Received data:', event.data);
         }
-    } catch (error) {
-        console.error('Error parsing JSON:', error);
-        console.log('Received data:', event.data);
-    }
-};
-
-socket.onerror = function (error) {
-    console.error('WebSocket fout:', error);
-};
-
-socket.onclose = function (event) {
-    console.log('WebSocket verbinding gesloten:', event);
-};
+    };
+    
+    socket.onerror = function (error) {
+        console.error('WebSocket fout:', error);
+    };
+    
+    socket.onclose = function (event) {
+        console.log('WebSocket verbinding gesloten:', event);
+    };
+});
 
 document.getElementById('Join Lobby').addEventListener('click', () => {
     if (socket.readyState === WebSocket.OPEN) {
