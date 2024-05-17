@@ -12,6 +12,8 @@ public class Simple2DCharacterController : MonoBehaviour
     private bool isGrounded = true;
     [Range(0, 1)]
     public float SuccessGrens = 0.6f;
+    [SerializeField]
+    private bool IsDebugging = false;
 
 
     void Start()
@@ -32,10 +34,10 @@ public class Simple2DCharacterController : MonoBehaviour
             rb.velocity = movement;
         }
 
-        if (Input.GetButtonDown("Jump"))
-        {
-            ExecuteJump();
-        }
+        // if (Input.GetButtonDown("Jump"))
+        // {
+        //     ExecuteJump();
+        // }
     }
     private void FixedUpdate()
     {
@@ -47,11 +49,18 @@ public class Simple2DCharacterController : MonoBehaviour
         if (isGrounded)
         {
             int InputSize = inputLib.InputAmount;
-
-            if (InputSize > (inputLib.ConnectedClients * SuccessGrens))
+            if (IsDebugging)
             {
                 rb.AddForce(new Vector2(0f, jumpForce));
                 isGrounded = false;
+            }
+            else
+            {
+                if (InputSize > (inputLib.ConnectedClients * SuccessGrens))
+                {
+                    rb.AddForce(new Vector2(0f, jumpForce));
+                    isGrounded = false;
+                }
             }
             //else doe niks
         }
@@ -97,7 +106,7 @@ public class Simple2DCharacterController : MonoBehaviour
                 // DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(), "ShowButton");
                 ExecuteJump();
                 DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(), "ShowButton"); //we willen dat de players hun input kunnen geven dus laten we in de webclient de knop zien
-                progressBarManager.ToggleSlider?.Invoke(); 
+                progressBarManager.ToggleSlider?.Invoke();
                 DelegateManager.Instance.WipeInputListDelegate?.Invoke(); //ff resetten
 
                 break;

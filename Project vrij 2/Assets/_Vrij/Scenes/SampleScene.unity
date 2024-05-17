@@ -2677,6 +2677,7 @@ MonoBehaviour:
   movementSpeed: 5
   jumpForce: 350
   SuccessGrens: 0.407
+  IsDebugging: 1
 --- !u!224 &2040967591 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3934323930378890209, guid: 755afc63bf73e3f45b275815cb639d43, type: 3}
