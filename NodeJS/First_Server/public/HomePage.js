@@ -47,6 +47,9 @@ document.getElementById('Join Lobby').addEventListener('click', () => {
     if (socket.readyState === WebSocket.OPEN) {
         const message = { lobbyStatus: 'inLobby', message: 'Deze client is gemarkeerd als: zit in de lobby' };
         socket.send(JSON.stringify(message));
+        var btn = document.getElementById('Join Lobby');
+        btn.style.display = 'none'; //verberg de knop om te voorkomen dat er 2 keer op gedrukt wordt
+
     } else {
         console.log('WebSocket is niet open.');
     }
@@ -56,6 +59,8 @@ document.getElementById('UnityActions').addEventListener('click', () => {
     if (socket.readyState === WebSocket.OPEN) {
         const message = {success: true, message: "operatie voltooid", type: "PerformUnityAction"}; //zet wat in de message
         socket.send(JSON.stringify(message));
+        var btn = document.getElementById('UnityActions');
+        btn.style.display = 'none'; //verberg de knop om te voorkomen dat er 2 keer op gedrukt wordt. in dit geval willen we 1 input
     } else {
         console.log('WebSocket is niet open.');
     }
