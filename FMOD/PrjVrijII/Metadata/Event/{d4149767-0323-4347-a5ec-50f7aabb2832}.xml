@@ -90,14 +90,8 @@
 	<object class="MixerBusPanner" id="{eeac7920-2d56-4d68-9875-aa8daed80e10}" />
 	<object class="SingleSound" id="{b2c84ba4-765f-4b16-8236-c2823c189466}">
 		<property name="length">
-			<value>25</value>
+			<value>436.96799999999996</value>
 		</property>
-		<property name="timelockedOffset">
-			<value>20</value>
-		</property>
-		<relationship name="fadeInCurve">
-			<destination>{9d87baa2-3024-4c06-8d51-b63a072f0f83}</destination>
-		</relationship>
 		<relationship name="audioFile">
 			<destination>{027f7f18-1e8c-4e93-a9a0-aeec7e677c05}</destination>
 		</relationship>
@@ -123,14 +117,6 @@
 	</object>
 	<object class="MixerBusPanner" id="{368fdf52-6403-48e9-8845-b85d3370e3e0}" />
 	<object class="MixerBusFader" id="{3e8993e1-821c-46be-a81b-bedcdf800feb}" />
-	<object class="FadeCurve" id="{9d87baa2-3024-4c06-8d51-b63a072f0f83}">
-		<relationship name="startPoint">
-			<destination>{d41765ec-04dc-4d9b-9ad1-b0761c42f712}</destination>
-		</relationship>
-		<relationship name="endPoint">
-			<destination>{e0a7fb83-f9a5-4642-b26f-df7de90cef85}</destination>
-		</relationship>
-	</object>
 	<object class="MixerBusEffectChain" id="{88493d48-abba-45d0-a27e-cf3130245ff1}">
 		<relationship name="effects">
 			<destination>{accb1235-8946-4519-930e-a0bb700ab012}</destination>
@@ -138,24 +124,5 @@
 	</object>
 	<object class="MixerBusPanner" id="{fe86498a-fc3f-405a-8fe3-9db05f42425a}" />
 	<object class="MixerBusFader" id="{838136eb-48d1-4d06-a42b-814db8eaeaea}" />
-	<object class="AutomationPoint" id="{d41765ec-04dc-4d9b-9ad1-b0761c42f712}">
-		<property name="position">
-			<value>0</value>
-		</property>
-		<property name="value">
-			<value>0</value>
-		</property>
-		<property name="curveShape">
-			<value>-0.2547189</value>
-		</property>
-	</object>
-	<object class="AutomationPoint" id="{e0a7fb83-f9a5-4642-b26f-df7de90cef85}">
-		<property name="position">
-			<value>1</value>
-		</property>
-		<property name="value">
-			<value>1</value>
-		</property>
-	</object>
 	<object class="MixerBusFader" id="{accb1235-8946-4519-930e-a0bb700ab012}" />
 </objects>
