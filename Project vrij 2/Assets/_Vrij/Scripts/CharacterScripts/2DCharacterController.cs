@@ -14,10 +14,12 @@ public class Simple2DCharacterController : MonoBehaviour
     public float SuccessGrens = 0.6f;
     [SerializeField]
     private bool IsDebugging = false;
+    GameObject[] respawnPoints;
 
 
     void Start()
     {
+        respawnPoints = GameObject.FindGameObjectsWithTag("RespawnPoint");
         rb = GetComponent<Rigidbody2D>();
     }
     private void OnEnable()
@@ -30,8 +32,8 @@ public class Simple2DCharacterController : MonoBehaviour
         if (isGrounded)
         {
             float moveHorizontal = Input.GetAxis("Horizontal");
-            Vector2 movement = new Vector2(1 * movementSpeed, rb.velocity.y);
-            rb.velocity = movement;
+            // Vector2 movement = new Vector2(1 * movementSpeed, rb.velocity.y);
+            // rb.velocity = movement;
         }
 
         // if (Input.GetButtonDown("Jump"))
@@ -74,7 +76,7 @@ public class Simple2DCharacterController : MonoBehaviour
         }
         if (collision.collider.CompareTag("Fall"))
         {
-            StartCoroutine(PullPlayerUp());
+            // StartCoroutine(PullPlayerUp());
         }
     }
 
@@ -108,33 +110,30 @@ public class Simple2DCharacterController : MonoBehaviour
                 DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(), "ShowButton"); //we willen dat de players hun input kunnen geven dus laten we in de webclient de knop zien
                 progressBarManager.ToggleSlider?.Invoke();
                 DelegateManager.Instance.WipeInputListDelegate?.Invoke(); //ff resetten
-
+                break;
+            case "Fall":
+                TeleportPlayerToRespawn();
                 break;
             default:
                 break;
         }
     }
 
-    private IEnumerator PullPlayerUp()
+
+    private void TeleportPlayerToRespawn()
     {
         this.gameObject.GetComponent<Collider2D>().enabled = false;
-        this.gameObject.GetComponent<Rigidbody2D>().isKinematic = true;
         GameObject closestRespawnPoint = FindClosestRespawnPoint();
         if (closestRespawnPoint != null)
         {
-            while (Vector3.Distance(rb.position, closestRespawnPoint.transform.position) > 0.1f)
-            {
-                rb.position = Vector3.MoveTowards(rb.position, closestRespawnPoint.transform.position, movementSpeed * Time.deltaTime);
-                yield return null; // Wacht tot de volgende frame
-            }
+            // Teleporteer de speler direct naar het dichtstbijzijnde respawnpunt
+            rb.position = closestRespawnPoint.transform.position;
         }
         this.gameObject.GetComponent<Collider2D>().enabled = true;
-        this.gameObject.GetComponent<Rigidbody2D>().isKinematic = false;
     }
 
     GameObject FindClosestRespawnPoint()
     {
-        GameObject[] respawnPoints = GameObject.FindGameObjectsWithTag("RespawnPoint");
         GameObject closest = null;
         float closestDistance = Mathf.Infinity;
         Vector3 currentPosition = rb.position;
