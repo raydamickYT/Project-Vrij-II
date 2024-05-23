@@ -7,6 +7,7 @@ using FMOD.Studio;
 public class FMODTimelineController : MonoBehaviour
 {
     public Slider timelineSlider;
+    public Button PauseButton;
     public StudioEventEmitter musicEmitter;
     public GameObject player; // Het karakter dat door het level beweegt
     public Transform startPosition; // Beginpositie van het level
@@ -16,7 +17,7 @@ public class FMODTimelineController : MonoBehaviour
     private EventInstance musicInstance;
     private PLAYBACK_STATE playbackState;
     private int totalMusicLength;
-    public static bool isDraggingPlayer = false;
+    private bool isDraggingPlayer = false, isPaused = false;
     private Rigidbody2D playerRigidbody;
     private Collider2D playerCollider;
 
@@ -36,6 +37,11 @@ public class FMODTimelineController : MonoBehaviour
             timelineSlider.onValueChanged.AddListener(OnTimelineSliderChanged);
         }
 
+        if (PauseButton != null)
+        {
+            PauseButton.onClick.AddListener(TogglePause);
+        }
+        
         if (musicInstance.isValid())
         {
             musicInstance.setTimelinePosition(0);
@@ -87,7 +93,6 @@ public class FMODTimelineController : MonoBehaviour
     public void OnPointerDown()
     {
         isDraggingPlayer = true;
-        Debug.Log(FMODTimelineController.isDraggingPlayer);
         if (playerRigidbody != null)
         {
             playerRigidbody.gravityScale = 0;
@@ -140,6 +145,21 @@ public class FMODTimelineController : MonoBehaviour
             int minutes = timelinePosition / 60000;
             int seconds = timelinePosition / 1000 % 60;
             timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+        }
+    }
+    private void TogglePause()
+    {
+        isPaused = !isPaused;
+
+        if (isPaused)
+        {
+            musicInstance.setPaused(true);
+            PauseButton.GetComponentInChildren<Text>().text = "Resume";
+        }
+        else
+        {
+            musicInstance.setPaused(false);
+            PauseButton.GetComponentInChildren<Text>().text = "Pause";
         }
     }
 }
