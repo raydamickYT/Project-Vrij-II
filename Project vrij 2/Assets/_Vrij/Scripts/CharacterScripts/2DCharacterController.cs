@@ -30,8 +30,8 @@ public class Simple2DCharacterController : MonoBehaviour
         if (isGrounded)
         {
             float moveHorizontal = Input.GetAxis("Horizontal");
-            Vector2 movement = new Vector2(1 * movementSpeed, rb.velocity.y);
-            rb.velocity = movement;
+            // Vector2 movement = new Vector2(1 * movementSpeed, rb.velocity.y);
+            // rb.velocity = movement;
         }
 
         // if (Input.GetButtonDown("Jump"))
