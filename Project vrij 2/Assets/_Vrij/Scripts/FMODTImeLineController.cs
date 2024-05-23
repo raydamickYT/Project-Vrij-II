@@ -11,13 +11,14 @@ public class FMODTimelineController : MonoBehaviour
     public GameObject player; // Het karakter dat door het level beweegt
     public Transform startPosition; // Beginpositie van het level
     public Transform endPosition; // Eindpositie van het level
+    public Text timeText; // Text component om de huidige tijd weer te geven
 
     private EventInstance musicInstance;
     private PLAYBACK_STATE playbackState;
-    private Rigidbody2D PlayerRigidBody;
-    private Collider2D PlayerCollider;
     private int totalMusicLength;
-    private bool isDragging = false;
+    public static bool isDraggingPlayer = false;
+    private Rigidbody2D playerRigidbody;
+    private Collider2D playerCollider;
 
     void Start()
     {
@@ -40,10 +41,11 @@ public class FMODTimelineController : MonoBehaviour
             musicInstance.setTimelinePosition(0);
             musicInstance.start();
         }
+
         if (player != null)
         {
-            PlayerRigidBody = player.GetComponent<Rigidbody2D>();
-            PlayerCollider = player.GetComponent<Collider2D>();
+            playerRigidbody = player.GetComponent<Rigidbody2D>();
+            playerCollider = player.GetComponent<Collider2D>();
         }
     }
 
@@ -51,12 +53,14 @@ public class FMODTimelineController : MonoBehaviour
     {
         if (musicInstance.isValid())
         {
-            if (!isDragging)
+            int timelinePosition;
+            musicInstance.getTimelinePosition(out timelinePosition);
+
+            if (!isDraggingPlayer)
             {
-                int timelinePosition;
-                musicInstance.getTimelinePosition(out timelinePosition);
                 timelineSlider.value = timelinePosition / 1000f; // Zet tijd in seconden
                 UpdatePlayerPosition(timelinePosition);
+                UpdateTimeText(timelinePosition);
             }
 
             musicInstance.getPlaybackState(out playbackState);
@@ -71,39 +75,40 @@ public class FMODTimelineController : MonoBehaviour
 
     public void OnTimelineSliderChanged(float value)
     {
-        if (musicInstance.isValid() && isDragging)
+        if (musicInstance.isValid() && isDraggingPlayer)
         {
             int timelinePosition = (int)(value * 1000); // Zet tijd in milliseconden
             musicInstance.setTimelinePosition(timelinePosition);
             UpdatePlayerPosition(timelinePosition);
+            UpdateTimeText(timelinePosition);
         }
     }
 
     public void OnPointerDown()
     {
-        isDragging = true;
-        if (PlayerRigidBody != null)
+        isDraggingPlayer = true;
+        Debug.Log(FMODTimelineController.isDraggingPlayer);
+        if (playerRigidbody != null)
         {
-            PlayerRigidBody.bodyType = RigidbodyType2D.Static;
+            playerRigidbody.gravityScale = 0;
         }
-        if (PlayerCollider != null)
+        if (playerCollider != null)
         {
-            PlayerCollider.enabled = false;
+            playerCollider.enabled = false; // Schakel de Collider2D uit
         }
     }
 
     public void OnPointerUp()
     {
-        isDragging = false;
-        if (PlayerCollider != null)
+        isDraggingPlayer = false;
+        if (playerRigidbody != null)
         {
-            PlayerCollider.enabled = true;
+            playerRigidbody.gravityScale = 1;
         }
-        if (PlayerRigidBody != null)
+        if (playerCollider != null)
         {
-            PlayerRigidBody.bodyType = RigidbodyType2D.Dynamic;
+            playerCollider.enabled = true; // Schakel de Collider2D weer in
         }
-        OnTimelineSliderChanged(timelineSlider.value); // Update de muziekpositie wanneer de gebruiker de slider loslaat
     }
 
     private void UpdatePlayerPosition(int timelinePosition)
@@ -112,12 +117,11 @@ public class FMODTimelineController : MonoBehaviour
         {
             float normalizedTime = (float)timelinePosition / totalMusicLength;
             Vector3 newPosition = Vector3.Lerp(startPosition.position, endPosition.position, normalizedTime);
-            var TempYPos = newPosition.y + 1;
+            var tempYPos = newPosition.y + 1;
 
-            // Zorg ervoor dat de speler alleen horizontaal beweegt:
-            if (isDragging)
+            if (isDraggingPlayer)
             {
-                newPosition.y = TempYPos;
+                newPosition.y = tempYPos;
             }
             else
             {
@@ -126,6 +130,16 @@ public class FMODTimelineController : MonoBehaviour
             }
 
             player.transform.position = newPosition;
+        }
+    }
+
+    private void UpdateTimeText(int timelinePosition)
+    {
+        if (timeText != null)
+        {
+            int minutes = timelinePosition / 60000;
+            int seconds = timelinePosition / 1000 % 60;
+            timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
         }
     }
 }

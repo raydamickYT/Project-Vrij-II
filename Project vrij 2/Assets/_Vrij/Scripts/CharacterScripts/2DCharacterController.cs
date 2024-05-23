@@ -117,6 +117,10 @@ public class Simple2DCharacterController : MonoBehaviour
 
     private IEnumerator PullPlayerUp()
     {
+        while (FMODTimelineController.isDraggingPlayer)
+        {
+            yield return null; //ZODAT ER GEEN RARE KHINEMATIC GLITCHES ZIJN    
+        }
         this.gameObject.GetComponent<Collider2D>().enabled = false;
         this.gameObject.GetComponent<Rigidbody2D>().isKinematic = true;
         GameObject closestRespawnPoint = FindClosestRespawnPoint();
