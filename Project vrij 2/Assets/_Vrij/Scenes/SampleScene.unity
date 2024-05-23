@@ -255,7 +255,6 @@ GameObject:
   - component: {fileID: 186733039}
   - component: {fileID: 186733038}
   - component: {fileID: 186733037}
-  - component: {fileID: 186733041}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -348,21 +347,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &186733041
+--- !u!114 &186769420 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 3185290882490971028, guid: c35e750e066ac2a4192b9f3831941c54, type: 3}
+  m_PrefabInstance: {fileID: 5323936194616613682}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 186733036}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 90fb4ded0b71eca4ea466e2bcd676e5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timelineSlider: {fileID: 1829842492}
-  musicEmitter: {fileID: 683992460}
-  totalGameTime: 0
 --- !u!1 &205532862
 GameObject:
   m_ObjectHideFlags: 0
@@ -1188,6 +1183,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d7d0495bbc6970459320c6f3f6dd3b5, type: 3}
+--- !u!1 &634844941 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7052361886468304871, guid: c1c34b2b7cc2f7b40b9402e5bfc16116, type: 3}
+  m_PrefabInstance: {fileID: 5947849241928469435}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &650267302 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5220988107982454319, guid: 2a28a2e53aaef40459d07b120ce810ee, type: 3}
@@ -1240,11 +1240,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -736848025
+      Data2: 1128727331
+      Data3: -145691483
+      Data4: 841530282
+    Path: event:/TestTimeline
   Event: 
   PlayEvent: 1
   StopEvent: 2
@@ -1254,8 +1254,8 @@ MonoBehaviour:
   AllowNonRigidbodyDoppler: 0
   Params: []
   OverrideAttenuation: 0
-  OverrideMinDistance: -1
-  OverrideMaxDistance: -1
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!4 &730185332 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7344439403011785357, guid: 703620ea3afacea4fa4df8a9826dfb8e, type: 3}
@@ -1669,6 +1669,10 @@ PrefabInstance:
     - target: {fileID: 1888857337554337471, guid: 703620ea3afacea4fa4df8a9826dfb8e, type: 3}
       propertyPath: m_Name
       value: WebSocketWorker
+      objectReference: {fileID: 0}
+    - target: {fileID: 1888857337554337471, guid: 703620ea3afacea4fa4df8a9826dfb8e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7344439403011785357, guid: 703620ea3afacea4fa4df8a9826dfb8e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2600,8 +2604,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1829842493}
   - component: {fileID: 1829842492}
+  - component: {fileID: 1829842494}
   m_Layer: 5
-  m_Name: Timeline
+  m_Name: TimeLineSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2680,6 +2685,51 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1829842494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1829842491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 186769420}
+          m_TargetAssemblyTypeName: FMODTimelineController, Assembly-CSharp
+          m_MethodName: OnPointerDown
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 186769420}
+          m_TargetAssemblyTypeName: FMODTimelineController, Assembly-CSharp
+          m_MethodName: OnPointerUp
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1851973113
 GameObject:
   m_ObjectHideFlags: 0
@@ -2979,6 +3029,75 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2093791777}
   m_CullTransparentMesh: 1
+--- !u!1001 &5323936194616613682
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2147118395005491039, guid: c35e750e066ac2a4192b9f3831941c54, type: 3}
+      propertyPath: m_Name
+      value: TijdLijnComponents
+      objectReference: {fileID: 0}
+    - target: {fileID: 3185290882490971028, guid: c35e750e066ac2a4192b9f3831941c54, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 634844941}
+    - target: {fileID: 3185290882490971028, guid: c35e750e066ac2a4192b9f3831941c54, type: 3}
+      propertyPath: musicEmitter
+      value: 
+      objectReference: {fileID: 683992460}
+    - target: {fileID: 3185290882490971028, guid: c35e750e066ac2a4192b9f3831941c54, type: 3}
+      propertyPath: timelineSlider
+      value: 
+      objectReference: {fileID: 1829842492}
+    - target: {fileID: 3703240677212221139, guid: c35e750e066ac2a4192b9f3831941c54, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -101.60129
+      objectReference: {fileID: 0}
+    - target: {fileID: 3703240677212221139, guid: c35e750e066ac2a4192b9f3831941c54, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.14250764
+      objectReference: {fileID: 0}
+    - target: {fileID: 3703240677212221139, guid: c35e750e066ac2a4192b9f3831941c54, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.6131271
+      objectReference: {fileID: 0}
+    - target: {fileID: 3703240677212221139, guid: c35e750e066ac2a4192b9f3831941c54, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3703240677212221139, guid: c35e750e066ac2a4192b9f3831941c54, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3703240677212221139, guid: c35e750e066ac2a4192b9f3831941c54, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3703240677212221139, guid: c35e750e066ac2a4192b9f3831941c54, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3703240677212221139, guid: c35e750e066ac2a4192b9f3831941c54, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3703240677212221139, guid: c35e750e066ac2a4192b9f3831941c54, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3703240677212221139, guid: c35e750e066ac2a4192b9f3831941c54, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c35e750e066ac2a4192b9f3831941c54, type: 3}
 --- !u!1001 &5748553123887729827
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3137,9 +3256,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1404605487}
     - target: {fileID: 2805485873870248528, guid: c1c34b2b7cc2f7b40b9402e5bfc16116, type: 3}
+      propertyPath: IsDebugging
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2805485873870248528, guid: c1c34b2b7cc2f7b40b9402e5bfc16116, type: 3}
       propertyPath: progressBarManager
       value: 
       objectReference: {fileID: 579458652}
+    - target: {fileID: 8778335645711421620, guid: c1c34b2b7cc2f7b40b9402e5bfc16116, type: 3}
+      propertyPath: m_Simulated
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9155858900600556797, guid: c1c34b2b7cc2f7b40b9402e5bfc16116, type: 3}
       propertyPath: m_Name
       value: PlayerObject
@@ -3282,3 +3409,4 @@ SceneRoots:
   - {fileID: 1036729221}
   - {fileID: 831350591}
   - {fileID: 683992459}
+  - {fileID: 5323936194616613682}
