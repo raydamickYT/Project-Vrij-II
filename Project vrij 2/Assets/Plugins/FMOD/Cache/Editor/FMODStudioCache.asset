@@ -15,10 +15,10 @@ MonoBehaviour:
   Path: ../FMOD/PrjVrijII/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638522444703580178
+  lastModified: 638522455931799934
   FileSizes:
   - Name: Desktop
-    Value: 810
+    Value: 816
   Exists: 1
 --- !u!114 &-4745789397755288699
 MonoBehaviour:
@@ -40,6 +40,33 @@ MonoBehaviour:
   - Name: Desktop
     Value: 762
   Exists: 1
+--- !u!114 &-1018816334949013672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Leuk Naampje
+  m_EditorClassIdentifier: 
+  Path: event:/Leuk Naampje
+  Guid:
+    Data1: 1666260858
+    Data2: 1118544700
+    Data3: 425044922
+    Data4: -745031072
+  Banks:
+  - {fileID: -466667713264619916}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 934056
 --- !u!114 &-466667713264619916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55,38 +82,11 @@ MonoBehaviour:
   Path: ../FMOD/PrjVrijII/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638522444703570161
+  lastModified: 638522455931779940
   FileSizes:
   - Name: Desktop
-    Value: 5307456
+    Value: 17293504
   Exists: 1
---- !u!114 &-231858658683795499
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/kfhjgf
-  m_EditorClassIdentifier: 
-  Path: event:/kfhjgf
-  Guid:
-    Data1: 1327169793
-    Data2: 1224622378
-    Data3: -611139403
-    Data4: 1380460794
-  Banks:
-  - {fileID: -466667713264619916}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,13 +104,13 @@ MonoBehaviour:
   - {fileID: -466667713264619916}
   EditorEvents:
   - {fileID: 7975486117330739036}
-  - {fileID: -231858658683795499}
+  - {fileID: -1018816334949013672}
   EditorParameters: []
   MasterBanks:
   - {fileID: -466667713264619916}
   StringsBanks:
   - {fileID: -7091728537223440231}
-  cacheTime: 638522444703580178
+  cacheTime: 638522455931799934
   cacheVersion: 131617
 --- !u!114 &961099058331433269
 MonoBehaviour:
