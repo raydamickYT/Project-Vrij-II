@@ -15,7 +15,7 @@ MonoBehaviour:
   Path: ../FMOD/PrjVrijII/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638520765729827680
+  lastModified: 638520771932672014
   FileSizes:
   - Name: Desktop
     Value: 762
@@ -55,10 +55,10 @@ MonoBehaviour:
   Path: ../FMOD/PrjVrijII/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638520765729827680
+  lastModified: 638520771932662007
   FileSizes:
   - Name: Desktop
-    Value: 5307104
+    Value: 5306816
   Exists: 1
 --- !u!114 &11400000
 MonoBehaviour:
@@ -82,7 +82,7 @@ MonoBehaviour:
   - {fileID: -466667713264619916}
   StringsBanks:
   - {fileID: -7091728537223440231}
-  cacheTime: 638520765729827680
+  cacheTime: 638520771932672014
   cacheVersion: 131617
 --- !u!114 &961099058331433269
 MonoBehaviour:
@@ -157,4 +157,4 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 25000
+  Length: 436968
