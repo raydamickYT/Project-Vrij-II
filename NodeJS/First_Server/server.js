@@ -35,12 +35,11 @@ wss.on('connection', function connection(ws, req) {
             }
 
             if (ws.clientType === 'Unity') {
-                console.log("unity stuurt de groeten");
-                broadcastToLobby(decodedMessage); //je moet dus in de lobby zitten om hier wat mee te kunnen.
+                console.log("Unity stuurt de groeten");
+                broadcastToLobby(decodedMessage); // Je moet in de lobby zitten om hier wat mee te kunnen.
                 return;
-            }
-            else{
-                console.log("niet unity");
+            } else {
+                console.log("Niet Unity");
             }
 
             if (decodedMessage.lobbyStatus === 'inLobby') {
@@ -48,9 +47,8 @@ wss.on('connection', function connection(ws, req) {
             } else {
                 if (unityClient != null) {
                     forwardMessageToUnity(decodedMessage);
-                }
-                else {
-                    console.log("unity client is unassigned")
+                } else {
+                    console.log("Unity client is unassigned");
                 }
             }
         } catch (error) {
@@ -76,7 +74,7 @@ wss.on('connection', function connection(ws, req) {
 
 function broadcastConnectionCount() {
     const count = wss.clients.size;
-    console.log("clients connected: " + count);
+    console.log("Clients connected: " + count);
     wss.clients.forEach(client => {
         if (client.readyState === WebSocket.OPEN) {
             client.send(JSON.stringify({ type: 'count', count: count }));
@@ -87,7 +85,7 @@ function broadcastConnectionCount() {
 function handleLobbyJoin(ws, messageData) {
     clientsInLobby.add(ws);
     console.log("Mensen die in een lobby zitten: " + clientsInLobby.size);
-    const convertedMessage = {success: true, message: "Joined lobby successfully"}; //zet wat in de message
+    const convertedMessage = { success: true, message: "Joined lobby successfully" }; // Zet wat in de message
     ws.send(JSON.stringify(convertedMessage));
 }
 
@@ -107,8 +105,6 @@ function broadcastToLobby(message) {
         }
     });
 }
-
-
 
 server.listen(port, () => {
     console.log('Server luistert op http://localhost:' + port);

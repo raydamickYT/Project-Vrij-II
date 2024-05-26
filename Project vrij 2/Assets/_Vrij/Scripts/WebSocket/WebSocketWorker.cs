@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using WebSocketSharp;
@@ -21,7 +22,6 @@ public class WebSocketWorker : MonoBehaviour
                 instance = FindObjectOfType<WebSocketWorker>();
                 if (instance == null)
                 {
-                    // Optioneel: maak een nieuwe NetworkManager als er geen bestaat.
                     GameObject go = new GameObject("WebSocketWorker");
                     instance = go.AddComponent<WebSocketWorker>();
                     DontDestroyOnLoad(go);
@@ -31,7 +31,9 @@ public class WebSocketWorker : MonoBehaviour
         }
     }
 
-    public string Url = "ws://localhost:3000/unity"; //die /unity er achter is om aan de webserver te laten zien dat dit unity is die connect
+    public string Url = "ws://localhost:3000/unity";
+    public bool EnableDebugLogging = true;
+    private bool isReconnecting = false;
 
     public WebSocket WebSocket
     {
@@ -39,13 +41,11 @@ public class WebSocketWorker : MonoBehaviour
         private set { ws = value; }
     }
 
-
-    void Awake()
+    private void Awake()
     {
         if (instance == null)
         {
             instance = this;
-            // DontDestroyOnLoad(gameObject);
         }
         else if (instance != this)
         {
@@ -53,33 +53,40 @@ public class WebSocketWorker : MonoBehaviour
         }
         WebSocketSetup();
 
-        //delegates
+        // Delegates
         DelegateManager.Instance.TextEventTriggerDetected += SendMessageToServer;
     }
-    private void WebSocketSetup()
+
+    private async void WebSocketSetup()
     {
         if (!Url.StartsWith("ws://") && !Url.StartsWith("wss://"))
         {
             Debug.LogError("Invalid URL: " + Url);
-            return; // Stop further execution if URL is invalid
+            return;
         }
 
         ws = new WebSocket(Url);
-        ws.Connect();
 
-        ws.OnError += (sender, e) =>
+        ws.OnOpen += (sender, e) =>
         {
-            Debug.LogError("Error from WebSocket connection: " + e.Message);
+            if (EnableDebugLogging) Debug.Log("WebSocket connection opened.");
         };
 
-        ws.OnClose += (sender, e) =>
+        ws.OnError += async (sender, e) =>
+        {
+            Debug.LogError("Error from WebSocket connection: " + e.Message);
+            await AttemptReconnect();
+        };
+
+        ws.OnClose += async (sender, e) =>
         {
             Debug.Log("WebSocket connection closed: " + e.Reason);
+            await AttemptReconnect();
         };
 
         ws.OnMessage += (sender, e) =>
         {
-            Debug.Log("Message received: " + e.Data);
+            if (EnableDebugLogging) Debug.Log("Message received: " + e.Data);
             try
             {
                 var message = JsonUtility.FromJson<ServerMessage>(e.Data);
@@ -94,71 +101,76 @@ public class WebSocketWorker : MonoBehaviour
                 {
                     case "count":
                         ConnectedClients = message.count;
-                        Debug.Log("Connected clients: " + message.count);
+                        if (EnableDebugLogging) Debug.Log("Connected clients: " + message.count);
                         break;
                     case "PerformUnityAction":
                         DelegateManager.Instance.AddInputToListDelegate?.Invoke();
-                        Debug.Log("Action performed successfully");
+                        if (EnableDebugLogging) Debug.Log("Action performed successfully");
                         break;
                     default:
                         Debug.LogWarning("Received unknown type: " + message.type);
                         break;
                 }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Debug.LogError("Error parsing JSON: " + ex.Message);
             }
         };
+
+        await ConnectWebSocketAsync();
     }
 
-    void Update()
+    private Task ConnectWebSocketAsync()
     {
-        // if (Input.GetKeyDown(KeyCode.Space))
-        // {
-        //     if (ws != null && ws.IsAlive)
-        //     {
-        //         ServerMessage msg = new ServerMessage { message = "hello", type = "ShowButton" };
-        //         string jsonMessage = JsonUtility.ToJson(msg);
-        //         ws.Send(jsonMessage);
-        //         // ws.Send(JsonUtility.ToJson(new ServerMessage { message = "hello", type = "ShowButton" }));
-        //         Debug.Log("keypressed");
-        //     }
-        //     else
-        //     {
-        //         Debug.LogError("Server is niet verbonden. Check de url");
-        //         return;
-        //     }
-        // }
+        var tcs = new TaskCompletionSource<bool>();
+
+        ws.OnOpen += (sender, e) => tcs.SetResult(true);
+        ws.ConnectAsync();
+        
+        return tcs.Task;
+    }
+
+    private async Task AttemptReconnect()
+    {
+        if (isReconnecting) return;
+        isReconnecting = true;
+
+        while (!ws.IsAlive)
+        {
+            if (EnableDebugLogging) Debug.Log("Attempting to reconnect...");
+            await Task.Delay(5000); // Wait for 5 seconds before retrying
+            await ConnectWebSocketAsync();
+        }
+
+        isReconnecting = false;
+    }
+
+    private void Update()
+    {
+        // Optional: other updates can be done here
     }
 
     private void SendMessageToServer(Text TextData, string type)
     {
         if (ws != null && ws.IsAlive)
         {
-            if (TextData != null)
+            ServerMessage msg = new ServerMessage
             {
-                ServerMessage msg = new ServerMessage { message = TextData.text, type = type };
-                string jsonMessage = JsonUtility.ToJson(msg);
-                ws.Send(jsonMessage);
-                // ws.Send(JsonUtility.ToJson(new ServerMessage { message = "hello", type = "ShowButton" }));
-                Debug.Log("keypressed");
-            }
-            else
-            {
-                ServerMessage msg = new ServerMessage { message = "", type = type };
-                string jsonMessage = JsonUtility.ToJson(msg);
-                ws.Send(jsonMessage);
-            }
+                message = TextData != null ? TextData.text : "",
+                type = type
+            };
+            string jsonMessage = JsonUtility.ToJson(msg);
+            ws.Send(jsonMessage);
+            if (EnableDebugLogging) Debug.Log("Message sent to server: " + jsonMessage);
         }
         else
         {
-            Debug.LogError("Server is niet verbonden. Check de url");
-            return;
+            Debug.LogError("Server is niet verbonden. Check de URL.");
         }
     }
 
-    void OnDestroy()
+    private void OnDestroy()
     {
         if (ws != null)
         {
@@ -166,9 +178,7 @@ public class WebSocketWorker : MonoBehaviour
         }
     }
 
-
-
-    [System.Serializable]
+    [Serializable]
     public class ServerMessage
     {
         public string type;
