@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unity Game</title>
+    <link rel="stylesheet" href="./style.css">
+    <script defer src="./WebSocketConnection.js"></script>
+    <script defer src="./GamePage.js"></script>
+</head>
+<body>
+    <!-- WebGL Canvas -->
+    <div class="unity-container" style="width: 100vw; height: 100vh; position: fixed; top: 0; left: 0;">
+        <canvas id="unity-canvas" style="width: 100%; height: 100%; background: #231F20"></canvas>
+        <div id="unity-loading-bar">
+            <div id="unity-logo"></div>
+            <div id="unity-progress-bar-empty">
+                <div id="unity-progress-bar-full"></div>
+            </div>
+        </div>
+        <div id="unity-warning"></div>
+        <div id="unity-footer">
+            <div id="unity-build-title">My Unity Game</div>
+        </div>
+    </div>
+</body>
+</html>
