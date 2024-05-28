@@ -139,6 +139,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4963462524624880963, guid: 070ca28ff380556409104cca2f0cf5b3, type: 3}
+      propertyPath: inputLib
+      value: 
+      objectReference: {fileID: 1404605487}
+    - target: {fileID: 4963462524624880963, guid: 070ca28ff380556409104cca2f0cf5b3, type: 3}
+      propertyPath: progressBarManager
+      value: 
+      objectReference: {fileID: 579458652}
     - target: {fileID: 5965358099652076025, guid: 070ca28ff380556409104cca2f0cf5b3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -85.22
