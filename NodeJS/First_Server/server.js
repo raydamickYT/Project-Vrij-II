@@ -1,6 +1,7 @@
 const WebSocket = require('ws');
 const http = require('http');
 const express = require('express');
+const path = require('path');
 
 const app = express();
 const port = 3000;
@@ -11,6 +12,13 @@ const clientsInLobby = new Set();
 let unityClient = null;
 
 app.use(express.static('public'));
+
+// Serve the WebGL build files
+app.use('/UnityBuild', express.static(path.join(__dirname, 'public/UnityBuild')));
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 wss.on('connection', function connection(ws, req) {
     console.log('Client verbonden');

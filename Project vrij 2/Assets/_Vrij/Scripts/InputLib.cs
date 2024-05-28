@@ -5,9 +5,7 @@ using UnityEngine;
 
 public class InputLib : MonoBehaviour
 {
-    // public List<int> InputAmount = new List<int>(); //lijst die bijhoud hoeveel inputs er succesvol zijn
     public int ConnectedClients = 0, InputAmount = 0;
-
 
     void OnEnable()
     {
@@ -34,12 +32,13 @@ public class InputLib : MonoBehaviour
 
     private void WipeInputList()
     {
-        InputAmount=0;
+        InputAmount = 0;
+        WebSocketWorker.Instance.SendMessageToServer("", "HideButton"); // Stuur een bericht naar de client om de knop te verbergen
     }
 
     void OnDestroy()
     {
         DelegateManager.Instance.AddInputToListDelegate -= AddToList;
+        DelegateManager.Instance.WipeInputListDelegate -= WipeInputList;
     }
-
 }

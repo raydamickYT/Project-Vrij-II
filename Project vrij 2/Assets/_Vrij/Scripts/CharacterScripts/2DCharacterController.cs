@@ -96,18 +96,18 @@ public class Simple2DCharacterController : MonoBehaviour
                 if (other.GetComponent<Text>() != null)
                 {
                     Debug.Log("trigger");
-                    DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(), "InformationText");
+                    DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>().text, "InformationText");
                 }
                 break;
             case "EventTriggerOther":
-                DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(), "ShowButton"); //we willen dat de players hun input kunnen geven dus laten we in de webclient de knop zien
+                DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>().text, "ShowButton"); //we willen dat de players hun input kunnen geven dus laten we in de webclient de knop zien
                 progressBarManager.SetSliderMax(inputLib.ConnectedClients);
                 progressBarManager.ToggleSlider?.Invoke(); //voor visual feedback laten we ook een progress bar zien met de hoeveelheid mensen die in de lobby zitten
                 break;
             case "EventTriggerPerformAction":
                 // DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(), "ShowButton");
                 ExecuteJump();
-                DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(), "ShowButton"); //we willen dat de players hun input kunnen geven dus laten we in de webclient de knop zien
+                DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>().text, "ShowButton"); //we willen dat de players hun input kunnen geven dus laten we in de webclient de knop zien
                 progressBarManager.ToggleSlider?.Invoke();
                 DelegateManager.Instance.WipeInputListDelegate?.Invoke(); //ff resetten
                 break;
