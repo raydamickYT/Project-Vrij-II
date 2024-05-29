@@ -48,6 +48,8 @@ function handleWebSocketMessage(message) {
 function receiveMessageFromUnity(jsonMessage) {
     console.log('Bericht ontvangen van Unity:', jsonMessage);
     // Verzend bericht naar server via WebSocket
+
+
     if (socket.readyState === WebSocket.OPEN) {
         socket.send(JSON.stringify({ type: 'PerformUnityAction', message: jsonMessage }));
     }
