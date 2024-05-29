@@ -1,27 +1,38 @@
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Simple2DCharacterController : MonoBehaviour
 {
     public InputLib inputLib;
+
+    private struct PlayerState
+    {
+        public Vector2 position;
+        public Vector2 velocity;
+        public float timestamp;
+    }
+
+    private List<PlayerState> stateHistory = new List<PlayerState>();
+    private Rigidbody2D rb;
+    private bool isRewinding = false;
     public ProgressBarManager progressBarManager;
     public float movementSpeed = 5f;
     public float jumpForce = 700f;
-    private Rigidbody2D rb;
     private bool isGrounded = true;
     [Range(0, 1)]
     public float SuccessGrens = 0.6f;
     [SerializeField]
     private bool IsDebugging = false;
     GameObject[] respawnPoints;
-
+    private float rewindDuration = 5f; // Duur van de terugspoeling in seconden
 
     void Start()
     {
         respawnPoints = GameObject.FindGameObjectsWithTag("RespawnPoint");
         rb = GetComponent<Rigidbody2D>();
     }
+
     private void OnEnable()
     {
         DelegateManager.Instance.ExecuteJumpDelegate += ExecuteJump;
@@ -29,18 +40,28 @@ public class Simple2DCharacterController : MonoBehaviour
 
     void Update()
     {
-        if (isGrounded)
+        if (isRewinding)
         {
-            float moveHorizontal = Input.GetAxis("Horizontal");
-            // Vector2 movement = new Vector2(1 * movementSpeed, rb.velocity.y);
-            // rb.velocity = movement;
+            Rewind();
+        }
+        else
+        {
+            RecordState();
         }
 
-        // if (Input.GetButtonDown("Jump"))
-        // {
-        //     ExecuteJump();
-        // }
+        if (isGrounded && !isRewinding)
+        {
+            float moveHorizontal = Input.GetAxis("Horizontal");
+            Vector2 movement = new Vector2(moveHorizontal * movementSpeed, rb.velocity.y);
+            rb.velocity = movement;
+        }
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            ExecuteJump();
+        }
     }
+
     private void FixedUpdate()
     {
         progressBarManager.UpdateSliderProgress(inputLib.InputAmount);
@@ -76,7 +97,7 @@ public class Simple2DCharacterController : MonoBehaviour
         }
         if (collision.collider.CompareTag("Fall"))
         {
-            // StartCoroutine(PullPlayerUp());
+            StartRewind();
         }
     }
 
@@ -105,31 +126,74 @@ public class Simple2DCharacterController : MonoBehaviour
                 progressBarManager.ToggleSlider?.Invoke(); //voor visual feedback laten we ook een progress bar zien met de hoeveelheid mensen die in de lobby zitten
                 break;
             case "EventTriggerPerformAction":
-                // DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(), "ShowButton");
                 ExecuteJump();
                 DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>().text, "ShowButton"); //we willen dat de players hun input kunnen geven dus laten we in de webclient de knop zien
                 progressBarManager.ToggleSlider?.Invoke();
                 DelegateManager.Instance.WipeInputListDelegate?.Invoke(); //ff resetten
                 break;
             case "Fall":
-                TeleportPlayerToRespawn();
+                StartRewind();
                 break;
             default:
                 break;
         }
     }
 
-
     private void TeleportPlayerToRespawn()
     {
-        this.gameObject.GetComponent<Collider2D>().enabled = false;
-        GameObject closestRespawnPoint = FindClosestRespawnPoint();
-        if (closestRespawnPoint != null)
+        StartRewind();
+    }
+
+    private void RecordState()
+    {
+        PlayerState state = new PlayerState
         {
-            // Teleporteer de speler direct naar het dichtstbijzijnde respawnpunt
-            rb.position = closestRespawnPoint.transform.position;
+            position = rb.position,
+            velocity = rb.velocity,
+            timestamp = Time.time
+        };
+        stateHistory.Insert(0, state);
+
+        // Verwijder oudere staten die buiten de rewindDuration vallen
+        stateHistory.RemoveAll(s => s.timestamp < Time.time - rewindDuration);
+    }
+
+    private void Rewind()
+    {
+        if (stateHistory.Count > 0)
+        {
+            PlayerState state = stateHistory[0];
+            rb.position = state.position;
+            rb.velocity = state.velocity;
+            stateHistory.RemoveAt(0);
+
+            if (stateHistory.Count == 0 || stateHistory[0].timestamp <= Time.time - rewindDuration)
+            {
+                StopRewind();
+            }
         }
-        this.gameObject.GetComponent<Collider2D>().enabled = true;
+        else
+        {
+            StopRewind();
+        }
+    }
+
+    private void StartRewind()
+    {
+        isRewinding = true;
+        rb.isKinematic = true;
+    }
+
+    private void StopRewind()
+    {
+        isRewinding = false;
+        rb.isKinematic = false;
+        if (stateHistory.Count > 0)
+        {
+            PlayerState state = stateHistory[0];
+            rb.position = state.position;
+            rb.velocity = state.velocity;
+        }
     }
 
     GameObject FindClosestRespawnPoint()
