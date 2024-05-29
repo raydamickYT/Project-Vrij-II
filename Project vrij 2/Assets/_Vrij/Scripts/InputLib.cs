@@ -34,7 +34,6 @@ public class InputLib : MonoBehaviour
     private void WipeInputList()
     {
         InputAmount = 0;
-        WebSocketWorker.Instance.SendMessageToServer("", "HideButton"); // Stuur een bericht naar de client om de knop te verbergen
     }
 
     void OnDestroy()
