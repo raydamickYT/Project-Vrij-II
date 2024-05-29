@@ -1,5 +1,6 @@
 using System;
-using System.Threading.Tasks;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using WebSocketSharp;
 
@@ -102,7 +103,7 @@ public class WebSocketWorker : MonoBehaviour
                         break;
                 }
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 Debug.LogError("Error parsing JSON: " + ex.Message);
             }
@@ -111,14 +112,6 @@ public class WebSocketWorker : MonoBehaviour
 
     void Update()
     {
-        // //stress test
-        // Parallel.For(0, 100, (index) =>
-        // {
-        //     ServerMessage msg = new ServerMessage { message = "message", type = "type" };
-        //     string jsonMessage = JsonUtility.ToJson(msg);
-        //     ws.Send(jsonMessage);
-        // });
-
         // if (Input.GetKeyDown(KeyCode.Space))
         // {
         //     if (ws != null && ws.IsAlive)
@@ -160,7 +153,7 @@ public class WebSocketWorker : MonoBehaviour
         }
     }
 
-    [Serializable]
+    [System.Serializable]
     public class ServerMessage
     {
         public string type;

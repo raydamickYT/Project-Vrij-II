@@ -105,21 +105,30 @@ wssUnityClients.on('connection', function connection(ws, req) {
     ws.on('close', () => {
         console.log('Verbinding gesloten');
         unityClient = null;
+        broadcastConnectionCount();
     });
 
     ws.on('error', error => {
         console.error('Fout:', error);
     });
+    broadcastConnectionCount();
 });
 
 function broadcastConnectionCount() {
     const count = wssWebClients.clients.size;
     console.log("Clients connected: " + count);
+    
+    // Verzend het `count` bericht naar alle web clients
     wssWebClients.clients.forEach(client => {
         if (client.readyState === WebSocket.OPEN) {
             client.send(JSON.stringify({ type: 'count', count: count }));
         }
     });
+
+    // Verzend het `count` bericht naar de Unity client
+    if (unityClient && unityClient.readyState === WebSocket.OPEN) {
+        unityClient.send(JSON.stringify({ type: 'count', count: count }));
+    }
 }
 
 function handleLobbyJoin(ws, messageData) {

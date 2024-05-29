@@ -15,6 +15,7 @@ public class InputLib : MonoBehaviour
 
     void FixedUpdate()
     {
+        Debug.Log("input amount: " + InputAmount);
         if (WebSocketWorker.Instance != null)
         {
             ConnectedClients = WebSocketWorker.Instance.ConnectedClients;
