@@ -24,14 +24,14 @@ function receiveMessageFromUnity(message) {
 // Unity WebGL Loader 
 function Unity() {
     var buildUrl = "/UnityBuild/Build"; // Update the path to match your server setup
-    var loaderUrl = buildUrl + "/Build.loader.js";
+    var loaderUrl = buildUrl + "/Build2.loader.js";
     var config = {
-        dataUrl: buildUrl + "/Build.data",
-        frameworkUrl: buildUrl + "/Build.framework.js",
-        codeUrl: buildUrl + "/Build.wasm",
+        dataUrl: buildUrl + "/Build2.data",
+        frameworkUrl: buildUrl + "/Build2.framework.js",
+        codeUrl: buildUrl + "/Build2.wasm",
         streamingAssetsUrl: "StreamingAssets",
-        companyName: "YourCompany",
-        productName: "YourProductName",
+        companyName: "AdamProductions",
+        productName: "ItsInGame",
         productVersion: "1.0"
     };
 

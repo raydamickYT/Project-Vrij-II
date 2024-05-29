@@ -6,48 +6,53 @@ const path = require('path');
 const app = express();
 const port = 3000;
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ server });
+const wssWebClients = new WebSocket.Server({ noServer: true });
+const wssUnityClients = new WebSocket.Server({ noServer: true });
 
 const clientsInLobby = new Set();
 let unityClient = null;
 
-app.use(express.static('public'));
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Serve the WebGL build files
-app.use('/UnityBuild', express.static(path.join(__dirname, 'public/UnityBuild')));
+app.use('/UnityBuild', express.static(path.join(__dirname, 'public', 'UnityBuild')));
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-wss.on('connection', function connection(ws, req) {
-    console.log('Client verbonden');
+app.get('/unity', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'UnityPage.html'));
+});
 
-    if (req.url === '/unity') {
-        ws.clientType = 'Unity';  // Voeg een vlag toe om te identificeren dat dit de Unity client is
-        unityClient = ws;
-        console.log('Unity client connected');
+server.on('upgrade', (request, socket, head) => {
+    const pathname = new URL(request.url, `http://${request.headers.host}`).pathname;
+
+    if (pathname === '/ws') {
+        wssWebClients.handleUpgrade(request, socket, head, (ws) => {
+            wssWebClients.emit('connection', ws, request);
+        });
+    } else if (pathname === '/unity') {
+        wssUnityClients.handleUpgrade(request, socket, head, (ws) => {
+            wssUnityClients.emit('connection', ws, request);
+        });
     } else {
-        ws.clientType = 'WebClient';  // Markeer als een reguliere webclient
-        console.log('Web client connected');
+        socket.destroy();
     }
+});
+
+// WebClient WebSocket server
+wssWebClients.on('connection', function connection(ws, req) {
+    console.log('Web client verbonden');
 
     ws.on('message', function incoming(data) {
         let decodedMessage;
-        console.log(ws.clientType);
         try {
             decodedMessage = JSON.parse(data);
             if (!decodedMessage) {
                 console.log('Leeg bericht ontvangen.');
                 return;
-            }
-
-            if (ws.clientType === 'Unity') {
-                console.log("Unity stuurt de groeten");
-                broadcastToLobby(decodedMessage); // Je moet in de lobby zitten om hier wat mee te kunnen.
-                return;
-            } else {
-                console.log("Niet Unity");
             }
 
             if (decodedMessage.lobbyStatus === 'inLobby') {
@@ -67,9 +72,6 @@ wss.on('connection', function connection(ws, req) {
     ws.on('close', () => {
         console.log('Verbinding gesloten');
         clientsInLobby.delete(ws);
-        if (ws === unityClient) {
-            unityClient = null;
-        }
         broadcastConnectionCount();
     });
 
@@ -80,10 +82,40 @@ wss.on('connection', function connection(ws, req) {
     broadcastConnectionCount();
 });
 
+// Unity WebSocket server
+wssUnityClients.on('connection', function connection(ws, req) {
+    console.log('Unity client verbonden');
+    unityClient = ws;
+
+    ws.on('message', function incoming(data) {
+        let decodedMessage;
+        try {
+            decodedMessage = JSON.parse(data);
+            if (!decodedMessage) {
+                console.log('Leeg bericht ontvangen.');
+                return;
+            }
+
+            broadcastToLobby(decodedMessage);
+        } catch (error) {
+            console.log('Fout bij het parsen van het bericht:', error);
+        }
+    });
+
+    ws.on('close', () => {
+        console.log('Verbinding gesloten');
+        unityClient = null;
+    });
+
+    ws.on('error', error => {
+        console.error('Fout:', error);
+    });
+});
+
 function broadcastConnectionCount() {
-    const count = wss.clients.size;
+    const count = wssWebClients.clients.size;
     console.log("Clients connected: " + count);
-    wss.clients.forEach(client => {
+    wssWebClients.clients.forEach(client => {
         if (client.readyState === WebSocket.OPEN) {
             client.send(JSON.stringify({ type: 'count', count: count }));
         }
