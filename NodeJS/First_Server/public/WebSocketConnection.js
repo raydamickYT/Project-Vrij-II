@@ -1,55 +1,62 @@
-var socket;
-var reconnectInterval = 5000; // 5 seconden interval voor opnieuw verbinding maken
+let socket;
 
-function initializeWebSocket(onMessageCallback, onOpenCallback, onCloseCallback, onErrorCallback) {
-    // Bouw de WebSocket URL dynamisch op
-    var wsHost = window.location.hostname;
-    var wsPort = window.location.port ? `:${window.location.port}` : ''; 
-    var wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    var wsPath = '/ws'; // Pas deze aan als je WebSocket pad anders is
+document.addEventListener("DOMContentLoaded", function() {
+    initializeWebSocket(
+        handleWebSocketMessage,
+        null, // Geen specifieke actie nodig bij het openen van de verbinding
+        () => console.log('Verbinding gesloten'), // Log de sluiting van de verbinding
+        (error) => console.error('WebSocket fout:', error)
+    );
+});
 
-    var wsUrl = `${wsProtocol}//${wsHost}${wsPort}${wsPath}`;
+function initializeWebSocket(onMessage, onOpen, onClose, onError) {
+    const wsHost = window.location.hostname;
+    const wsPort = window.location.port ? `:${window.location.port}` : ''; 
+    const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const wsPath = '/ws';
+
+    const wsUrl = `${wsProtocol}//${wsHost}${wsPort}${wsPath}`;
     socket = new WebSocket(wsUrl);
 
-    console.log(wsUrl);
-
-    // Handler voor als de WebSocket-verbinding wordt geopend
     socket.onopen = function(event) {
         console.log('WebSocket verbinding geopend:', event);
-        if (onOpenCallback) onOpenCallback(event);
+        if (onOpen) onOpen(event);
     };
 
-    // Handler voor berichten van de server
     socket.onmessage = function(event) {
         console.log('Bericht van server:', event.data);
-
-        try {
-            var debuggedMessage = JSON.parse(event.data);
-            if (onMessageCallback) onMessageCallback(debuggedMessage);
-        } catch (error) {
-            console.error('Error parsing JSON:', error);
-            console.log('Received data:', event.data);
-        }
+        if (onMessage) onMessage(event.data);
     };
 
-    // Handler voor fouten
     socket.onerror = function(error) {
         console.error('WebSocket fout:', error);
-        if (onErrorCallback) onErrorCallback(error);
+        if (onError) onError(error);
     };
 
-    // Handler voor sluiten van de verbinding
     socket.onclose = function(event) {
         console.log('WebSocket verbinding gesloten:', event);
-        if (onCloseCallback) onCloseCallback(event);
-        attemptReconnect(onMessageCallback, onOpenCallback, onCloseCallback, onErrorCallback);
+        if (onClose) onClose(event);
     };
 }
 
-function attemptReconnect(onMessageCallback, onOpenCallback, onCloseCallback, onErrorCallback) {
-    console.log(`Proberen opnieuw verbinding te maken over ${reconnectInterval / 1000} seconden...`);
-    setTimeout(() => {
-        console.log('Opnieuw verbinden...');
-        initializeWebSocket(onMessageCallback, onOpenCallback, onCloseCallback, onErrorCallback);
-    }, reconnectInterval);
+function handleWebSocketMessage(message) {
+    console.log('Bericht ontvangen van server:', message);
+    // Verwerk berichten van de server zoals nodig
+}
+
+// Functie om berichten van Unity te ontvangen en door te sturen naar de server
+function receiveMessageFromUnity(jsonMessage) {
+    console.log('Bericht ontvangen van Unity:', jsonMessage);
+    // Verzend bericht naar server via WebSocket
+    if (socket.readyState === WebSocket.OPEN) {
+        socket.send(JSON.stringify({ type: 'PerformUnityAction', message: jsonMessage }));
+    }
+}
+
+// Voorbeeld functie om een bericht terug te sturen naar Unity (optioneel)
+function sendMessageToUnity(message) {
+    if (typeof unityInstance !== 'undefined') {
+        unityInstance.SendMessage('UnityToJavaScript', 'ReceiveMessageFromJavaScript', message);
+        console.log('Bericht verzonden naar Unity:', message);
+    }
 }

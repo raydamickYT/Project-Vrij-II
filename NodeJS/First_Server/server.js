@@ -125,7 +125,7 @@ function broadcastConnectionCount() {
 function handleLobbyJoin(ws, messageData) {
     clientsInLobby.add(ws);
     console.log("Mensen die in een lobby zitten: " + clientsInLobby.size);
-    const convertedMessage = { success: true, message: "Joined lobby successfully" }; // Zet wat in de message
+    const convertedMessage = { success: true, message: "Joined lobby successfully", type: 'info' }; // Zet wat in de message
     ws.send(JSON.stringify(convertedMessage));
 }
 

@@ -37,6 +37,7 @@ public class DelegateManager : MonoBehaviour
 
     public void Awake()
     {
+        Debug.Log("bestat");
         if (instance == null)
         {
             instance = this;
