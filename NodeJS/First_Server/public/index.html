@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mijn Eerste Pagina</title>
     <link rel="stylesheet" href="./style.css">
+    <script defer src="./WebSocketConnection.js"></script>
     <script defer src="./HomePage.js"></script>
 </head>
 <body>
@@ -14,10 +14,15 @@
     <p>hoi testje</p>
     <a href="about.html">Meer over ons</a>
     <h1>WebSocket Client</h1>
-    <button id="Join Lobby">join lobby</button>
+    <button id="Join Lobby">Join Lobby</button>
     <button id="UnityActions">Voer Unity actie uit</button>
 
-    <!-- <button id="myButton">Verberg mij</button> -->
+    <div id="reconnect-widget" class="hidden">
+        <div class="overlay"></div>
+        <div class="message">
+            <p>Verbinding verbroken. Proberen opnieuw verbinding te maken...</p>
+            <div class="spinner"></div>
+        </div>
+    </div>
 </body>
-
 </html>

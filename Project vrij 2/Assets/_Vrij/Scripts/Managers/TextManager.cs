@@ -19,11 +19,11 @@ public class TextManager : MonoBehaviour
         }
     }
 
-    public void ShowText(Text Data, string s)
+    public void ShowText(string Data, string s)
     {
         if (Data != null) //omdat we deze ook callen als we het niet nodig hebben
         {
-            localText.text = Data.text;
+            localText.text = Data;
             StartCoroutine(TextTimer(4));
         }
     }
