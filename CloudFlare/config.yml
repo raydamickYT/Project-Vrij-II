@@ -1,0 +1,9 @@
+tunnel: my-app-tunnel
+credentials-file: C:\Users\Adam\.cloudflared\3ea38feb-0710-4c15-9a27-31a3d5b352c0.json
+
+ingress:
+  - hostname: itsallinthegames.com
+    service: http://localhost:3000
+  - hostname: www.itsallinthegames.com
+    service: http://localhost:3000
+  - service: http_status:404
