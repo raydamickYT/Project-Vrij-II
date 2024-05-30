@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: bb7f300eeeee59349980651929c99db2
+  m_SerializeEntries:
+  - m_GUID: 2cda990e2423bbf4892e6590ba056729
+    m_Address: Assets/Scenes/SampleScene.unity
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MiniGame
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b1de7d19e5ae9a94582330d07b752f18
+    m_Address: Assets/Scenes/StartScreen.unity
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - StartScreen
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 12c9b8d4f0c1ad24e85b95343d9cdd5f
+    m_Address: Assets/Scenes/WaitingScreen.unity
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - WaitingScreen
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: dfc1d12fff2be2f46992161b359c6938, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 4d7b360ae5efb7340ac262585626ca31, type: 2}
+    - {fileID: 11400000, guid: 5c624d1033367d04f8f2ae0a2a868d59, type: 2}
