@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 997
   m_ShowMode: 4
-  m_Title: Console
+  m_Title: Game
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -100,7 +100,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 100}
   m_MaxSize: {x: 32384, y: 16192}
   vertical: 0
-  controlID: 221
+  controlID: 51
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -146,7 +146,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 100}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 147
+  controlID: 52
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -235,7 +235,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ConsoleWindow
+  m_Name: SceneView
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -244,14 +244,14 @@ MonoBehaviour:
     y: 0
     width: 1053
     height: 475
-  m_MinSize: {x: 101, y: 121}
+  m_MinSize: {x: 201, y: 221}
   m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 12}
+  m_ActualView: {fileID: 17}
   m_Panes:
   - {fileID: 17}
   - {fileID: 12}
-  m_Selected: 1
-  m_LastSelected: 0
+  m_Selected: 0
+  m_LastSelected: 1
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -349,9 +349,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 04cc0000
+      m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: c813ffff5815ffff8816ffffd817ffff1018ffff7418ffff4a3bffff4c3bffff263dffff983dfffff859ffff565affff585affff825bffffdc5bffff505dffff9275ffffc475ffffa6acffffa8acffff06adffff82adffff04aeffffbaafffffb2edffff04eeffff3af9ffff9cf9ffff1afbffff6a70000018f80000
+      m_ExpandedIDs: 40daffff9cdafffff8dbfffffcdbffff08dcffff28dcffff6edcffff70dcffff06deffffb0e1ffff0ee2ffff6ae3ffff6ee3ffff7ae3ffff9ae3ffffd0e3ffffdae3fffff0e3fffff6e3fffffce3ffffa2e4ffffe8e4ffffdce6ffff9ce9ffffd2edffff20eeffff98efffff9cefffffa8efffffc8efffff0cf0ffff0ef0ffff10f0ffffc0f2ffffc2f2fffffaf3fffffcf3ffff5ef7ffffacf7ffff24f9ffff28f9ffff34f9ffff54f9ffffcaf9ffffd0f9ffffe2f9ffffe4f9ffffe6f9ffffe8f9ffff08fbffff766d0000286e0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -466,8 +466,7 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SkipHidden: 0
     m_SearchArea: 1
-    m_Folders:
-    - Assets/Scenes
+    m_Folders: []
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -476,14 +475,14 @@ MonoBehaviour:
   m_StartGridSize: 64
   m_LastFolders: []
   m_LastFoldersGridSize: -1
-  m_LastProjectPath: D:\Gihub\Project-Vrij-II\MiniGamesUnityProject\MiniGames
+  m_LastProjectPath: D:\Gihub\Project-Vrij-II\Unity\MiniGamesUnityProject\MiniGames
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 12060000
     m_LastClickedID: 1554
-    m_ExpandedIDs: 00000000686100006a6100006c6100006e61000070610000
+    m_ExpandedIDs: 000000003e66000040660000426600004466000046660000486600004a6600004c6600004e660000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -511,21 +510,21 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: ffffffff00000000686100006a6100006c6100006e610000706100007a6e0000926e0000aa6e0000f66e0000
+    m_ExpandedIDs: ffffffff000000003e66000040660000426600004466000046660000486600004a6600004c6600004e660000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: scenetest
-      m_OriginalName: scenetest
+      m_Name: 
+      m_OriginalName: 
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 67562
+      m_UserData: 0
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 0
+      m_OriginalEventType: 11
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 8}
     m_SearchString: 
@@ -607,7 +606,7 @@ MonoBehaviour:
   m_ShowGizmos: 0
   m_TargetDisplay: 0
   m_ClearColor: {r: 0, g: 0, b: 0, a: 0}
-  m_TargetSize: {x: 1080, y: 1920}
+  m_TargetSize: {x: 480, y: 854}
   m_TextureFilterMode: 0
   m_TextureHideFlags: 61
   m_RenderIMGUI: 1
@@ -616,16 +615,16 @@ MonoBehaviour:
   m_VSyncEnabled: 0
   m_Gizmos: 0
   m_Stats: 0
-  m_SelectedSizes: 08000000000000000000000000000000000000000000000000000000000000000000000000000000
+  m_SelectedSizes: 09000000000000000000000000000000000000000000000000000000000000000000000000000000
   m_ZoomArea:
     m_HRangeLocked: 0
     m_VRangeLocked: 0
     hZoomLockedByDefault: 0
     vZoomLockedByDefault: 0
-    m_HBaseRangeMin: -540
-    m_HBaseRangeMax: 540
-    m_VBaseRangeMin: -960
-    m_VBaseRangeMax: 960
+    m_HBaseRangeMin: -240
+    m_HBaseRangeMax: 240
+    m_VBaseRangeMin: -427
+    m_VBaseRangeMax: 427
     m_HAllowExceedBaseRangeMin: 1
     m_HAllowExceedBaseRangeMax: 1
     m_VAllowExceedBaseRangeMin: 1
@@ -645,7 +644,7 @@ MonoBehaviour:
       y: 21
       width: 1052
       height: 430
-    m_Scale: {x: 0.22395834, y: 0.22395833}
+    m_Scale: {x: 0.50351286, y: 0.50351286}
     m_Translation: {x: 526, y: 215}
     m_MarginLeft: 0
     m_MarginRight: 0
@@ -653,12 +652,12 @@ MonoBehaviour:
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -2348.6511
-      y: -960
-      width: 4697.3022
-      height: 1920
+      x: -1044.6605
+      y: -427.00003
+      width: 2089.321
+      height: 854.00006
     m_MinimalGUI: 1
-  m_defaultScale: 0.22395833
+  m_defaultScale: 0.50351286
   m_LastWindowPixelSize: {x: 1052, y: 451}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
@@ -1047,9 +1046,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 445.31818, y: 624.2304, z: -0.46147782}
+    m_Target: {x: 284.20816, y: 468.16928, z: -0.60781395}
     speed: 2
-    m_Value: {x: 445.31818, y: 624.2304, z: -0.46147782}
+    m_Value: {x: 284.20816, y: 468.16928, z: -0.60781395}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1099,9 +1098,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 378.48804
+    m_Target: 393.12207
     speed: 2
-    m_Value: 378.48804
+    m_Value: 393.12207
   m_Ortho:
     m_Target: 1
     speed: 2

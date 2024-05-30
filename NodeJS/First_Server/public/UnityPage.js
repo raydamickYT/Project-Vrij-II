@@ -23,23 +23,22 @@ function receiveMessageFromUnity(message) {
 
 // Unity WebGL Loader 
 function Unity() {
-    var buildUrl = "/UnityBuild/Build"; // Update the path to match your server setup
-    var loaderUrl = buildUrl + "/Build2.loader.js";
+    var buildUrl = "/UnityBuild"; // Update the path to match your server setup
+    var loaderUrl = buildUrl + "/Build/Build2.loader.js";
     var config = {
-        dataUrl: buildUrl + "/Build2.data",
-        frameworkUrl: buildUrl + "/Build2.framework.js",
-        codeUrl: buildUrl + "/Build2.wasm",
-        streamingAssetsUrl: "StreamingAssets",
+        dataUrl: buildUrl + "/Build/Build2.data",
+        frameworkUrl: buildUrl + "/Build/Build2.framework.js",
+        codeUrl: buildUrl + "/Build/Build2.wasm",
+        streamingAssetsUrl: buildUrl + "/StreamingAssets",
         companyName: "AdamProductions",
         productName: "ItsInGame",
         productVersion: "1.0"
     };
 
-    var container = document.querySelector("#unity-canvas");
+    var container = document.querySelector(".unity-container");
     var canvas = document.querySelector("#unity-canvas");
     var loadingBar = document.querySelector("#unity-loading-bar");
     var progressBarFull = document.querySelector("#unity-progress-bar-full");
-    var fullscreenButton = document.querySelector("#unity-fullscreen-button");
     var warningBanner = document.querySelector("#unity-warning");
 
     // Shows a temporary message banner/ribbon for a few seconds, or

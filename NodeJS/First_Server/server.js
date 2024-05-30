@@ -1,8 +1,9 @@
-const WebSocket = require('ws');
-const http = require('http');
 const express = require('express');
 const path = require('path');
-const compression = require('compression');  // Voeg de compression middleware toe
+const compression = require('compression');
+const expressStaticGzip = require('express-static-gzip');
+const http = require('http');
+const WebSocket = require('ws');
 
 const app = express();
 const port = 3000;
@@ -13,14 +14,20 @@ const wssUnityClients = new WebSocket.Server({ noServer: true });
 const clientsInLobby = new Set();
 let unityClient = null;
 
-// Gebruik de compression middleware
 app.use(compression());
-
-// Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Serve the WebGL build files
-app.use('/UnityBuild', express.static(path.join(__dirname, 'public', 'UnityBuild')));
+// Serve compressed Unity build files
+app.use('/UnityBuild', expressStaticGzip(path.join(__dirname, 'public', 'UnityBuild'), {
+    enableBrotli: true,
+    orderPreference: ['br', 'gz'],
+    setHeaders: (res, path) => {
+        res.setHeader('Cache-Control', 'public, max-age=31536000');
+    }
+}));
+
+// Serve the StreamingAssets directory
+app.use('/StreamingAssets', express.static(path.join(__dirname, 'public', 'UnityBuild', 'StreamingAssets')));
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
@@ -46,11 +53,10 @@ server.on('upgrade', (request, socket, head) => {
     }
 });
 
-// WebClient WebSocket server
-wssWebClients.on('connection', function connection(ws, req) {
+wssWebClients.on('connection', (ws, req) => {
     console.log('Web client verbonden');
 
-    ws.on('message', function incoming(data) {
+    ws.on('message', (data) => {
         let decodedMessage;
         try {
             decodedMessage = JSON.parse(data);
@@ -86,14 +92,13 @@ wssWebClients.on('connection', function connection(ws, req) {
     broadcastConnectionCount();
 });
 
-// Unity WebSocket server
-wssUnityClients.on('connection', function connection(ws, req) {
+wssUnityClients.on('connection', (ws, req) => {
     console.log('Unity client verbonden');
     unityClient = ws;
 
     broadcastUnityConnectionStatus(true); // Unity connected
 
-    ws.on('message', function incoming(data) {
+    ws.on('message', (data) => {
         let decodedMessage;
         try {
             decodedMessage = JSON.parse(data);
@@ -142,15 +147,13 @@ function broadcastUnityConnectionStatus(isConnected) {
 function broadcastConnectionCount() {
     const count = wssWebClients.clients.size;
     console.log("Clients connected: " + count);
-    
-    // Verzend het `count` bericht naar alle web clients
+   
     wssWebClients.clients.forEach(client => {
         if (client.readyState === WebSocket.OPEN) {
             client.send(JSON.stringify({ type: 'count', count: count }));
         }
     });
 
-    // Verzend het `count` bericht naar de Unity client
     if (unityClient && unityClient.readyState === WebSocket.OPEN) {
         unityClient.send(JSON.stringify({ type: 'count', count: count }));
     }
@@ -159,7 +162,7 @@ function broadcastConnectionCount() {
 function handleLobbyJoin(ws, messageData) {
     clientsInLobby.add(ws);
     console.log("Mensen die in een lobby zitten: " + clientsInLobby.size);
-    const convertedMessage = { success: true, message: "Joined lobby successfully", type: 'info' }; // Zet wat in de message
+    const convertedMessage = { success: true, message: "Joined lobby successfully", type: 'info' };
     ws.send(JSON.stringify(convertedMessage));
 }
 
