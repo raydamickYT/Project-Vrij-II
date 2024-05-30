@@ -2,6 +2,7 @@ const WebSocket = require('ws');
 const http = require('http');
 const express = require('express');
 const path = require('path');
+const compression = require('compression');  // Voeg de compression middleware toe
 
 const app = express();
 const port = 3000;
@@ -11,6 +12,9 @@ const wssUnityClients = new WebSocket.Server({ noServer: true });
 
 const clientsInLobby = new Set();
 let unityClient = null;
+
+// Gebruik de compression middleware
+app.use(compression());
 
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
@@ -87,6 +91,8 @@ wssUnityClients.on('connection', function connection(ws, req) {
     console.log('Unity client verbonden');
     unityClient = ws;
 
+    broadcastUnityConnectionStatus(true); // Unity connected
+
     ws.on('message', function incoming(data) {
         let decodedMessage;
         try {
@@ -105,14 +111,33 @@ wssUnityClients.on('connection', function connection(ws, req) {
     ws.on('close', () => {
         console.log('Verbinding gesloten');
         unityClient = null;
+        broadcastUnityConnectionStatus(false); // Unity disconnected
         broadcastConnectionCount();
     });
 
     ws.on('error', error => {
         console.error('Fout:', error);
     });
+
     broadcastConnectionCount();
 });
+
+function broadcastUnityConnectionStatus(isConnected) {
+    const message = {
+        type: 'unityConnectionStatus',
+        isConnected: isConnected
+    };
+
+    wssWebClients.clients.forEach(client => {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify(message));
+        }
+    });
+
+    if (unityClient && unityClient.readyState === WebSocket.OPEN) {
+        unityClient.send(JSON.stringify(message));
+    }
+}
 
 function broadcastConnectionCount() {
     const count = wssWebClients.clients.size;
