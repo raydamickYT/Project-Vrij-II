@@ -28,7 +28,7 @@ public class DelegateManager : MonoBehaviour
     }
     #endregion
 
-    public Action<string, string> TextEventTriggerDetected;
+    public Action<Text, string> TextEventTriggerDetected;
     public Action OtherEventTriggerDetected;
     public Action<float> UpdateSliderDelegate;
     public Action ExecuteJumpDelegate;
@@ -37,7 +37,6 @@ public class DelegateManager : MonoBehaviour
 
     public void Awake()
     {
-        Debug.Log("bestat");
         if (instance == null)
         {
             instance = this;

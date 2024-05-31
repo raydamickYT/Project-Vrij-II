@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
+using UnityEngine.UI;
 using WebSocketSharp;
 
 public class WebSocketWorker : MonoBehaviour
@@ -37,6 +39,7 @@ public class WebSocketWorker : MonoBehaviour
         private set { ws = value; }
     }
 
+
     void Awake()
     {
         if (instance == null)
@@ -53,7 +56,6 @@ public class WebSocketWorker : MonoBehaviour
         //delegates
         DelegateManager.Instance.TextEventTriggerDetected += SendMessageToServer;
     }
-
     private void WebSocketSetup()
     {
         if (!Url.StartsWith("ws://") && !Url.StartsWith("wss://"))
@@ -130,18 +132,29 @@ public class WebSocketWorker : MonoBehaviour
         // }
     }
 
-    public void SendMessageToServer(string message, string type)
+    private void SendMessageToServer(Text TextData, string type)
     {
         if (ws != null && ws.IsAlive)
         {
-            ServerMessage msg = new ServerMessage { message = message, type = type };
-            string jsonMessage = JsonUtility.ToJson(msg);
-            ws.Send(jsonMessage);
-            Debug.Log("Message sent to server: " + jsonMessage);
+            if (TextData != null)
+            {
+                ServerMessage msg = new ServerMessage { message = TextData.text, type = type };
+                string jsonMessage = JsonUtility.ToJson(msg);
+                ws.Send(jsonMessage);
+                // ws.Send(JsonUtility.ToJson(new ServerMessage { message = "hello", type = "ShowButton" }));
+                Debug.Log("keypressed");
+            }
+            else
+            {
+                ServerMessage msg = new ServerMessage { message = "", type = type };
+                string jsonMessage = JsonUtility.ToJson(msg);
+                ws.Send(jsonMessage);
+            }
         }
         else
         {
             Debug.LogError("Server is niet verbonden. Check de url");
+            return;
         }
     }
 
@@ -152,6 +165,8 @@ public class WebSocketWorker : MonoBehaviour
             ws.Close();
         }
     }
+
+
 
     [System.Serializable]
     public class ServerMessage

@@ -31,11 +31,9 @@ public class ProgressBarManager : MonoBehaviour
     public void UpdateSliderProgress(float Inputs)
     {
         slider.value = Inputs;
-        Debug.Log("slider value " + slider.value + " slider max " + slider.maxValue);
     }
     public void SetSliderMax(int maxValue)
     {
-        Debug.Log("called: " + maxValue);
         slider.maxValue = maxValue;
     }
 

@@ -1,61 +1,77 @@
+var socket;
 document.addEventListener("DOMContentLoaded", function() {
-    hideReconnectWidget(); // Verberg de widget expliciet bij het laden van de pagina
+    // Bouw de WebSocket URL dynamisch op
+    var wsHost = window.location.hostname;
+    var wsPort = window.location.port ? `:${window.location.port}` : ''; 
+    var wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    var wsPath = '/ws'; // Pas deze aan als je WebSocket pad anders is
 
-    initializeWebSocket(
-        handleWebSocketMessage,
-        () => hideReconnectWidget(), // Verberg de reconnect-widget bij het openen van de verbinding
-        () => showReconnectWidget(), // Toon de reconnect-widget bij het sluiten van de verbinding
-        (error) => console.error('WebSocket fout:', error)
-    );
+    var wsUrl = `${wsProtocol}//${wsHost}${wsPort}${wsPath}`;
+    socket = new WebSocket(wsUrl);
 
-    document.getElementById('Join Lobby').addEventListener('click', () => {
-        if (socket.readyState === WebSocket.OPEN) {
-            const message = { lobbyStatus: 'inLobby', message: 'Deze client is gemarkeerd als: zit in de lobby' };
-            socket.send(JSON.stringify(message));
-            window.location.href = 'UnityPage.html'; // Navigeer naar de game pagina
-        } else {
-            console.log('WebSocket is niet open.');
+    console.log(wsUrl);
+
+    // Handler voor als de WebSocket-verbinding wordt geopend
+    socket.onopen = function(event) {
+        console.log('WebSocket verbinding geopend:', event);
+        toggleButton(); // Activeer een knop of een andere UI-element als dat nodig is
+    };
+
+
+    socket.onmessage = function (event) {
+        console.log('Bericht van server:', event.data);
+       
+        try {
+            var debuggedMessage = JSON.parse(event.data);
+            console.log(debuggedMessage.message + "2nd try");
+            if(debuggedMessage.type === "ShowButton"){
+                console.log(debuggedMessage.type + " Type");
+                toggleButton();
+            }
+        } catch (error) {
+            console.error('Error parsing JSON:', error);
+            console.log('Received data:', event.data);
         }
-    });
-
-    document.getElementById('UnityActions').addEventListener('click', () => {
-        if (socket.readyState === WebSocket.OPEN) {
-            const message = { success: true, message: "operatie voltooid", type: "PerformUnityAction" }; // Zet wat in de message
-            socket.send(JSON.stringify(message));
-            var btn = document.getElementById('UnityActions');
-            btn.style.display = 'none'; // Verberg de knop om te voorkomen dat er 2 keer op gedrukt wordt. In dit geval willen we 1 input
-        } else {
-            console.log('WebSocket is niet open.');
-        }
-    });
+    };
+    
+    socket.onerror = function (error) {
+        console.error('WebSocket fout:', error);
+    };
+    
+    socket.onclose = function (event) {
+        console.log('WebSocket verbinding gesloten:', event);
+    };
 });
 
-function handleWebSocketMessage(message) {
-    console.log('Bericht ontvangen:', message);
-    if (message.type === "ShowButton") {
-        toggleButton(true); // Toon de knop
-    } else if (message.type === "HideButton") {
-        toggleButton(false); // Verberg de knop
-    }
-}
+document.getElementById('Join Lobby').addEventListener('click', () => {
+    if (socket.readyState === WebSocket.OPEN) {
+        const message = { lobbyStatus: 'inLobby', message: 'Deze client is gemarkeerd als: zit in de lobby' };
+        socket.send(JSON.stringify(message));
+        var btn = document.getElementById('Join Lobby');
+        btn.style.display = 'none'; //verberg de knop om te voorkomen dat er 2 keer op gedrukt wordt
 
-function toggleButton(show) {
-    var btn = document.getElementById('UnityActions');
-    if (show) {
-        btn.style.display = 'block'; // Toon de knop
     } else {
-        btn.style.display = 'none'; // Verberg de knop
+        console.log('WebSocket is niet open.');
     }
-}
+});
 
-function showReconnectWidget() {
-    var widget = document.getElementById('reconnect-widget');
-    widget.classList.remove('hidden');
-    widget.style.display = 'flex'; // Toon de widget
-}
+document.getElementById('UnityActions').addEventListener('click', () => {
+    if (socket.readyState === WebSocket.OPEN) {
+        const message = {success: true, message: "operatie voltooid", type: "PerformUnityAction"}; //zet wat in de message
+        socket.send(JSON.stringify(message));
+        var btn = document.getElementById('UnityActions');
+        btn.style.display = 'none'; //verberg de knop om te voorkomen dat er 2 keer op gedrukt wordt. in dit geval willen we 1 input
+    } else {
+        console.log('WebSocket is niet open.');
+    }
+});
 
-function hideReconnectWidget() {
-    var widget = document.getElementById('reconnect-widget');
-    widget.classList.add('hidden');
-    widget.style.display = 'none'; // Verberg de widget
-}
+
+function toggleButton() {
+    var btn = document.getElementById('UnityActions');
+    if (btn.style.display === 'none') {
+        btn.style.display = 'block';  // Toon de knop als deze verborgen is
+    } else {
+        btn.style.display = 'none';  // Verberg de knop als deze zichtbaar is
+    }
+};

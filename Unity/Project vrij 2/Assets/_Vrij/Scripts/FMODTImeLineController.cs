@@ -20,8 +20,6 @@ public class FMODTimelineController : MonoBehaviour
     private bool isDraggingPlayer = false, isPaused = false;
     private Rigidbody2D playerRigidbody;
     private Collider2D playerCollider;
-    private Vector3 velocity = Vector3.zero; // Velocity voor SmoothDamp
-    public float smoothTime = 0.3f; // De tijd die nodig is om de beweging te dempen
 
     void Start()
     {
@@ -123,21 +121,20 @@ public class FMODTimelineController : MonoBehaviour
         if (player != null && startPosition != null && endPosition != null)
         {
             float normalizedTime = (float)timelinePosition / totalMusicLength;
-            Vector3 targetPosition = Vector3.Lerp(startPosition.position, endPosition.position, normalizedTime);
+            Vector3 newPosition = Vector3.Lerp(startPosition.position, endPosition.position, normalizedTime);
+            var tempYPos = newPosition.y + 1;
 
-            // Houd de y-positie constant tijdens normale beweging, verhoog alleen bij slepen
             if (isDraggingPlayer)
             {
-                targetPosition.y += 1; // Verhoog de y-positie bij het slepen
+                newPosition.y = tempYPos;
             }
             else
             {
-                targetPosition.y = player.transform.position.y; // Houd de huidige y-positie vast
+                newPosition.y = player.transform.position.y;
+                newPosition.z = player.transform.position.z;
             }
-            targetPosition.z = player.transform.position.z; // Houd de z-positie constant
 
-            // Gebruik SmoothDamp voor vloeiendere beweging
-            player.transform.position = Vector3.SmoothDamp(player.transform.position, targetPosition, ref velocity, smoothTime);
+            player.transform.position = newPosition;
         }
     }
 
@@ -150,7 +147,6 @@ public class FMODTimelineController : MonoBehaviour
             timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
         }
     }
-    
     private void TogglePause()
     {
         isPaused = !isPaused;
