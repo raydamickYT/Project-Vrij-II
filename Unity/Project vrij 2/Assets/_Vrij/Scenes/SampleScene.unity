@@ -139,22 +139,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2007547244119855015, guid: 070ca28ff380556409104cca2f0cf5b3, type: 3}
-      propertyPath: m_Mass
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2007547244119855015, guid: 070ca28ff380556409104cca2f0cf5b3, type: 3}
-      propertyPath: m_UseAutoMass
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2007547244119855015, guid: 070ca28ff380556409104cca2f0cf5b3, type: 3}
-      propertyPath: m_GravityScale
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2007547244119855015, guid: 070ca28ff380556409104cca2f0cf5b3, type: 3}
-      propertyPath: m_CollisionDetection
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4963462524624880963, guid: 070ca28ff380556409104cca2f0cf5b3, type: 3}
       propertyPath: inputLib
       value: 
