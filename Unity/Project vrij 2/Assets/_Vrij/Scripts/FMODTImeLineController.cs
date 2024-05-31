@@ -125,7 +125,6 @@ public class FMODTimelineController : MonoBehaviour
             float normalizedTime = (float)timelinePosition / totalMusicLength;
             Vector3 targetPosition = Vector3.Lerp(startPosition.position, endPosition.position, normalizedTime);
 
-            // If dragging, set the position directly without smoothing
             if (isDraggingPlayer)
             {
                 player.transform.position = new Vector3(targetPosition.x, player.transform.position.y, player.transform.position.z);
@@ -133,8 +132,11 @@ public class FMODTimelineController : MonoBehaviour
             }
             else
             {
-                // Use SmoothDamp for smooth movement
-                player.transform.position = Vector3.SmoothDamp(player.transform.position, targetPosition, ref velocity, smoothTime);
+                Vector3 currentPosition = player.transform.position;
+                targetPosition.y = currentPosition.y; // Maintain current y position
+                targetPosition.z = currentPosition.z; // Maintain current z position
+
+                player.transform.position = Vector3.SmoothDamp(currentPosition, targetPosition, ref velocity, smoothTime);
             }
         }
     }
