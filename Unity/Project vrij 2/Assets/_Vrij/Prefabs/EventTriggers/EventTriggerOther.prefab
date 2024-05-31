@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5923644355249951903}
   - component: {fileID: 8700626521176042284}
   - component: {fileID: 7231663374710335678}
+  - component: {fileID: 4237033946479491484}
   m_Layer: 0
   m_Name: EventTriggerOther
   m_TagString: EventTriggerOther
@@ -143,3 +144,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8832894184505725874}
   m_CullTransparentMesh: 1
+--- !u!114 &4237033946479491484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8832894184505725874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d3ea3c1e75490e4389beed460656e68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventTrigger: {fileID: 0}
+  Dist: 0
+  DistTime: 0

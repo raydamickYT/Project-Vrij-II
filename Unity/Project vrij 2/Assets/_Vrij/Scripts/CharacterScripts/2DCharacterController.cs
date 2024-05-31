@@ -8,20 +8,22 @@ public class Simple2DCharacterController : MonoBehaviour
     public ProgressBarManager progressBarManager;
     public float movementSpeed = 5f;
     public float jumpForce = 700f;
-    private Rigidbody2D rb;
     private bool isGrounded = true;
     [Range(0, 1)]
     public float SuccessGrens = 0.6f;
     [SerializeField]
     private bool IsDebugging = false;
     GameObject[] respawnPoints;
-
+    private Vector3 previousPosition;
+    private float elapsedTime = 0;
+    private float speed;
 
     void Start()
     {
         respawnPoints = GameObject.FindGameObjectsWithTag("RespawnPoint");
-        rb = GetComponent<Rigidbody2D>();
+        previousPosition = transform.position;
     }
+
     private void OnEnable()
     {
         DelegateManager.Instance.ExecuteJumpDelegate += ExecuteJump;
@@ -32,15 +34,13 @@ public class Simple2DCharacterController : MonoBehaviour
         if (isGrounded)
         {
             float moveHorizontal = Input.GetAxis("Horizontal");
-            // Vector2 movement = new Vector2(1 * movementSpeed, rb.velocity.y);
-            // rb.velocity = movement;
+            transform.Translate(new Vector3(moveHorizontal * movementSpeed * Time.deltaTime, 0, 0));
         }
 
-        // if (Input.GetButtonDown("Jump"))
-        // {
-        //     ExecuteJump();
-        // }
+        CalculateSpeed();
+        previousPosition = transform.position; // Update previous position at the end of Update
     }
+
     private void FixedUpdate()
     {
         progressBarManager.UpdateSliderProgress(inputLib.InputAmount);
@@ -53,14 +53,14 @@ public class Simple2DCharacterController : MonoBehaviour
             int InputSize = inputLib.InputAmount;
             if (IsDebugging)
             {
-                rb.AddForce(new Vector2(0f, jumpForce));
+                GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, jumpForce));
                 isGrounded = false;
             }
             else
             {
                 if (InputSize > (inputLib.ConnectedClients * SuccessGrens))
                 {
-                    rb.AddForce(new Vector2(0f, jumpForce));
+                    GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, jumpForce));
                     isGrounded = false;
                 }
             }
@@ -102,13 +102,13 @@ public class Simple2DCharacterController : MonoBehaviour
             case "EventTriggerOther":
                 DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(), "ShowButton"); //we willen dat de players hun input kunnen geven dus laten we in de webclient de knop zien
                 progressBarManager.SetSliderMax(inputLib.ConnectedClients);
-                DelegateManager.Instance.StartTimerDelegate?.Invoke(5);
+                var Time = other.GetComponent<InputTrigger>().CalculateTimeToEvent(speed);
+                DelegateManager.Instance.StartTimerDelegate?.Invoke(Time);
                 progressBarManager.ToggleSlider?.Invoke(); //voor visual feedback laten we ook een progress bar zien met de hoeveelheid mensen die in de lobby zitten
                 break;
             case "EventTriggerPerformAction":
                 // DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(), "ShowButton");
                 ExecuteJump();
-                Debug.Log("werkt");
                 DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(), "ShowButton"); //we willen dat de players hun input kunnen geven dus laten we in de webclient de knop zien
                 progressBarManager.ToggleSlider?.Invoke();
                 DelegateManager.Instance.WipeInputListDelegate?.Invoke(); //ff resetten
@@ -121,7 +121,6 @@ public class Simple2DCharacterController : MonoBehaviour
         }
     }
 
-
     private void TeleportPlayerToRespawn()
     {
         this.gameObject.GetComponent<Collider2D>().enabled = false;
@@ -129,7 +128,7 @@ public class Simple2DCharacterController : MonoBehaviour
         if (closestRespawnPoint != null)
         {
             // Teleporteer de speler direct naar het dichtstbijzijnde respawnpunt
-            rb.position = closestRespawnPoint.transform.position;
+            transform.position = closestRespawnPoint.transform.position;
         }
         this.gameObject.GetComponent<Collider2D>().enabled = true;
     }
@@ -138,7 +137,7 @@ public class Simple2DCharacterController : MonoBehaviour
     {
         GameObject closest = null;
         float closestDistance = Mathf.Infinity;
-        Vector3 currentPosition = rb.position;
+        Vector3 currentPosition = transform.position;
         foreach (GameObject respawnPoint in respawnPoints)
         {
             float distance = Vector3.Distance(respawnPoint.transform.position, currentPosition);
@@ -149,5 +148,13 @@ public class Simple2DCharacterController : MonoBehaviour
             }
         }
         return closest;
+    }
+
+    private void CalculateSpeed()
+    {
+        float distanceTraveled = Vector3.Distance(transform.position, previousPosition);
+        float deltaTime = Time.deltaTime;
+        speed = distanceTraveled / deltaTime;
+        Debug.Log("Speed: " + speed);
     }
 }
