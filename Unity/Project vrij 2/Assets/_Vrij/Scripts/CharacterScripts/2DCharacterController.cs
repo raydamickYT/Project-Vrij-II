@@ -6,7 +6,6 @@ public class Simple2DCharacterController : MonoBehaviour
 {
     public InputLib inputLib;
     public ProgressBarManager progressBarManager;
-    public float movementSpeed = 5f;
     public float jumpForce = 700f;
     private bool isGrounded = true;
     [Range(0, 1)]
@@ -15,7 +14,6 @@ public class Simple2DCharacterController : MonoBehaviour
     private bool IsDebugging = false;
     GameObject[] respawnPoints;
     private Vector3 previousPosition;
-    private float elapsedTime = 0;
     private float speed;
 
     void Start()
@@ -34,7 +32,6 @@ public class Simple2DCharacterController : MonoBehaviour
         if (isGrounded)
         {
             float moveHorizontal = Input.GetAxis("Horizontal");
-            transform.Translate(new Vector3(moveHorizontal * movementSpeed * Time.deltaTime, 0, 0));
         }
 
         CalculateSpeed();
@@ -48,8 +45,6 @@ public class Simple2DCharacterController : MonoBehaviour
 
     private void ExecuteJump()
     {
-        if (isGrounded)
-        {
             int InputSize = inputLib.InputAmount;
             if (IsDebugging)
             {
@@ -64,8 +59,6 @@ public class Simple2DCharacterController : MonoBehaviour
                     isGrounded = false;
                 }
             }
-            //else doe niks
-        }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -95,20 +88,23 @@ public class Simple2DCharacterController : MonoBehaviour
             case "EventTriggerText":
                 if (other.GetComponent<Text>() != null)
                 {
-                    Debug.Log("trigger");
                     DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(), "InformationText");
                 }
                 break;
             case "EventTriggerOther":
                 DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(), "ShowButton"); //we willen dat de players hun input kunnen geven dus laten we in de webclient de knop zien
                 progressBarManager.SetSliderMax(inputLib.ConnectedClients);
-                var Time = other.GetComponent<InputTrigger>().CalculateTimeToEvent(speed);
-                DelegateManager.Instance.StartTimerDelegate?.Invoke(Time);
+                if (other.GetComponent<InputTrigger>() != null)
+                {
+                    var Time = other.GetComponent<InputTrigger>().CalculateTimeToEvent(speed);
+                    DelegateManager.Instance.StartTimerDelegate?.Invoke(Time);
+                }
                 progressBarManager.ToggleSlider?.Invoke(); //voor visual feedback laten we ook een progress bar zien met de hoeveelheid mensen die in de lobby zitten
                 break;
             case "EventTriggerPerformAction":
                 // DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(), "ShowButton");
                 ExecuteJump();
+                Debug.Log("werkt");
                 DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(), "ShowButton"); //we willen dat de players hun input kunnen geven dus laten we in de webclient de knop zien
                 progressBarManager.ToggleSlider?.Invoke();
                 DelegateManager.Instance.WipeInputListDelegate?.Invoke(); //ff resetten
@@ -155,6 +151,5 @@ public class Simple2DCharacterController : MonoBehaviour
         float distanceTraveled = Vector3.Distance(transform.position, previousPosition);
         float deltaTime = Time.deltaTime;
         speed = distanceTraveled / deltaTime;
-        Debug.Log("Speed: " + speed);
     }
 }

@@ -145,7 +145,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2007547244119855015, guid: 070ca28ff380556409104cca2f0cf5b3, type: 3}
       propertyPath: m_UseAutoMass
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2007547244119855015, guid: 070ca28ff380556409104cca2f0cf5b3, type: 3}
       propertyPath: m_GravityScale
@@ -153,7 +153,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2007547244119855015, guid: 070ca28ff380556409104cca2f0cf5b3, type: 3}
       propertyPath: m_CollisionDetection
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4963462524624880963, guid: 070ca28ff380556409104cca2f0cf5b3, type: 3}
       propertyPath: inputLib
@@ -1951,7 +1951,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1380907075
 MonoBehaviour:
   m_ObjectHideFlags: 0

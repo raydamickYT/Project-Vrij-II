@@ -43,7 +43,7 @@ public class FMODTimelineController : MonoBehaviour
         {
             PauseButton.onClick.AddListener(TogglePause);
         }
-        
+
         if (musicInstance.isValid())
         {
             musicInstance.setTimelinePosition(0);
@@ -125,19 +125,17 @@ public class FMODTimelineController : MonoBehaviour
             float normalizedTime = (float)timelinePosition / totalMusicLength;
             Vector3 targetPosition = Vector3.Lerp(startPosition.position, endPosition.position, normalizedTime);
 
-            // Houd de y-positie constant tijdens normale beweging, verhoog alleen bij slepen
+            // If dragging, set the position directly without smoothing
             if (isDraggingPlayer)
             {
-                targetPosition.y += 1; // Verhoog de y-positie bij het slepen
+                player.transform.position = new Vector3(targetPosition.x, player.transform.position.y, player.transform.position.z);
+                velocity = Vector3.zero; // Reset velocity to prevent jump on release
             }
             else
             {
-                targetPosition.y = player.transform.position.y; // Houd de huidige y-positie vast
+                // Use SmoothDamp for smooth movement
+                player.transform.position = Vector3.SmoothDamp(player.transform.position, targetPosition, ref velocity, smoothTime);
             }
-            targetPosition.z = player.transform.position.z; // Houd de z-positie constant
-
-            // Gebruik SmoothDamp voor vloeiendere beweging
-            player.transform.position = Vector3.SmoothDamp(player.transform.position, targetPosition, ref velocity, smoothTime);
         }
     }
 
@@ -150,7 +148,7 @@ public class FMODTimelineController : MonoBehaviour
             timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
         }
     }
-    
+
     private void TogglePause()
     {
         isPaused = !isPaused;
