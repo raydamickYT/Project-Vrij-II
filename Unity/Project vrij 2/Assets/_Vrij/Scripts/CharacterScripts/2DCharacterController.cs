@@ -102,6 +102,7 @@ public class Simple2DCharacterController : MonoBehaviour
             case "EventTriggerOther":
                 DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(), "ShowButton"); //we willen dat de players hun input kunnen geven dus laten we in de webclient de knop zien
                 progressBarManager.SetSliderMax(inputLib.ConnectedClients);
+                DelegateManager.Instance.StartTimerDelegate?.Invoke(5);
                 progressBarManager.ToggleSlider?.Invoke(); //voor visual feedback laten we ook een progress bar zien met de hoeveelheid mensen die in de lobby zitten
                 break;
             case "EventTriggerPerformAction":

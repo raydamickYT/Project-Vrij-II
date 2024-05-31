@@ -29,7 +29,7 @@ public class DelegateManager : MonoBehaviour
     #endregion
 
     public Action<Text, string> TextEventTriggerDetected;
-    public Action OtherEventTriggerDetected;
+    public Action<int> StartTimerDelegate;
     public Action<float> UpdateSliderDelegate;
     public Action ExecuteJumpDelegate;
     public Action AddInputToListDelegate, WipeInputListDelegate;
@@ -51,6 +51,6 @@ public class DelegateManager : MonoBehaviour
     public void OnDestroy()
     {
         // TextEventTriggerDetected = null;
-        OtherEventTriggerDetected = null;
+        StartTimerDelegate = null;
     }
 }
