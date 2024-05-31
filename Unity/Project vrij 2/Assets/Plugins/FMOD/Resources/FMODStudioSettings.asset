@@ -453,8 +453,8 @@ MonoBehaviour:
   switchSettingsMigration: 1
   HasSourceProject: 1
   HasPlatforms: 1
-  sourceProjectPath: ../FMOD/PrjVrijII/PrjVrijII.fspro
-  sourceBankPath: ../FMOD/PrjVrijII/Build
+  sourceProjectPath: FMOD/PrjVrijII/PrjVrijII.fspro
+  sourceBankPath: FMOD/PrjVrijII/Build
   sourceBankPathUnformatted: 
   BankRefreshCooldown: 5
   ShowBankRefreshWindow: 1
