@@ -29,7 +29,6 @@ public class SceneLoader : MonoBehaviour
 
         if (handle.Status == AsyncOperationStatus.Succeeded)
         {
-            Debug.Log("Label " + label + ".");
             foreach (var location in handle.Result)
             {
                 otherScenes.Add(location.PrimaryKey);
