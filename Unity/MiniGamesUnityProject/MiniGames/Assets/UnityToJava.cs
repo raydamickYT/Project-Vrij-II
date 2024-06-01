@@ -13,6 +13,21 @@ public class UnityToJavaScript : MonoBehaviour
         var jsonMessage = JsonUtility.ToJson(new UnityMessage { type = type, message = message });
         Application.ExternalCall("receiveMessageFromUnity", jsonMessage);
     }
+    // Deze methode wordt aangeroepen door JavaScript
+    public void ReceiveMessageFromJavaScript(string message)
+    {
+        Debug.Log("Bericht ontvangen van JavaScript: " + message);
+        Application.ExternalCall("unity received message");
+
+        // Verwerk het bericht zoals nodig
+    }
+
+    // Deze methode wordt aangeroepen door JavaScript
+    public void ReceiveMessageFromJavaScript(string message)
+    {
+        Debug.Log("Bericht ontvangen van JavaScript: " + message);
+        // Verwerk het bericht zoals nodig
+    }
 
     // Voorbeeld functie die wordt aangeroepen wanneer een mini-game is voltooid
     public void OnMiniGameComplete(bool success)

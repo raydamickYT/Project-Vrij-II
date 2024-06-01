@@ -1,5 +1,7 @@
 <linker>
   <assembly fullname="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <type fullname="GameManager" preserve="all" />
+    <type fullname="SceneLoader" preserve="all" />
     <type fullname="StartScreen" preserve="all" />
     <type fullname="UnityToJavaScript" preserve="all" />
   </assembly>
