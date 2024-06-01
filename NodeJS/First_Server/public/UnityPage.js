@@ -13,6 +13,14 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
+// Voorbeeld functie om een bericht terug te sturen naar Unity (optioneel)
+function sendMessageToUnity(message) {
+    if (typeof unityInstance !== 'undefined') {
+        unityInstance.SendMessage('UnityToJavaScript', 'ReceiveMessageFromJavaScript', message);
+        console.log('Bericht verzonden naar Unity:', message);
+    }
+}
+
 // Unity WebGL Loader 
 function Unity() {
     var buildUrl = "/UnityBuild"; // Update the path to match your server setup
