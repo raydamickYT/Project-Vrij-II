@@ -2,7 +2,6 @@ let socket;
 
 document.addEventListener("DOMContentLoaded", function() {
     initializeWebSocket(
-        handleWebSocketMessage,
         null, // Geen specifieke actie nodig bij het openen van de verbinding
         () => console.log('Verbinding gesloten'), // Log de sluiting van de verbinding
         (error) => console.error('WebSocket fout:', error)
@@ -39,16 +38,9 @@ function initializeWebSocket(onMessage, onOpen, onClose, onError) {
     };
 }
 
-function handleWebSocketMessage(message) {
-    console.log('Bericht ontvangen van server:', message);
-    // Verwerk berichten van de server zoals nodig
-}
-
 // Functie om berichten van Unity te ontvangen en door te sturen naar de server
 function receiveMessageFromUnity(jsonMessage) {
     console.log('Bericht ontvangen van Unity:', jsonMessage);
-    // Verzend bericht naar server via WebSocket
-
 
     if (socket.readyState === WebSocket.OPEN) {
         socket.send(JSON.stringify({ type: 'PerformUnityAction', message: jsonMessage }));
@@ -62,3 +54,12 @@ function sendMessageToUnity(message) {
         console.log('Bericht verzonden naar Unity:', message);
     }
 }
+
+function handleWebSocketMessage(message) {
+    console.log('Bericht ontvangen2 :', message);
+    if (message.type === "PerformUnityAction") {
+        sendMessageToUnity(message);
+    }
+}
+
+

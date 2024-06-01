@@ -3,23 +3,15 @@ document.addEventListener("DOMContentLoaded", function() {
         handleWebSocketMessage,
         null, // Geen specifieke actie nodig bij het openen van de verbinding
         () => console.log('Verbinding gesloten'), // Log de sluiting van de verbinding
-        (error) => console.error('WebSocket fout:', error)
+        (error) => console.error('WebSocket fout:', error),
     );
     Unity(); // Laad de Unity WebGL game
+      // Voeg een vertraging van 1 seconde toe aan de JoinLobby-aanroep
+      setTimeout(() => {
+        JoinLobby();
+    }, 1000); // 1000 milliseconden = 1 seconde
 });
 
-function handleWebSocketMessage(message) {
-    console.log('Bericht ontvangen van server:', message);
-    // Verwerk berichten van de server zoals nodig
-}
-
-// Functie om berichten van Unity te ontvangen
-function receiveMessageFromUnity(message) {
-    console.log('Bericht ontvangen van Unity:', message);
-    if (socket.readyState === WebSocket.OPEN) {
-        socket.send(message);
-    }
-}
 
 // Unity WebGL Loader 
 function Unity() {
@@ -73,4 +65,29 @@ function Unity() {
         });
     };
     document.body.appendChild(script);
+}
+
+
+
+function JoinLobby(){
+    if (socket.readyState === WebSocket.OPEN) {
+        const message = { lobbyStatus: 'inLobby', message: 'Deze client is gemarkeerd als: zit in de lobby' };
+        console.log('socket is open');
+        socket.send(JSON.stringify(message));
+        // window.location.href = 'UnityPage.html'; // Navigeer naar de game pagina
+    } else {
+        console.log('WebSocket is niet open.');
+    }
+}
+
+function showReconnectWidget() {
+    var widget = document.getElementById('reconnect-widget');
+    widget.classList.remove('hidden');
+    widget.style.display = 'flex'; // Toon de widget
+}
+
+function hideReconnectWidget() {
+    var widget = document.getElementById('reconnect-widget');
+    widget.classList.add('hidden');
+    widget.style.display = 'none'; // Verberg de widget
 }
