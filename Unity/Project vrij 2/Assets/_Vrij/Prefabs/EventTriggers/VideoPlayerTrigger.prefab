@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6194701399255598170}
   - component: {fileID: 1278189976363342642}
-  - component: {fileID: 9040746363881863435}
   - component: {fileID: 8793778963663159448}
+  - component: {fileID: 6799586699744522441}
   - component: {fileID: 5909682293641931164}
   m_Layer: 0
   m_Name: VideoPlayerTrigger
@@ -71,21 +71,6 @@ VideoPlayer:
   m_WaitForFirstFrame: 1
   m_FrameReadyEventEnabled: 0
   m_VideoShaders: []
---- !u!114 &9040746363881863435
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7889898128470213723}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71b3d65765e86fb4ea0b4e11527d3321, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  videoPlayer: {fileID: 1278189976363342642}
-  cutsceneCanvas: {fileID: 0}
-  rawImage: {fileID: 0}
 --- !u!212 &8793778963663159448
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -138,6 +123,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6799586699744522441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7889898128470213723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9042956a9abe9f34cb270a542a1788f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  videoPlayer: {fileID: 1278189976363342642}
+  rawImage: {fileID: 0}
 --- !u!61 &5909682293641931164
 BoxCollider2D:
   m_ObjectHideFlags: 0
