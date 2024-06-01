@@ -9,13 +9,13 @@ document.addEventListener("DOMContentLoaded", function() {
     );
 
     document.getElementById('Join Lobby').addEventListener('click', () => {
-        if (socket.readyState === WebSocket.OPEN) {
-            const message = { lobbyStatus: 'inLobby', message: 'Deze client is gemarkeerd als: zit in de lobby' };
-            socket.send(JSON.stringify(message));
-            window.location.href = 'UnityPage.html'; // Navigeer naar de game pagina
-        } else {
-            console.log('WebSocket is niet open.');
-        }
+        window.location.href = 'UnityPage.html'; // Navigeer naar de game pagina
+        // if (socket.readyState === WebSocket.OPEN) {
+        //     const message = { lobbyStatus: 'inLobby', message: 'Deze client is gemarkeerd als: zit in de lobby' };
+        //     socket.send(JSON.stringify(message));
+        // } else {
+        //     console.log('WebSocket is niet open.');
+        // }
     });
 
     document.getElementById('UnityActions').addEventListener('click', () => {
@@ -29,15 +29,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
-
-function handleWebSocketMessage(message) {
-    console.log('Bericht ontvangen:', message);
-    if (message.type === "ShowButton") {
-        toggleButton(true); // Toon de knop
-    } else if (message.type === "HideButton") {
-        toggleButton(false); // Verberg de knop
-    }
-}
 
 function toggleButton(show) {
     var btn = document.getElementById('UnityActions');
