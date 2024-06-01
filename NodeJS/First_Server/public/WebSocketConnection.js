@@ -56,8 +56,10 @@ function sendMessageToUnity(message) {
 }
 
 function handleWebSocketMessage(message) {
-    console.log('Bericht ontvangen2 :', message);
-    if (message.type === "PerformUnityAction") {
+    var test = JSON.parse(message)
+    console.log('Bericht ontvangen2 :', test);
+    if (test.type === "ShowButton") {
+    console.log('tot hier gekomen');
         sendMessageToUnity(message);
     }
 }
