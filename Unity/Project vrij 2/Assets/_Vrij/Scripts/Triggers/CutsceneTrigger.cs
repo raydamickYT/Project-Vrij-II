@@ -20,6 +20,10 @@ public class CutsceneTrigger : MonoBehaviour
         {
             videoPlayer.loopPointReached += EndReached; // Voeg een event toe voor wanneer de video eindigt
         }
+        if (rawImage != null)
+        {
+            rawImage.enabled = false;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
