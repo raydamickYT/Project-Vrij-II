@@ -14,10 +14,11 @@ public class UnityToJavaScript : MonoBehaviour
         Application.ExternalCall("receiveMessageFromUnity", jsonMessage);
     }
 
-        // Deze methode wordt aangeroepen door JavaScript
+    // Deze methode wordt aangeroepen door JavaScript
     public void ReceiveMessageFromJavaScript(string message)
     {
         Debug.Log("Bericht ontvangen van JavaScript: " + message);
+        // SendMessageToJavaScript("BerichtOntvangen","Message");
         // Verwerk het bericht zoals nodig
     }
 
