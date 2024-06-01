@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (socket.readyState === WebSocket.OPEN) {
             const message = { lobbyStatus: 'inLobby', message: 'Deze client is gemarkeerd als: zit in de lobby' };
             socket.send(JSON.stringify(message));
-            window.location.href = 'UnityPage.html'; // Navigeer naar de game pagina
+            // window.location.href = 'UnityPage.html'; // Navigeer naar de game pagina
         } else {
             console.log('WebSocket is niet open.');
         }

@@ -55,10 +55,4 @@ function receiveMessageFromUnity(jsonMessage) {
     }
 }
 
-// Voorbeeld functie om een bericht terug te sturen naar Unity (optioneel)
-function sendMessageToUnity(message) {
-    if (typeof unityInstance !== 'undefined') {
-        unityInstance.SendMessage('UnityToJavaScript', 'ReceiveMessageFromJavaScript', message);
-        console.log('Bericht verzonden naar Unity:', message);
-    }
-}
+
