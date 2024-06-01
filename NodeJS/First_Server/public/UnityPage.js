@@ -75,8 +75,6 @@ function Unity() {
     document.body.appendChild(script);
 }
 
-
-
 function JoinLobby(){
     if (socket.readyState === WebSocket.OPEN) {
         const message = { lobbyStatus: 'inLobby', message: 'Deze client is gemarkeerd als: zit in de lobby' };
