@@ -6,7 +6,7 @@ const http = require('http');
 const WebSocket = require('ws');
 
 const app = express();
-const port = 3000;
+const port = process.env.port || 3000;
 const server = http.createServer(app);
 const wssWebClients = new WebSocket.Server({ noServer: true });
 const wssUnityClients = new WebSocket.Server({ noServer: true });
