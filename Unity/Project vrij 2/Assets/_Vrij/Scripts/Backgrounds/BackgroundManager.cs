@@ -8,6 +8,7 @@ public class BackgroundManager : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.Log("Hoi");
         if (other.CompareTag("Player"))
         {
             int backgroundIndex = GetBackgroundIndexFromUser(); // Haal het gewenste achtergrondindex op van de gebruiker
