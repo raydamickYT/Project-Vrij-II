@@ -5,8 +5,9 @@ using UnityEngine.Video;
 
 public class CutsceneTrigger : MonoBehaviour
 {
-    public VideoPlayer videoPlayer; // Verwijzing naar de VideoPlayer component
+    private VideoPlayer videoPlayer; // Verwijzing naar de VideoPlayer component
     public RawImage rawImage; // Verwijzing naar de RawImage component
+    public bool IsPauseTrigger;
 
 
     private void Start()
@@ -15,11 +16,12 @@ public class CutsceneTrigger : MonoBehaviour
         {
             videoPlayer = GetComponent<VideoPlayer>();
         }
-
-        if (videoPlayer != null)
+        else
         {
+            videoPlayer.Prepare();
             videoPlayer.loopPointReached += EndReached; // Voeg een event toe voor wanneer de video eindigt
         }
+
         if (rawImage != null)
         {
             rawImage.enabled = false;
@@ -39,6 +41,12 @@ public class CutsceneTrigger : MonoBehaviour
         if (videoPlayer != null)
         {
             videoPlayer.Play();
+            int videolenght = (int)videoPlayer.length;
+            Debug.Log("Length of the video" + videolenght);
+            if (IsPauseTrigger)
+            {
+                DelegateManager.Instance.StartTimerDelegate?.Invoke(videolenght);
+            }
             videoPlayer.loopPointReached += EndReached; // Voeg een event toe voor wanneer de video eindigt
         }
         if (rawImage != null)
