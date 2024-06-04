@@ -7281,11 +7281,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: 511443022
-      Data2: 1104868298
-      Data3: -79694425
-      Data4: 910688832
-    Path: event:/ClickTrack
+      Data1: 1375674867
+      Data2: 1301726822
+      Data3: -391032908
+      Data4: -930008040
+    Path: event:/Click track & music
   Event: 
   PlayEvent: 1
   StopEvent: 2
