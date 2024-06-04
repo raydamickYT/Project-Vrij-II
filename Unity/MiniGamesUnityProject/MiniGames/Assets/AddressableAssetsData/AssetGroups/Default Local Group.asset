@@ -35,6 +35,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - StartScreen
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3bb573e16132f4042a41a0b5aba1f911
+    m_Address: Assets/Scenes/MiniGames/MiniGame1.unity
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MiniGame
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: dfc1d12fff2be2f46992161b359c6938, type: 2}
   m_SchemaSet:
