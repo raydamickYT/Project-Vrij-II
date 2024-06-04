@@ -39,6 +39,7 @@ function initializeWebSocket(onMessage, onOpen, onClose, onError) {
 }
 
 // Functie om berichten van Unity te ontvangen en door te sturen naar de server
+//unity vind deze functie en stuurt hem een bericht
 function receiveMessageFromUnity(jsonMessage) {
     console.log('Bericht ontvangen van Unity:', jsonMessage);
 
@@ -47,13 +48,6 @@ function receiveMessageFromUnity(jsonMessage) {
     }
 }
 
-// Voorbeeld functie om een bericht terug te sturen naar Unity (optioneel)
-function sendMessageToUnity(message) {
-    if (typeof unityInstance !== 'undefined') {
-        unityInstance.SendMessage('UnityToJavaScript', 'ReceiveMessageFromJavaScript', message);
-        console.log('Bericht verzonden naar Unity:', message);
-    }
-}
 
 function handleWebSocketMessage(message) {
     var test = JSON.parse(message)

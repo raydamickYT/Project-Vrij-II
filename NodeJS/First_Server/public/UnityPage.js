@@ -12,11 +12,11 @@ document.addEventListener("DOMContentLoaded", function() {
     }, 1000); // 1000 milliseconden = 1 seconde
 });
 
-
-// Voorbeeld functie om een bericht terug te sturen naar Unity (optioneel)
+//function for sending messages to unity
 function sendMessageToUnity(message) {
     if (typeof unityInstance !== 'undefined') {
-        unityInstance.SendMessage('UnityToJavaScript', 'ReceiveMessageFromJavaScript', message);
+        //make sure the first string is the name of a gameobject in the unity scene (preferably the main scene)
+        unityInstance.SendMessage('TestJava', 'ReceiveMessageFromJavaScript', message);
         console.log('Bericht verzonden naar Unity:', message);
     }
 }
@@ -51,9 +51,9 @@ function Unity() {
         var div = document.createElement('div');
         div.innerHTML = msg;
         warningBanner.appendChild(div);
-        if (type == 'error') div.style = 'background: red; padding: 10px;';
+        if (type === 'error') div.style = 'background: red; padding: 10px;';
         else {
-            if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
+            if (type === 'warning') div.style = 'background: yellow; padding: 10px;';
             setTimeout(function() {
                 warningBanner.removeChild(div);
                 updateBannerVisibility();
@@ -69,6 +69,7 @@ function Unity() {
             progressBarFull.style.width = 100 * progress + "%";
         }).then((unityInstance) => {
             loadingBar.style.display = "none";
+            window.unityInstance = unityInstance; // Make unityInstance globally accessible
         }).catch((message) => {
             alert(message);
         });
