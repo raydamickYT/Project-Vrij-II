@@ -24,11 +24,12 @@ function sendMessageToUnity(message) {
 // Unity WebGL Loader 
 function Unity() {
     var buildUrl = "/UnityBuild"; // Update the path to match your server setup
-    var loaderUrl = buildUrl + "/Build/Build2.loader.js";
+    var version = "v1"; // Update the version as needed
+    var loaderUrl = buildUrl + "/Build/Build2_" + version + ".loader.js";
     var config = {
-        dataUrl: buildUrl + "/Build/Build2.data",
-        frameworkUrl: buildUrl + "/Build/Build2.framework.js",
-        codeUrl: buildUrl + "/Build/Build2.wasm",
+        dataUrl: buildUrl + "/Build/Build2_" + version + ".data",
+        frameworkUrl: buildUrl + "/Build/Build2_" + version + ".framework.js",
+        codeUrl: buildUrl + "/Build/Build2_" + version + ".wasm",
         streamingAssetsUrl: buildUrl + "/StreamingAssets",
         companyName: "AdamProductions",
         productName: "ItsInGame",

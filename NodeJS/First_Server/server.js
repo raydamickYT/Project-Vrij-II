@@ -14,15 +14,23 @@ const wssUnityClients = new WebSocket.Server({ noServer: true });
 const clientsInLobby = new Set();
 let unityClient = null;
 
-app.use(compression());
+// app.use(compression());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Serve compressed Unity build files
+// Serve compressed Unity build files with caching
+// app.use('/UnityBuild', expressStaticGzip(path.join(__dirname, 'public', 'UnityBuild'), {
+//     enableBrotli: true,
+//     orderPreference: ['br', 'gz'],
+//     setHeaders: (res, path) => {
+//         res.setHeader('Cache-Control', 'public, max-age=31536000');
+//     }
+// }));
+//without caching
 app.use('/UnityBuild', expressStaticGzip(path.join(__dirname, 'public', 'UnityBuild'), {
     enableBrotli: true,
     orderPreference: ['br', 'gz'],
     setHeaders: (res, path) => {
-        res.setHeader('Cache-Control', 'public, max-age=31536000');
+        res.setHeader('Cache-Control', 'no-store');
     }
 }));
 
