@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -12,6 +13,8 @@ public class SceneLoader : MonoBehaviour
     private List<string> otherScenes = new List<string>();
     private List<string> unplayedMinigames;
     private List<string> playedMinigames = new List<string>();
+    [HideInInspector]
+    public string SelectedMiniGame;
     private Dictionary<string, AsyncOperationHandle<SceneInstance>> loadedScenes = new Dictionary<string, AsyncOperationHandle<SceneInstance>>();
 
 
@@ -78,14 +81,14 @@ public class SceneLoader : MonoBehaviour
 
         // Select a random minigame from the unplayed list
         int randomIndex = Random.Range(0, unplayedMinigames.Count);
-        string selectedMinigame = unplayedMinigames[randomIndex];
+        SelectedMiniGame = unplayedMinigames[randomIndex];
 
         // Load the selected minigame
-        LoadScenes(selectedMinigame);
+        LoadScenes(SelectedMiniGame);
 
         // Move the selected minigame to the played list
         unplayedMinigames.RemoveAt(randomIndex);
-        playedMinigames.Add(selectedMinigame);
+        playedMinigames.Add(SelectedMiniGame);
     }
 
     private IEnumerator LoadSceneAsync(string address)
@@ -150,7 +153,7 @@ public class SceneLoader : MonoBehaviour
                 Addressables.Release(handle);
                 loadedScenes.Remove(address);
             }
-            else
+            else if (address != "Assets/Scenes/WaitingScreen.unity")
             {
                 Debug.LogWarning($"Handle for scene {address} is no longer valid after unloading."); //kan je misschien later weghalen
             }

@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class UnityToJavaScript : MonoBehaviour
@@ -27,6 +28,10 @@ public class UnityToJavaScript : MonoBehaviour
     {
         string resultMessage = success ? "Mini-game voltooid!" : "Mini-game gefaald!";
         SendMessageToJavaScript(resultMessage, "PerformUnityAction");
+        GameManager.Instance.sceneLoader.LoadScenes("Assets/Scenes/WaitingScreen.unity");
+        Debug.Log(resultMessage);
+        Debug.Log("unload sample scene");
+        GameManager.Instance.sceneLoader.UnloadScenes(GameManager.Instance.sceneLoader.SelectedMiniGame);
     }
 
     // Methode om aan te roepen bij een knopdruk

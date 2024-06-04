@@ -65,7 +65,7 @@ VideoPlayer:
   m_EnabledAudioTracks: 01
   m_DirectAudioMutes: 00
   m_ControlledAudioTrackCount: 1
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_SkipOnDrop: 1
   m_Looping: 0
   m_WaitForFirstFrame: 1
@@ -135,8 +135,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9042956a9abe9f34cb270a542a1788f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  videoPlayer: {fileID: 1278189976363342642}
   rawImage: {fileID: 0}
+  IsPauseTrigger: 0
 --- !u!61 &5909682293641931164
 BoxCollider2D:
   m_ObjectHideFlags: 0
