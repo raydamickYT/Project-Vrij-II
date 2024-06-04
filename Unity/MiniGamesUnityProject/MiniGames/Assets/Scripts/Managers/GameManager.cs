@@ -4,14 +4,28 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public SceneLoader sceneLoader;
+    [SerializeField]
+    private bool isDebugging;
 
     private void Start()
     {
-        // Load the start screen initially
-        sceneLoader.LoadScenes("StartScreen");
+        if (!isDebugging)
+        {
+            // Load the start screen initially
+            sceneLoader.LoadScenes("StartScreen");
+        }
         if (Instance == null)
         {
             Instance = this;
+        }
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            //start een minigame
+            sceneLoader.LoadRandomMinigame();
         }
     }
 
