@@ -1,6 +1,8 @@
 1: ngrok config add-authtoken 2g8mSWlgO0mZdwkUkvhoWJ1W8bo_4WoscWFEuwLTD18qxfW7
 2; ngrok http 7842
 
+ngrok http 3000
+
 check port:
 netstat -aon | findstr :[port]
 netstat -aon | findstr :7842

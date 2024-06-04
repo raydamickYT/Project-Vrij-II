@@ -14,7 +14,7 @@ PrefabInstance:
       objectReference: {fileID: 32900000, guid: a61a723f8954f9b4dbaec34332a0c771, type: 3}
     - target: {fileID: 1278189976363342642, guid: c61fda0dab836764facd3019731a0130, type: 3}
       propertyPath: m_PlayOnAwake
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1278189976363342642, guid: c61fda0dab836764facd3019731a0130, type: 3}
       propertyPath: m_ControlledAudioTrackCount

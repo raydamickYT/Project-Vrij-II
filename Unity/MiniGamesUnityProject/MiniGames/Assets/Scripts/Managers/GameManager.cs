@@ -22,6 +22,13 @@ public class GameManager : MonoBehaviour
         sceneLoader.UnloadScenes("StartScreen");
     }
 
+    public void OnButtonPressed(string currentScene, string nextScene)
+    {
+        // Unload the start screen and load a random minigame
+        sceneLoader.LoadScenes(nextScene);
+        sceneLoader.UnloadScenes(currentScene);
+    }
+
     public void OnMinigameCompleted()
     {
         // Unload the current minigame and load the waiting screen

@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/Scenes/WaitingScreen.unity
     guid: 12c9b8d4f0c1ad24e85b95343d9cdd5f
   - enabled: 0
-    path: Assets/Scenes/SampleScene.unity
+    path: Assets/Scenes/MiniGames/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 672a1813e5cf9024aa994f1710e091f9, type: 2}

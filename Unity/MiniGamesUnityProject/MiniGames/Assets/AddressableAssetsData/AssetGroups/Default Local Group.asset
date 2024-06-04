@@ -26,12 +26,20 @@ MonoBehaviour:
   - m_GUID: 12c9b8d4f0c1ad24e85b95343d9cdd5f
     m_Address: Assets/Scenes/WaitingScreen.unity
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - WaitingScreen
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b1de7d19e5ae9a94582330d07b752f18
     m_Address: Assets/Scenes/StartScreen.unity
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - StartScreen
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3bb573e16132f4042a41a0b5aba1f911
+    m_Address: Assets/Scenes/MiniGames/MiniGame1.unity
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MiniGame
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: dfc1d12fff2be2f46992161b359c6938, type: 2}

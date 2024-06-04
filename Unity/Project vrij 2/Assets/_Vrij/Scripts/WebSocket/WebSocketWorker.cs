@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using WebSocketSharp;
@@ -21,7 +18,6 @@ public class WebSocketWorker : MonoBehaviour
                 instance = FindObjectOfType<WebSocketWorker>();
                 if (instance == null)
                 {
-                    // Optioneel: maak een nieuwe NetworkManager als er geen bestaat.
                     GameObject go = new GameObject("WebSocketWorker");
                     instance = go.AddComponent<WebSocketWorker>();
                     DontDestroyOnLoad(go);
@@ -31,7 +27,7 @@ public class WebSocketWorker : MonoBehaviour
         }
     }
 
-    public string Url = "ws://localhost:3000/unity"; //die /unity er achter is om aan de webserver te laten zien dat dit unity is die connect
+    public string Url = "ws://localhost:3000";
 
     public WebSocket WebSocket
     {
@@ -39,13 +35,11 @@ public class WebSocketWorker : MonoBehaviour
         private set { ws = value; }
     }
 
-
     void Awake()
     {
         if (instance == null)
         {
             instance = this;
-            // DontDestroyOnLoad(gameObject);
         }
         else if (instance != this)
         {
@@ -53,11 +47,12 @@ public class WebSocketWorker : MonoBehaviour
         }
         WebSocketSetup();
 
-        //delegates
         DelegateManager.Instance.TextEventTriggerDetected += SendMessageToServer;
     }
+
     private void WebSocketSetup()
     {
+        Debug.Log(Url);
         if (!Url.StartsWith("ws://") && !Url.StartsWith("wss://"))
         {
             Debug.LogError("Invalid URL: " + Url);
@@ -65,7 +60,11 @@ public class WebSocketWorker : MonoBehaviour
         }
 
         ws = new WebSocket(Url);
-        ws.Connect();
+
+        ws.OnOpen += (sender, e) =>
+        {
+            Debug.Log("WebSocket connection opened");
+        };
 
         ws.OnError += (sender, e) =>
         {
@@ -83,7 +82,6 @@ public class WebSocketWorker : MonoBehaviour
             try
             {
                 var message = JsonUtility.FromJson<ServerMessage>(e.Data);
-
                 if (message == null || string.IsNullOrEmpty(message.type))
                 {
                     Debug.LogError("Invalid or incomplete message data.");
@@ -105,31 +103,21 @@ public class WebSocketWorker : MonoBehaviour
                         break;
                 }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Debug.LogError("Error parsing JSON: " + ex.Message);
             }
         };
-    }
 
-    void Update()
-    {
-        // if (Input.GetKeyDown(KeyCode.Space))
-        // {
-        //     if (ws != null && ws.IsAlive)
-        //     {
-        //         ServerMessage msg = new ServerMessage { message = "hello", type = "ShowButton" };
-        //         string jsonMessage = JsonUtility.ToJson(msg);
-        //         ws.Send(jsonMessage);
-        //         // ws.Send(JsonUtility.ToJson(new ServerMessage { message = "hello", type = "ShowButton" }));
-        //         Debug.Log("keypressed");
-        //     }
-        //     else
-        //     {
-        //         Debug.LogError("Server is niet verbonden. Check de url");
-        //         return;
-        //     }
-        // }
+        try
+        {
+            ws.Connect();
+            Debug.Log("WebSocket connecting...");
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("WebSocket connection exception: " + ex.Message);
+        }
     }
 
     private void SendMessageToServer(Text TextData, string type)
@@ -141,7 +129,6 @@ public class WebSocketWorker : MonoBehaviour
                 ServerMessage msg = new ServerMessage { message = TextData.text, type = type };
                 string jsonMessage = JsonUtility.ToJson(msg);
                 ws.Send(jsonMessage);
-                // ws.Send(JsonUtility.ToJson(new ServerMessage { message = "hello", type = "ShowButton" }));
                 Debug.Log("keypressed");
             }
             else
@@ -156,6 +143,7 @@ public class WebSocketWorker : MonoBehaviour
             Debug.LogError("Server is niet verbonden. Check de url");
             return;
         }
+
     }
 
     void OnDestroy()
@@ -165,8 +153,6 @@ public class WebSocketWorker : MonoBehaviour
             ws.Close();
         }
     }
-
-
 
     [System.Serializable]
     public class ServerMessage
