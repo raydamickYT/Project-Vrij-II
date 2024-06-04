@@ -1986,6 +1986,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6121393643170117170, guid: 703620ea3afacea4fa4df8a9826dfb8e, type: 3}
+      propertyPath: Url
+      value: wss://1a02-92-111-60-210.ngrok-free.app/unity
+      objectReference: {fileID: 0}
     - target: {fileID: 7344439403011785357, guid: 703620ea3afacea4fa4df8a9826dfb8e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.8289185
