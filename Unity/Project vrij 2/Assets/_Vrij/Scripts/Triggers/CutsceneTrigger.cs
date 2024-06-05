@@ -67,5 +67,6 @@ public class CutsceneTrigger : MonoBehaviour
         {
             rawImage.enabled = false;
         }
+        videoPlayer.loopPointReached -= EndReached;
     }
 }
