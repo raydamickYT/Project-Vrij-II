@@ -123,61 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!114 &21969709 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3508231569399978009, guid: 33194114cb066a243b3f503fcaa6777d, type: 3}
-  m_PrefabInstance: {fileID: 5057287776453225913}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c185942c8ea4eab4593f3ed07af26fb0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!1 &203061887
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 203061889}
-  - component: {fileID: 203061888}
-  m_Layer: 0
-  m_Name: TestJava
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &203061888
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 203061887}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c185942c8ea4eab4593f3ed07af26fb0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &203061889
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 203061887}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &288435507
 GameObject:
   m_ObjectHideFlags: 0
@@ -543,10 +488,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 21969709}
-        m_TargetAssemblyTypeName: UnityToJavaScript, Assembly-CSharp
-        m_MethodName: OnMiniGameComplete
-        m_Mode: 6
+      - m_Target: {fileID: 5057287776453225914}
+        m_TargetAssemblyTypeName: MiniGameManager, Assembly-CSharp
+        m_MethodName: OnMiniGameFinished2
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -860,6 +805,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2145665652349325366, guid: 33194114cb066a243b3f503fcaa6777d, type: 3}
+      propertyPath: currentScene
+      value: SampleScene
+      objectReference: {fileID: 0}
     - target: {fileID: 4680780989947539869, guid: 33194114cb066a243b3f503fcaa6777d, type: 3}
       propertyPath: m_Name
       value: MiniGameManager
@@ -869,11 +818,79 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 33194114cb066a243b3f503fcaa6777d, type: 3}
+--- !u!114 &5057287776453225914 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2145665652349325366, guid: 33194114cb066a243b3f503fcaa6777d, type: 3}
+  m_PrefabInstance: {fileID: 5057287776453225913}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a910c21b4633bf41a0c16666be33164, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1001 &5479756233117977263
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3738268285661576857, guid: 55dbc350f4dff5f468445d7a33169aba, type: 3}
+      propertyPath: m_Name
+      value: TestJava
+      objectReference: {fileID: 0}
+    - target: {fileID: 3881376050893435218, guid: 55dbc350f4dff5f468445d7a33169aba, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3881376050893435218, guid: 55dbc350f4dff5f468445d7a33169aba, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3881376050893435218, guid: 55dbc350f4dff5f468445d7a33169aba, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3881376050893435218, guid: 55dbc350f4dff5f468445d7a33169aba, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3881376050893435218, guid: 55dbc350f4dff5f468445d7a33169aba, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3881376050893435218, guid: 55dbc350f4dff5f468445d7a33169aba, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3881376050893435218, guid: 55dbc350f4dff5f468445d7a33169aba, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3881376050893435218, guid: 55dbc350f4dff5f468445d7a33169aba, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3881376050893435218, guid: 55dbc350f4dff5f468445d7a33169aba, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3881376050893435218, guid: 55dbc350f4dff5f468445d7a33169aba, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 55dbc350f4dff5f468445d7a33169aba, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 203061889}
+  - {fileID: 5479756233117977263}
   - {fileID: 288435511}
   - {fileID: 935632975}
   - {fileID: 5057287776453225913}
