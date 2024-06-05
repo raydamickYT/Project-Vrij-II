@@ -139,6 +139,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2007547244119855015, guid: 070ca28ff380556409104cca2f0cf5b3, type: 3}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 3365808514765075394, guid: 070ca28ff380556409104cca2f0cf5b3, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -147,6 +151,14 @@ PrefabInstance:
       propertyPath: inputLib
       value: 
       objectReference: {fileID: 1404605487}
+    - target: {fileID: 4963462524624880963, guid: 070ca28ff380556409104cca2f0cf5b3, type: 3}
+      propertyPath: IsJumping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4963462524624880963, guid: 070ca28ff380556409104cca2f0cf5b3, type: 3}
+      propertyPath: jumpForce
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 4963462524624880963, guid: 070ca28ff380556409104cca2f0cf5b3, type: 3}
       propertyPath: IsDebugging
       value: 1
@@ -2731,7 +2743,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8832894184505725874, guid: f33826ba54e845b4d98414880b2b1f5a, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

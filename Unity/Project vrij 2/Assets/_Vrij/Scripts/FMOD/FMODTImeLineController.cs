@@ -130,14 +130,14 @@ public class FMODTimelineController : MonoBehaviour
                 player.transform.position = new Vector3(targetPosition.x, player.transform.position.y, player.transform.position.z);
                 velocity = Vector3.zero; // Reset velocity to prevent jump on release
             }
-            else
-            {
-                Vector3 currentPosition = player.transform.position;
-                targetPosition.y = currentPosition.y; // Maintain current y position
-                targetPosition.z = currentPosition.z; // Maintain current z position
+          else if (!player.GetComponent<Simple2DCharacterController>().IsJumping) // Only update position if the player is not jumping
+        {
+            Vector3 currentPosition = player.transform.position;
+            targetPosition.y = currentPosition.y; // Maintain current y position
+            targetPosition.z = currentPosition.z; // Maintain current z position
 
-                player.transform.position = Vector3.SmoothDamp(currentPosition, targetPosition, ref velocity, smoothTime);
-            }
+            player.transform.position = Vector3.SmoothDamp(currentPosition, targetPosition, ref velocity, smoothTime);
+        }
         }
     }
 

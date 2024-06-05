@@ -106,6 +106,7 @@ MonoBehaviour:
   jumpForce: 450
   SuccessGrens: 0.39
   IsDebugging: 0
+  IsJumping: 0
 --- !u!50 &2007547244119855015
 Rigidbody2D:
   serializedVersion: 4
@@ -118,10 +119,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 100
+  m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0
-  m_GravityScale: 2.87
+  m_GravityScale: 1
   m_Material: {fileID: 6200000, guid: 7ea661da8fdea4d41bea38bc6c08ca23, type: 2}
   m_IncludeLayers:
     serializedVersion: 2

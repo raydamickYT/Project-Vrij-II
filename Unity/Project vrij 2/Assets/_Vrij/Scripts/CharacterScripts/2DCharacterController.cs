@@ -12,9 +12,13 @@ public class Simple2DCharacterController : MonoBehaviour
     public float SuccessGrens = 0.6f;
     [SerializeField]
     private bool IsDebugging = false;
+    [HideInInspector]
+    public bool IsJumping;
     GameObject[] respawnPoints;
     private Vector3 previousPosition;
     private float speed;
+
+
 
     void Start()
     {
@@ -41,24 +45,29 @@ public class Simple2DCharacterController : MonoBehaviour
     private void FixedUpdate()
     {
         progressBarManager.UpdateSliderProgress(inputLib.InputAmount);
+        Debug.Log(IsJumping);
     }
 
     private void ExecuteJump()
     {
-            int InputSize = inputLib.InputAmount;
-            if (IsDebugging)
+        var rb = GetComponent<Rigidbody2D>();
+        int InputSize = inputLib.InputAmount;
+        if (IsDebugging)
+        {
+            rb.constraints &= ~RigidbodyConstraints2D.FreezePositionX; //unfreeze
+            IsJumping = true;
+
+            rb.AddForce(new Vector2(jumpForce, jumpForce*1.6f));
+        }
+        else
+        {
+            if (InputSize > (inputLib.ConnectedClients * SuccessGrens))
             {
-                GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, jumpForce));
-                isGrounded = false;
+                IsJumping = true;
+                rb.constraints &= ~RigidbodyConstraints2D.FreezePositionX; //unfreeze
+                rb.AddForce(new Vector2(0f, jumpForce));
             }
-            else
-            {
-                if (InputSize > (inputLib.ConnectedClients * SuccessGrens))
-                {
-                    GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, jumpForce));
-                    isGrounded = false;
-                }
-            }
+        }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -66,6 +75,8 @@ public class Simple2DCharacterController : MonoBehaviour
         if (collision.collider.CompareTag("Ground"))
         {
             isGrounded = true;
+            GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+            IsJumping = false;
         }
         if (collision.collider.CompareTag("Fall"))
         {
