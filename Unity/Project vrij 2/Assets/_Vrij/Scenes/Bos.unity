@@ -5594,7 +5594,7 @@ PrefabInstance:
     - target: {fileID: 1278189976363342642, guid: c61fda0dab836764facd3019731a0130, type: 3}
       propertyPath: m_VideoClip
       value: 
-      objectReference: {fileID: 32900000, guid: f8b72bce55ce59447aa7ea0ea32ae3eb, type: 3}
+      objectReference: {fileID: 32900000, guid: 99dce6f0dc1e44e4b8a4d3deab15b8c2, type: 3}
     - target: {fileID: 6194701399255598170, guid: c61fda0dab836764facd3019731a0130, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3402.75
@@ -7317,7 +7317,7 @@ Transform:
   m_GameObject: {fileID: 1330977930}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -75.1, y: -1.93, z: 0}
+  m_LocalPosition: {x: -75.1, y: -2.2, z: 0}
   m_LocalScale: {x: 3.6, y: 3.6, z: 3.6}
   m_ConstrainProportionsScale: 1
   m_Children: []
