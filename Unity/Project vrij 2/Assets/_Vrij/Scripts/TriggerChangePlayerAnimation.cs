@@ -5,16 +5,15 @@ public class TriggerChangePlayerAnimation : MonoBehaviour
     // The player GameObject
     public GameObject player;
 
-    // Animation state names for normal and collided states
-    public string normalAnimation;
-    public string collidedAnimation;
-
+    // Animation state names
+    public string normalAnimation = "Normal";
+    public string collidedAnimation = "Collided";
 
     // Reference to the Animator component on the player
     private Animator playerAnimator;
 
     // To track if the player's animation is currently in the collided state
-    private bool isCollided = false;
+    private static bool isCollided = false;
 
     void Start()
     {
