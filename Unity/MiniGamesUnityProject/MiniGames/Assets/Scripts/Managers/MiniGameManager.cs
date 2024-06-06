@@ -24,7 +24,7 @@ public class MiniGameManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
+            // DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -32,13 +32,17 @@ public class MiniGameManager : MonoBehaviour
         }
         if (slider == null)
         {
-            slider = GetComponent<Canvas>().GetComponent<Slider>();
+            slider = FindObjectOfType<Canvas>().GetComponentInChildren<Slider>();
+            slider.maxValue = gameDuration;
+            slider.value = gameDuration;
         }
         else
         {
             slider.maxValue = gameDuration;
             slider.value = gameDuration;
         }
+
+        StartCoroutine(TimeToFinishMiniGame());
     }
 
     void Awake()
@@ -58,11 +62,6 @@ public class MiniGameManager : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        // Start de coroutine om de minigame timer bij te houden
-        StartCoroutine(TimeToFinishMiniGame());
-    }
 
     public void OnMiniGameFinished2()
     {
@@ -79,6 +78,7 @@ public class MiniGameManager : MonoBehaviour
 
     private IEnumerator TimeToFinishMiniGame()
     {
+        Debug.Log("Coroutinwerkt");
         float timeRemaining = gameDuration;
 
         while (timeRemaining > 0 && !miniGameFinished)
@@ -102,6 +102,8 @@ public class MiniGameManager : MonoBehaviour
 
     void OnDisable()
     {
+        StopAllCoroutines();
+        miniGameFinished = false;
         if (instance == this)
         {
             instance = null;

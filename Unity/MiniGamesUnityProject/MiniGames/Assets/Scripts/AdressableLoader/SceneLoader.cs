@@ -161,7 +161,7 @@ public class SceneLoader : MonoBehaviour
             // Clear the current scene if it was the one being unloaded
             if (CurrentScene == address)
             {
-                CurrentScene = null;
+                // CurrentScene = null;
             }
         }
         else
@@ -221,6 +221,7 @@ public class SceneLoader : MonoBehaviour
             {
                 obj.SetActive(true);
             }
+            CurrentScene = address;
             Debug.Log($"Scene {address} is now visible.");
         }
         else
