@@ -120,20 +120,21 @@ public class WebSocketWorker : MonoBehaviour
         }
     }
 
-    private void SendMessageToServer(Text TextData, string type)
+    private void SendMessageToServer(Text TextData, string type, int Time)
     {
         if (ws != null && ws.IsAlive)
         {
             if (TextData != null)
             {
-                ServerMessage msg = new ServerMessage { message = TextData.text, type = type };
+                ServerMessage msg = new ServerMessage { message = TextData.text, type = type, count = Time };
                 string jsonMessage = JsonUtility.ToJson(msg);
                 ws.Send(jsonMessage);
                 Debug.Log("keypressed");
             }
             else
             {
-                ServerMessage msg = new ServerMessage { message = "", type = type };
+                Debug.Log(Time + " " + type);
+                ServerMessage msg = new ServerMessage { message = "", type = type, count = Time };
                 string jsonMessage = JsonUtility.ToJson(msg);
                 ws.Send(jsonMessage);
             }

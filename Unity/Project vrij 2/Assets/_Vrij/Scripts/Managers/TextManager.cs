@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class TextManager : MonoBehaviour
 {
     public Text localText;
+    public int TextTime = 10;
     public void Awake()
     {
         DelegateManager.Instance.TextEventTriggerDetected += ShowText;
@@ -19,12 +20,12 @@ public class TextManager : MonoBehaviour
         }
     }
 
-    public void ShowText(Text Data, string s)
+    public void ShowText(Text Data, string s, int i)
     {
         if (Data != null) //omdat we deze ook callen als we het niet nodig hebben
         {
             localText.text = Data.text;
-            StartCoroutine(TextTimer(4));
+            StartCoroutine(TextTimer(TextTime));
         }
     }
 

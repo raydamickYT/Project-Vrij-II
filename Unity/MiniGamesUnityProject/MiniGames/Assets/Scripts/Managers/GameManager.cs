@@ -6,7 +6,8 @@ public class GameManager : MonoBehaviour
     public SceneLoader sceneLoader;
     [SerializeField]
     private bool isDebugging;
-    private UnityToJavaScript unityToJava;
+    [HideInInspector]
+    public UnityToJavaScript unityToJava;
 
     void Awake()
     {
@@ -31,19 +32,19 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            //start een minigame
-            sceneLoader.LoadRandomMinigame();
-        }
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            sceneLoader.HideScene("StartScreen");
-        }
-        else if (Input.GetKeyDown(KeyCode.E))
-        {
-            sceneLoader.ShowScene("StartScreen");
-        }
+        // if (Input.GetKeyDown(KeyCode.Escape))
+        // {
+        //     //start een minigame
+        //     sceneLoader.LoadRandomMinigame();
+        // }
+        // if (Input.GetKeyDown(KeyCode.W))
+        // {
+        //     sceneLoader.HideScene("StartScreen");
+        // }
+        // else if (Input.GetKeyDown(KeyCode.E))
+        // {
+        //     sceneLoader.ShowScene("StartScreen");
+        // }
     }
     public void MiniGameEnded(bool Succeeded)
     {

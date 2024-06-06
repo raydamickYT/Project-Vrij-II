@@ -13,6 +13,14 @@ public class MiniGameManager : MonoBehaviour
 
     void OnEnable()
     {
+        if (GameManager.Instance.unityToJava != null && GameManager.Instance.unityToJava.Count > 0)
+        {
+            gameDuration = GameManager.Instance.unityToJava.Count;
+        }
+        else
+        {
+            gameDuration = 10;
+        }
         if (instance == null)
         {
             instance = this;
