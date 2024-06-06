@@ -22,6 +22,11 @@ public class GameManager : MonoBehaviour
         if (!isDebugging)
         {
             // Load the start screen initially
+            // Load the waiting screen and hide it once loaded
+            sceneLoader.LoadScenes("WaitingScreen", () =>
+            {
+                sceneLoader.HideScene("WaitingScreen");
+            });
             sceneLoader.LoadScenes("StartScreen");
         }
         if (Instance == null)
@@ -54,9 +59,9 @@ public class GameManager : MonoBehaviour
     public void OnStartButtonPressed()
     {
         // Unload the start screen and load a random minigame
+        sceneLoader.HideScene(sceneLoader.CurrentScene);
         sceneLoader.LoadRandomMinigame();
         sceneLoader.ShowScene(sceneLoader.SelectedMiniGame);
-        sceneLoader.HideScene("StartScreen");
     }
 
     public void OnButtonPressed(string currentScene, string nextScene)

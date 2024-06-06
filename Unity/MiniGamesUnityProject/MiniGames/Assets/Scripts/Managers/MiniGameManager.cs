@@ -72,8 +72,8 @@ public class MiniGameManager : MonoBehaviour
 
     public void GameEnded()
     {
-        GameManager.Instance.sceneLoader.ShowScene("StartScreen");
         GameManager.Instance.sceneLoader.HideScene(SceneLoader.Instance.SelectedMiniGame);
+        GameManager.Instance.sceneLoader.ShowScene("WaitingScreen");
         GameManager.Instance.MiniGameEnded(miniGameFinished);
     }
 

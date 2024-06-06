@@ -18,8 +18,7 @@ public class SceneLoader : MonoBehaviour
     public string SelectedMiniGame;
     private Dictionary<string, AsyncOperationHandle<SceneInstance>> loadedScenes = new Dictionary<string, AsyncOperationHandle<SceneInstance>>();
 
-    private AsyncOperationHandle<SceneInstance> startScreenHandle;
-    private AsyncOperationHandle<SceneInstance> waitingScreenHandle;
+    public string CurrentScene;
 
     private bool isQuitting = false;
 
@@ -109,7 +108,7 @@ public class SceneLoader : MonoBehaviour
         playedMinigames.Add(SelectedMiniGame);
     }
 
-    private IEnumerator LoadSceneAsync(string address)
+    private IEnumerator LoadSceneAsync(string address, System.Action onSceneLoaded = null)
     {
         if (loadedScenes.ContainsKey(address) && loadedScenes[address].IsValid())
         {
@@ -124,21 +123,15 @@ public class SceneLoader : MonoBehaviour
         {
             Debug.Log($"Scene {address} loaded successfully.");
             loadedScenes[address] = handle;
-
-            if (address.Equals("Assets/Scenes/StartScreen.unity"))
-            {
-                startScreenHandle = handle;
-            }
-            else if (address.Equals("Assets/Scenes/WaitingScreen.unity"))
-            {
-                waitingScreenHandle = handle;
-            }
+            CurrentScene = address;
+            onSceneLoaded?.Invoke();
         }
         else
         {
             Debug.LogError($"Failed to load scene {address} with status {handle.Status}.");
         }
     }
+
 
     private IEnumerator UnloadSceneAsync(string address)
     {
@@ -164,6 +157,12 @@ public class SceneLoader : MonoBehaviour
                 Addressables.Release(loadedScenes[address]);
                 loadedScenes.Remove(address);
             }
+
+            // Clear the current scene if it was the one being unloaded
+            if (CurrentScene == address)
+            {
+                CurrentScene = null;
+            }
         }
         else
         {
@@ -171,17 +170,18 @@ public class SceneLoader : MonoBehaviour
         }
     }
 
-    public void LoadScenes(string address)
+    public void LoadScenes(string address, System.Action onSceneLoaded = null)
     {
         if (!isQuitting && gameObject.activeInHierarchy)
         {
-            StartCoroutine(LoadSceneAsync(address));
+            StartCoroutine(LoadSceneAsync(address, onSceneLoaded));
         }
         else
         {
             Debug.LogError($"Cannot start coroutine because {gameObject.name} is inactive or application is quitting!");
         }
     }
+
 
     public void UnloadScenes(string address)
     {
