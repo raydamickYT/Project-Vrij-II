@@ -16,20 +16,20 @@ document.addEventListener("DOMContentLoaded", function() {
 function sendMessageToUnity(message) {
     if (typeof unityInstance !== 'undefined') {
         //make sure the first string is the name of a gameobject in the unity scene (preferably the main scene)
-        unityInstance.SendMessage('TestJava', 'ReceiveMessageFromJavaScript', message);
         console.log('Bericht verzonden naar Unity:', message);
+        unityInstance.SendMessage('TestJava', 'ReceiveMessageFromJavaScript', message);
     }
 }
 
 // Unity WebGL Loader 
 function Unity() {
     var buildUrl = "/UnityBuild"; // Update the path to match your server setup
-    var version = "v1"; // Update the version as needed
-    var loaderUrl = buildUrl + "/Build/Build2_" + version + ".loader.js";
+    var version = "v6"; // Update the version as needed
+    var loaderUrl = buildUrl + "/Build/Build_" + version + ".loader.js";
     var config = {
-        dataUrl: buildUrl + "/Build/Build2_" + version + ".data",
-        frameworkUrl: buildUrl + "/Build/Build2_" + version + ".framework.js",
-        codeUrl: buildUrl + "/Build/Build2_" + version + ".wasm",
+        dataUrl: buildUrl + "/Build/Build_" + version + ".data",
+        frameworkUrl: buildUrl + "/Build/Build_" + version + ".framework.js",
+        codeUrl: buildUrl + "/Build/Build_" + version + ".wasm",
         streamingAssetsUrl: buildUrl + "/StreamingAssets",
         companyName: "AdamProductions",
         productName: "ItsInGame",

@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -19,7 +20,13 @@ public class UnityToJavaScript : MonoBehaviour
     public void ReceiveMessageFromJavaScript(string message)
     {
         Debug.Log("Bericht ontvangen van JavaScript: " + message);
-        // SendMessageToJavaScript("BerichtOntvangen","Message");
+        switch (message)
+        {
+            case string a when a.Contains("ShowButton"): 
+            Debug.Log("ShowButton");
+            GameManager.Instance.sceneLoader.LoadRandomMinigame();
+            break;
+        }
         // Verwerk het bericht zoals nodig
     }
 
