@@ -11,6 +11,7 @@ public class SpriteChangeOnCollision : MonoBehaviour
     // Animation state names
     public string normalAnimation = "Normal";
     public string collidedAnimation = "Collided";
+     
 
     // To track if the object is currently in the collided state
     private bool isCollided = false;
