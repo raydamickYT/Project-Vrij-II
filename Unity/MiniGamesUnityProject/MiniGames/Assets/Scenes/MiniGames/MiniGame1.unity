@@ -532,9 +532,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 203061888}
-        m_TargetAssemblyTypeName: UnityToJavaScript, Assembly-CSharp
-        m_MethodName: OnButtonPress
+      - m_Target: {fileID: 1992302804}
+        m_TargetAssemblyTypeName: MiniGameManager, Assembly-CSharp
+        m_MethodName: OnMiniGameFinished2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -740,6 +740,78 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1492705328}
   m_CullTransparentMesh: 1
+--- !u!1001 &1992302803
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1111002977966272931, guid: 33194114cb066a243b3f503fcaa6777d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1111002977966272931, guid: 33194114cb066a243b3f503fcaa6777d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1111002977966272931, guid: 33194114cb066a243b3f503fcaa6777d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1111002977966272931, guid: 33194114cb066a243b3f503fcaa6777d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1111002977966272931, guid: 33194114cb066a243b3f503fcaa6777d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1111002977966272931, guid: 33194114cb066a243b3f503fcaa6777d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1111002977966272931, guid: 33194114cb066a243b3f503fcaa6777d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1111002977966272931, guid: 33194114cb066a243b3f503fcaa6777d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1111002977966272931, guid: 33194114cb066a243b3f503fcaa6777d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1111002977966272931, guid: 33194114cb066a243b3f503fcaa6777d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2145665652349325366, guid: 33194114cb066a243b3f503fcaa6777d, type: 3}
+      propertyPath: currentScene
+      value: MiniGame1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4680780989947539869, guid: 33194114cb066a243b3f503fcaa6777d, type: 3}
+      propertyPath: m_Name
+      value: MiniGameManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 33194114cb066a243b3f503fcaa6777d, type: 3}
+--- !u!114 &1992302804 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2145665652349325366, guid: 33194114cb066a243b3f503fcaa6777d, type: 3}
+  m_PrefabInstance: {fileID: 1992302803}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a910c21b4633bf41a0c16666be33164, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5027180345672641317
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -820,4 +892,5 @@ SceneRoots:
   - {fileID: 203061889}
   - {fileID: 288435511}
   - {fileID: 935632975}
+  - {fileID: 1992302803}
   - {fileID: 5027180345672641317}

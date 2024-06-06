@@ -18,7 +18,7 @@ MonoBehaviour:
   m_GUID: bb7f300eeeee59349980651929c99db2
   m_SerializeEntries:
   - m_GUID: 2cda990e2423bbf4892e6590ba056729
-    m_Address: Assets/Scenes/SampleScene.unity
+    m_Address: Assets/Scenes/MiniGames/SampleScene.unity
     m_ReadOnly: 0
     m_SerializedLabels:
     - MiniGame

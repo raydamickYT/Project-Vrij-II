@@ -17,6 +17,8 @@ public class SceneLoader : MonoBehaviour
     public string SelectedMiniGame;
     private Dictionary<string, AsyncOperationHandle<SceneInstance>> loadedScenes = new Dictionary<string, AsyncOperationHandle<SceneInstance>>();
 
+    private AsyncOperationHandle<SceneInstance> startScreenHandle;
+    private AsyncOperationHandle<SceneInstance> waitingScreenHandle;
 
     private void Awake()
     {
@@ -99,7 +101,6 @@ public class SceneLoader : MonoBehaviour
             yield break;
         }
 
-
         AsyncOperationHandle<SceneInstance> handle = Addressables.LoadSceneAsync(address, LoadSceneMode.Additive);
         yield return handle;
 
@@ -107,12 +108,20 @@ public class SceneLoader : MonoBehaviour
         {
             Debug.Log($"Scene {address} loaded successfully.");
             loadedScenes[address] = handle;
+
+            if (address.Equals("Assets/Scenes/StartScreen.unity"))
+            {
+                startScreenHandle = handle;
+            }
+            else if (address.Equals("Assets/Scenes/WaitingScreen.unity"))
+            {
+                waitingScreenHandle = handle;
+            }
         }
         else
         {
             Debug.LogError($"Failed to load scene {address} with status {handle.Status}.");
         }
-
     }
 
     private IEnumerator UnloadSceneAsync(string address)
@@ -136,7 +145,6 @@ public class SceneLoader : MonoBehaviour
 
         // Gebruik SceneManager om de scène te ontladen
         AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync(handle.Result.Scene);
-
         yield return unloadOperation;
 
         // Controleer de status van de ontlaadoperatie
@@ -147,15 +155,17 @@ public class SceneLoader : MonoBehaviour
             // Kleine vertraging toevoegen om ervoor te zorgen dat de scène volledig is ontladen
             yield return new WaitForSeconds(0.5f);
 
-            // Manueel vrijgeven van de handle, maar alleen als het nog steeds geldig is
-            if (handle.IsValid())
+            // Manueel vrijgeven van de handle, maar alleen als het nog steeds geldig is en geen StartScreen of WaitingScreen is
+            bool keepHandle = address.Equals("Assets/Scenes/WaitingScreen.unity") || address.Equals("Assets/Scenes/StartScreen.unity");
+            if (!keepHandle && handle.IsValid())
             {
+                Debug.Log("handle released");
                 Addressables.Release(handle);
                 loadedScenes.Remove(address);
             }
-            else if (address != "Assets/Scenes/WaitingScreen.unity")
+            else if (keepHandle)
             {
-                Debug.LogWarning($"Handle for scene {address} is no longer valid after unloading."); //kan je misschien later weghalen
+                Debug.LogWarning($"Handle for scene {address} is being kept and not released.");
             }
         }
         else
