@@ -103,14 +103,15 @@ public class Simple2DCharacterController : MonoBehaviour
                 }
                 break;
             case "EventTriggerOther":
-                DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(), "ShowButton"); //we willen dat de players hun input kunnen geven dus laten we in de webclient de knop zien
+                int Time = 0;         
                 progressBarManager.SetSliderMax(inputLib.ConnectedClients);
                 if (other.GetComponent<InputTrigger>() != null)
                 {
-                    var Time = other.GetComponent<InputTrigger>().CalculateTimeToEvent(speed);
+                    Time = other.GetComponent<InputTrigger>().CalculateTimeToEvent(speed);
                     DelegateManager.Instance.StartTimerDelegate?.Invoke(Time);
                 }
                 progressBarManager.ToggleSlider?.Invoke(); //voor visual feedback laten we ook een progress bar zien met de hoeveelheid mensen die in de lobby zitten
+                DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(), "ShowButton"); //we willen dat de players hun input kunnen geven dus laten we in de webclient de knop zien
                 break;
             case "EventTriggerPerformAction":
                 // DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(), "ShowButton");

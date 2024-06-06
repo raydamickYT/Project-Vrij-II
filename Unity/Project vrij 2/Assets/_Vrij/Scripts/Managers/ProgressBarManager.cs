@@ -27,6 +27,11 @@ public class ProgressBarManager : MonoBehaviour
     {
         DelegateManager.Instance.UpdateSliderDelegate += UpdateSliderProgress;
     }
+    // void OnDisable()
+    // {
+    //     slider.value = 0;
+    //     DelegateManager.Instance.UpdateSliderDelegate -= UpdateSliderProgress;
+    // }
 
     public void UpdateSliderProgress(float Inputs)
     {

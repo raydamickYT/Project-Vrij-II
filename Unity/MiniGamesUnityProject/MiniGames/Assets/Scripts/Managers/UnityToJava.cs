@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Text.RegularExpressions;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -22,10 +23,23 @@ public class UnityToJavaScript : MonoBehaviour
         Debug.Log("Bericht ontvangen van JavaScript: " + message);
         switch (message)
         {
-            case string a when a.Contains("ShowButton"): 
-            Debug.Log("ShowButton");
-            GameManager.Instance.sceneLoader.LoadRandomMinigame();
-            break;
+            case string a when a.Contains("ShowButton"):
+                Debug.Log("ShowButton");
+                // Zoek naar het getal achter "MiniGameTime:"
+                string pattern = @"MiniGameTime:\s*(\d+)";
+                Match match = Regex.Match(a, pattern);
+
+                if (match.Success)
+                {
+                    int miniGameTime = int.Parse(match.Groups[1].Value);
+                    Debug.Log("MiniGameTime: " + miniGameTime);
+
+                    // Verwerk de miniGameTime zoals nodig
+                    // Bijvoorbeeld:
+                    // GameManager.Instance.SetMiniGameTime(miniGameTime);
+                }
+                GameManager.Instance.OnStartButtonPressed();
+                break;
         }
         // Verwerk het bericht zoals nodig
     }
@@ -35,10 +49,10 @@ public class UnityToJavaScript : MonoBehaviour
     {
         string resultMessage = success ? "Mini-game voltooid!" : "Mini-game gefaald!";
         SendMessageToJavaScript(resultMessage, "PerformUnityAction");
-        GameManager.Instance.sceneLoader.LoadScenes("Assets/Scenes/WaitingScreen.unity");
+        // GameManager.Instance.sceneLoader.ShowScene("Assets/Scenes/WaitingScreen.unity");
         Debug.Log(resultMessage);
         Debug.Log("unload sample scene");
-        GameManager.Instance.sceneLoader.UnloadScenes(GameManager.Instance.sceneLoader.SelectedMiniGame);
+        // GameManager.Instance.sceneLoader.HideScene(GameManager.Instance.sceneLoader.SelectedMiniGame);
     }
 
     // Methode om aan te roepen bij een knopdruk

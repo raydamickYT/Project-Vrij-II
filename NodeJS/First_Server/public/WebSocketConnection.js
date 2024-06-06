@@ -42,9 +42,13 @@ function initializeWebSocket(onMessage, onOpen, onClose, onError) {
 //unity vind deze functie en stuurt hem een bericht
 function receiveMessageFromUnity(jsonMessage) {
     console.log('Bericht ontvangen van Unity:', jsonMessage);
+    var msg = JSON.parse(jsonMessage);
 
+    if(msg.type == "PerformUnityAction"){
+        console.log(msg)
     if (socket.readyState === WebSocket.OPEN) {
         socket.send(JSON.stringify({ type: 'PerformUnityAction', message: jsonMessage }));
+    }
     }
 }
 

@@ -1,5 +1,6 @@
 <linker>
   <assembly fullname="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <type fullname="Deactivatethisobject" preserve="all" />
     <type fullname="GameManager" preserve="all" />
     <type fullname="MiniGameManager" preserve="all" />
     <type fullname="SceneLoader" preserve="all" />
@@ -39,6 +40,7 @@
     <type fullname="UnityEngine.UI.CanvasScaler" preserve="all" />
     <type fullname="UnityEngine.UI.GraphicRaycaster" preserve="all" />
     <type fullname="UnityEngine.UI.Image" preserve="all" />
+    <type fullname="UnityEngine.UI.Slider" preserve="all" />
     <type fullname="UnityEngine.UI.Text" preserve="all" />
     <type fullname="UnityEngine.UI.AnimationTriggers" preserve="nothing" serialized="true" />
     <type fullname="UnityEngine.UI.Button/ButtonClickedEvent" preserve="nothing" serialized="true" />
@@ -46,6 +48,7 @@
     <type fullname="UnityEngine.UI.FontData" preserve="nothing" serialized="true" />
     <type fullname="UnityEngine.UI.MaskableGraphic/CullStateChangedEvent" preserve="nothing" serialized="true" />
     <type fullname="UnityEngine.UI.Navigation" preserve="nothing" serialized="true" />
+    <type fullname="UnityEngine.UI.Slider/SliderEvent" preserve="nothing" serialized="true" />
     <type fullname="UnityEngine.UI.SpriteState" preserve="nothing" serialized="true" />
   </assembly>
   <assembly fullname="UnityEngine.UIModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
