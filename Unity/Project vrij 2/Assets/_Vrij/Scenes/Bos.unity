@@ -3383,7 +3383,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4004548083151034745, guid: bc29e89890de19545ad24e7ec708c93e, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5426983557519558160, guid: bc29e89890de19545ad24e7ec708c93e, type: 3}
       propertyPath: m_VideoClip
@@ -7114,7 +7114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac506cb5114dafd4b932a9ec0c1505c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionTag: SpriteChange
+  collisionTag: Collided
   normalAnimation: Normal
   collidedAnimation: Collided
 --- !u!111 &1858612570
