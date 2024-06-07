@@ -5,12 +5,15 @@ public class TriggerChangePlayerAnimation : MonoBehaviour
     // The player GameObject
     public GameObject player;
 
-    // Animation state names
-    public string normalAnimation = "Normal";
-    public string collidedAnimation = "Collided";
+    // Animation clips
+    public AnimationClip normalAnimation;
+    public AnimationClip collidedAnimation;
 
     // Reference to the Animator component on the player
     private Animator playerAnimator;
+
+    // Animator override controller
+    private AnimatorOverrideController animatorOverrideController;
 
     // To track if the player's animation is currently in the collided state
     private static bool isCollided = false;
@@ -21,6 +24,13 @@ public class TriggerChangePlayerAnimation : MonoBehaviour
         {
             // Get the Animator component from the player GameObject
             playerAnimator = player.GetComponent<Animator>();
+
+            // Create an AnimatorOverrideController and assign it to the player's Animator
+            if (playerAnimator != null)
+            {
+                animatorOverrideController = new AnimatorOverrideController(playerAnimator.runtimeAnimatorController);
+                playerAnimator.runtimeAnimatorController = animatorOverrideController;
+            }
         }
     }
 
@@ -33,18 +43,24 @@ public class TriggerChangePlayerAnimation : MonoBehaviour
             isCollided = !isCollided;
 
             // Switch player's animation state
-            if (playerAnimator != null)
+            if (playerAnimator != null && animatorOverrideController != null)
             {
                 if (isCollided)
                 {
-                    playerAnimator.Play(collidedAnimation);
+                    animatorOverrideController["Normal"] = collidedAnimation;
+                    Debug.Log("IsCollided");
                 }
                 else
                 {
-                    playerAnimator.Play(normalAnimation);
+                    animatorOverrideController["Normal"] = normalAnimation;
+                    Debug.Log("IsNotCollided");
                 }
+
+                // Force the Animator to restart the state
+                playerAnimator.Play("Normal", 0, 0);
             }
+
+
         }
     }
 }
-
