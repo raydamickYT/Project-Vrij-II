@@ -1051,7 +1051,7 @@ MonoBehaviour:
   segments: {fileID: 1446948294}
   stopButton: {fileID: 954722686}
   scoreText: {fileID: 821347886}
-  speed: 10
+  speed: 5
 --- !u!4 &1859190511
 Transform:
   m_ObjectHideFlags: 0
@@ -1429,7 +1429,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2332314059454119409, guid: d40c26cf202ede34ab9ec734b3c0a03b, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2604567865416663893, guid: d40c26cf202ede34ab9ec734b3c0a03b, type: 3}
       propertyPath: m_IsActive

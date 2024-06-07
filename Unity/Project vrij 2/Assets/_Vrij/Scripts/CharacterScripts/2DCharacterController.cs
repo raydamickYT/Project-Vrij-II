@@ -64,7 +64,7 @@ public class Simple2DCharacterController : MonoBehaviour
             {
                 rb.constraints &= ~RigidbodyConstraints2D.FreezePositionX; //unfreeze
                 IsJumping = true;
-                
+
                 rb.AddForce(new Vector2(jumpForce, jumpForce * 1.6f));
             }
         }
@@ -106,7 +106,7 @@ public class Simple2DCharacterController : MonoBehaviour
                     Time = other.GetComponent<InputTrigger>().CalculateTimeToEvent(speed);
                     DelegateManager.Instance.StartTimerDelegate?.Invoke(Time);
                 }
-                progressBarManager.ToggleSlider?.Invoke(); //voor visual feedback laten we ook een progress bar zien met de hoeveelheid mensen die in de lobby zitten
+                progressBarManager.EnableSlider?.Invoke(); //voor visual feedback laten we ook een progress bar zien met de hoeveelheid mensen die in de lobby zitten
                 Debug.Log("Time: " + Time + "");
                 DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(), "ShowButton", Time); //we willen dat de players hun input kunnen geven dus laten we in de webclient de knop zien
                 Time = 10;
@@ -119,7 +119,7 @@ public class Simple2DCharacterController : MonoBehaviour
                     Time = other.GetComponent<InputTrigger>().CalculateTimeToEvent(speed);
                     DelegateManager.Instance.StartTimerDelegate?.Invoke(Time);
                 }
-                progressBarManager.ToggleSlider?.Invoke(); //voor visual feedback laten we ook een progress bar zien met de hoeveelheid mensen die in de lobby zitten
+                progressBarManager.EnableSlider?.Invoke(); //voor visual feedback laten we ook een progress bar zien met de hoeveelheid mensen die in de lobby zitten
                 Debug.Log("Time: " + Time + "");
                 DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(), "ShowButterFly", Time); //we willen dat de players hun input kunnen geven dus laten we in de webclient de knop zien
                 Time = 10; // reset time, incase of failure
@@ -131,7 +131,7 @@ public class Simple2DCharacterController : MonoBehaviour
                     Time = other.GetComponent<InputTrigger>().CalculateTimeToEvent(speed);
                     DelegateManager.Instance.StartTimerDelegate?.Invoke(Time);
                 }
-                progressBarManager.ToggleSlider?.Invoke(); //voor visual feedback laten we ook een progress bar zien met de hoeveelheid mensen die in de lobby zitten
+                progressBarManager.EnableSlider?.Invoke(); //voor visual feedback laten we ook een progress bar zien met de hoeveelheid mensen die in de lobby zitten
                 Debug.Log("Time: " + Time + "");
                 DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(), "ShowFire", Time); //we willen dat de players hun input kunnen geven dus laten we in de webclient de knop zien
                 Time = 10; // reset time in case of failure
@@ -141,7 +141,7 @@ public class Simple2DCharacterController : MonoBehaviour
                 ExecuteJump();
                 // Debug.Log("werkt");
                 // DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(), "ShowButton", 0); //we willen dat de players hun input kunnen geven dus laten we in de webclient de knop zien
-                progressBarManager.ToggleSlider?.Invoke();
+                progressBarManager.DisableSlider?.Invoke();
                 DelegateManager.Instance.WipeInputListDelegate?.Invoke(); //ff resetten
                 break;
             case "Fall":

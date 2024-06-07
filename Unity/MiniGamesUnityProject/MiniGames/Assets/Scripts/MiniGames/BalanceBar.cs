@@ -13,6 +13,7 @@ public class BalanceBar : MonoBehaviour
     public float TopBorder = 3.2f, bottomborder = 0;
     private int score = 0;
     private float timeAccumulator;
+    public float SuccesScore = 100;
 
     void Start()
     {
@@ -33,7 +34,7 @@ public class BalanceBar : MonoBehaviour
             MoveBar();
             checkPos();
         }
-        if (score > 100)
+        if (score > SuccesScore)
         {
             isGameOver = true;
             miniGameManager.OnMiniGameFinished();

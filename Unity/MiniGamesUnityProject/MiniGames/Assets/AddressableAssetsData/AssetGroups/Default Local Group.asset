@@ -50,8 +50,7 @@ MonoBehaviour:
   - m_GUID: 1d9764840e99ea44ca5cbea0134af1e0
     m_Address: Assets/Scenes/MiniGames/MiniGame3.unity
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - MiniGame
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: dfc1d12fff2be2f46992161b359c6938, type: 2}

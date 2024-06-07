@@ -91,7 +91,7 @@ public class WebSocketWorker : MonoBehaviour
                 switch (message.type)
                 {
                     case "count":
-                        ConnectedClients = message.count;
+                        ConnectedClients = message.count/2;
                         Debug.Log("Connected clients: " + message.count);
                         break;
                     case "PerformUnityAction":
