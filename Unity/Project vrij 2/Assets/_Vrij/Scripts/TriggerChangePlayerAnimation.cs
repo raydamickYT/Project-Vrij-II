@@ -9,6 +9,7 @@ public class TriggerChangePlayerAnimation : MonoBehaviour
 
     public AnimationClip collidedAnimation;
     public AnimationClip normalAnimation;
+    public Animation playerAnims;
 
     // Reference to the Animator component on the player
     private Animator playerAnimator;
@@ -17,52 +18,60 @@ public class TriggerChangePlayerAnimation : MonoBehaviour
     private AnimatorOverrideController animatorOverrideController;
 
     // To track if the player's animation is currently in the collided state
-    private static bool isCollided = false;
+    
 
     void Start()
     {
         if (player != null)
         {
+            playerAnims = player.GetComponent<Animation>();
+            Debug.Log("Player");
             // Get the Animator component from the player GameObject
             playerAnimator = player.GetComponent<Animator>();
 
             // Create an AnimatorOverrideController and assign it to the player's Animator
             if (playerAnimator != null)
             {
+                Debug.Log("PlayerAnima");
                 animatorOverrideController = new AnimatorOverrideController(playerAnimator.runtimeAnimatorController);
                 playerAnimator.runtimeAnimatorController = animatorOverrideController;
             }
         }
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerEnter2D(Collider2D collision)
     {
         // Check if the colliding object is the player
-        if (other.gameObject == player)
+        if (collision.gameObject == player)
         {
-            // Toggle the collided state
-           
+            playerAnims.clip = normalAnimation;
+
+            playerAnims.Play("Base Layer.Normal");
 
             // Switch player's animation state
-            if (playerAnimator != null && animatorOverrideController != null)
-            {
-                animatorOverrideController["Normal"] = collidedAnimation;
-                Debug.Log("IsCollided" + this.gameObject.name);
-                // Force the Animator to restart the state
-                playerAnimator.Play("Normal", 0, 0);
-               
-            }
+            //if (playerAnimator != null && animatorOverrideController != null)
+            //{
+            //    animatorOverrideController["Normal"] = collidedAnimation;
+            //    Debug.Log("IsCollided" + this.gameObject.name);
+            //    // Force the Animator to restart the state
+            //    playerAnimator.Play("Normal", 0, 0);
+
+            //}
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (playerAnimator != null && animatorOverrideController != null)
+        if (collision.gameObject == player)
         {
-            animatorOverrideController["Normal"] = normalAnimation;
-            Debug.Log("IsCollided" + this.gameObject.name);
-            // Force the Animator to restart the state
-            playerAnimator.Play("Normal", 0, 0);
-            Debug.Log("TriggerOnExit");
+
+            if (playerAnimator != null && animatorOverrideController != null)
+            {
+                animatorOverrideController["Normal"] = normalAnimation;
+                Debug.Log("IsCollided" + this.gameObject.name);
+                // Force the Animator to restart the state
+                //playerAnimator.Play("Normal", 0, 0);
+                Debug.Log("TriggerOnExit");
+            }
         }
     }
 }
