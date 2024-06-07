@@ -44,7 +44,7 @@ public class Simple2DCharacterController : MonoBehaviour
     private void FixedUpdate()
     {
         progressBarManager.UpdateSliderProgress(inputLib.InputAmount);
-        Debug.Log(IsJumping);
+        //Debug.Log(IsJumping);
     }
 
     private void ExecuteJump()
