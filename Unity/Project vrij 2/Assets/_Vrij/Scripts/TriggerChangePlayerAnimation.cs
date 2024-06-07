@@ -6,8 +6,9 @@ public class TriggerChangePlayerAnimation : MonoBehaviour
     public GameObject player;
 
     // Animation clips
-    public AnimationClip normalAnimation;
+
     public AnimationClip collidedAnimation;
+    public AnimationClip normalAnimation;
 
     // Reference to the Animator component on the player
     private Animator playerAnimator;
@@ -40,27 +41,28 @@ public class TriggerChangePlayerAnimation : MonoBehaviour
         if (other.gameObject == player)
         {
             // Toggle the collided state
-            isCollided = !isCollided;
+           
 
             // Switch player's animation state
             if (playerAnimator != null && animatorOverrideController != null)
             {
-                if (isCollided)
-                {
-                    animatorOverrideController["Normal"] = collidedAnimation;
-                    Debug.Log("IsCollided");
-                }
-                else
-                {
-                    animatorOverrideController["Normal"] = normalAnimation;
-                    Debug.Log("IsNotCollided");
-                }
-
+                animatorOverrideController["Normal"] = collidedAnimation;
+                Debug.Log("IsCollided" + this.gameObject.name);
                 // Force the Animator to restart the state
                 playerAnimator.Play("Normal", 0, 0);
+               
             }
-
-
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (playerAnimator != null && animatorOverrideController != null)
+        {
+            animatorOverrideController["Normal"] = normalAnimation;
+            Debug.Log("IsCollided" + this.gameObject.name);
+            // Force the Animator to restart the state
+            playerAnimator.Play("Normal", 0, 0);
+            Debug.Log("TriggerOnExit");
         }
     }
 }
