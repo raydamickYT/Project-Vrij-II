@@ -28,7 +28,7 @@ public class DelegateManager : MonoBehaviour
     }
     #endregion
 
-    public Action<Text, string> TextEventTriggerDetected;
+    public Action<Text, string, int> TextEventTriggerDetected;
     public Action<int> StartTimerDelegate;
     public Action<float> UpdateSliderDelegate;
     public Action ExecuteJumpDelegate;

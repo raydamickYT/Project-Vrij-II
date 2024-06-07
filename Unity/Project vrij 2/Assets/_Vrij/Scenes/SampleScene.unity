@@ -597,6 +597,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localText: {fileID: 1851973115}
+  TextTime: 10
 --- !u!1 &186733036
 GameObject:
   m_ObjectHideFlags: 0
@@ -1885,6 +1886,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a81efa2d524a944c9c8b8fe2826c2e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1141744549 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8832894184505725874, guid: 7d7d0495bbc6970459320c6f3f6dd3b5, type: 3}
+  m_PrefabInstance: {fileID: 1653771158}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1172623388
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2585,11 +2591,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1537637065 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2558974839345716640, guid: c06d0d76b8296bf44afd0b178e5ac5f9, type: 3}
-  m_PrefabInstance: {fileID: 4714122881520226356}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1593530953
 GameObject:
   m_ObjectHideFlags: 0
@@ -2732,7 +2733,7 @@ PrefabInstance:
     - target: {fileID: 4237033946479491484, guid: f33826ba54e845b4d98414880b2b1f5a, type: 3}
       propertyPath: EventTrigger
       value: 
-      objectReference: {fileID: 1537637065}
+      objectReference: {fileID: 1141744549}
     - target: {fileID: 5923644355249951903, guid: f33826ba54e845b4d98414880b2b1f5a, type: 3}
       propertyPath: m_Enabled
       value: 1

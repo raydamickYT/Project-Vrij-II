@@ -7,23 +7,6 @@ public class InputTrigger : MonoBehaviour
     public GameObject EventTrigger;
     public int Dist, DistTime;
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        // if (playerRigidbody != null && EventTrigger != null)
-        // {
-        //     Dist = CalculateDistance();
-        //     DistTime = CalculateTimeToEvent();
-        // }
-    }
-
     int CalculateDistance()
     {
         // Bereken de afstand tussen dit object en het EventTrigger object

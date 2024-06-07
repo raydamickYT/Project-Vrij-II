@@ -1,37 +1,112 @@
- using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MiniGameManager : MonoBehaviour
 {
     public static MiniGameManager instance;
+    public Button TestButton;
     [SerializeField]
-    private string currentScene = "replace this string";
+    private bool miniGameFinished;
+    public Slider slider; // Maak de slider publiek zodat deze in de Inspector kan worden ingesteld
+    public float gameDuration = 10f; // Duur van de minigame in seconden
 
-
-    void Awake()
+    void OnEnable()
     {
-        if (instance == null)
+        if (GameManager.Instance.unityToJava != null && GameManager.Instance.unityToJava.Count > 0)
         {
-            instance = this;
+            gameDuration = GameManager.Instance.unityToJava.Count;
         }
         else
         {
-            Destroy(this);
+            gameDuration = 10;
+        }
+        if (instance == null)
+        {
+            instance = this;
+            // DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Debug.LogWarning("Instance bestaat al");
+        }
+        if (slider == null)
+        {
+            slider = FindObjectOfType<Canvas>().GetComponentInChildren<Slider>();
+            slider.maxValue = gameDuration;
+            slider.value = gameDuration;
+        }
+        else
+        {
+            slider.maxValue = gameDuration;
+            slider.value = gameDuration;
+        }
+
+        StartCoroutine(TimeToFinishMiniGame());
+    }
+
+    void Awake()
+    {
+        if (TestButton != null)
+        {
+            TestButton.onClick.AddListener(OnMiniGameFinished2);
+        }
+        else
+        {
+            Debug.LogError("TestButton is not assigned");
+        }
+
+        if (slider == null)
+        {
+            Debug.LogError("Slider is not assigned");
         }
     }
 
+
     public void OnMiniGameFinished2()
     {
-        Debug.Log("h");
-        GameManager.Instance.sceneLoader.LoadScenes("Assets/Scenes/StartScreen.unity");
-        GameManager.Instance.sceneLoader.UnloadScenes("Assets/Scenes/MiniGames/" + currentScene + ".unity");
+        miniGameFinished = true;
+        GameEnded();
     }
 
-
-    void OnDestroy()
+    public void GameEnded()
     {
-        instance = null;
+        GameManager.Instance.sceneLoader.HideScene(SceneLoader.Instance.SelectedMiniGame);
+        GameManager.Instance.sceneLoader.ShowScene("WaitingScreen");
+        GameManager.Instance.MiniGameEnded(miniGameFinished);
+    }
+
+    private IEnumerator TimeToFinishMiniGame()
+    {
+        Debug.Log("Coroutinwerkt");
+        float timeRemaining = gameDuration;
+
+        while (timeRemaining > 0 && !miniGameFinished)
+        {
+            yield return new WaitForSeconds(1f);
+            timeRemaining -= 1f;
+
+            // Update de slider
+            if (slider != null)
+            {
+                slider.value = timeRemaining;
+            }
+        }
+
+        // Einde van de timer of minigame
+        if (!miniGameFinished)
+        {
+            GameEnded();
+        }
+    }
+
+    void OnDisable()
+    {
+        StopAllCoroutines();
+        miniGameFinished = false;
+        if (instance == this)
+        {
+            instance = null;
+        }
     }
 }

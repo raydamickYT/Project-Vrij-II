@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -9,6 +8,8 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
+    public static SceneLoader Instance { get; private set; }
+
     private List<string> allMinigames = new List<string>();
     private List<string> otherScenes = new List<string>();
     private List<string> unplayedMinigames;
@@ -17,14 +18,28 @@ public class SceneLoader : MonoBehaviour
     public string SelectedMiniGame;
     private Dictionary<string, AsyncOperationHandle<SceneInstance>> loadedScenes = new Dictionary<string, AsyncOperationHandle<SceneInstance>>();
 
-    private AsyncOperationHandle<SceneInstance> startScreenHandle;
-    private AsyncOperationHandle<SceneInstance> waitingScreenHandle;
+    public string CurrentScene;
+
+    private bool isQuitting = false;
 
     private void Awake()
     {
-        StartCoroutine(LoadAddresses("StartScreen"));
-        StartCoroutine(LoadAddresses("WaitingScreen"));
-        StartCoroutine(LoadMinigameAddresses());
+        if (Instance == null)
+        {
+            Instance = this;
+            StartCoroutine(LoadAddresses("StartScreen"));
+            StartCoroutine(LoadAddresses("WaitingScreen"));
+            StartCoroutine(LoadMinigameAddresses());
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnApplicationQuit()
+    {
+        isQuitting = true;
     }
 
     private IEnumerator LoadAddresses(string label)
@@ -93,30 +108,23 @@ public class SceneLoader : MonoBehaviour
         playedMinigames.Add(SelectedMiniGame);
     }
 
-    private IEnumerator LoadSceneAsync(string address)
+    private IEnumerator LoadSceneAsync(string address, System.Action onSceneLoaded = null)
     {
-        if (loadedScenes.ContainsKey(address))
+        if (loadedScenes.ContainsKey(address) && loadedScenes[address].IsValid())
         {
-            Debug.LogWarning($"Scene {address} is already loaded.");
+            Debug.LogWarning($"Scene {address} is already loaded and handle is valid.");
             yield break;
         }
 
-        AsyncOperationHandle<SceneInstance> handle = Addressables.LoadSceneAsync(address, LoadSceneMode.Additive);
+        var handle = Addressables.LoadSceneAsync(address, LoadSceneMode.Additive);
         yield return handle;
 
         if (handle.Status == AsyncOperationStatus.Succeeded)
         {
             Debug.Log($"Scene {address} loaded successfully.");
             loadedScenes[address] = handle;
-
-            if (address.Equals("Assets/Scenes/StartScreen.unity"))
-            {
-                startScreenHandle = handle;
-            }
-            else if (address.Equals("Assets/Scenes/WaitingScreen.unity"))
-            {
-                waitingScreenHandle = handle;
-            }
+            CurrentScene = address;
+            onSceneLoaded?.Invoke();
         }
         else
         {
@@ -124,48 +132,36 @@ public class SceneLoader : MonoBehaviour
         }
     }
 
+
     private IEnumerator UnloadSceneAsync(string address)
     {
-        if (!loadedScenes.ContainsKey(address))
+        if (!loadedScenes.ContainsKey(address) || !loadedScenes[address].IsValid())
         {
-            Debug.LogWarning($"Scene {address} is not loaded.");
-            yield break;
-        }
-
-        AsyncOperationHandle<SceneInstance> handle = loadedScenes[address];
-
-        // Controleer of de handle geldig is voordat je de scène ontlaadt
-        if (!handle.IsValid())
-        {
-            Debug.LogError($"Handle for scene {address} is not valid before unloading.");
+            Debug.LogWarning($"Scene {address} is not loaded or handle is invalid.");
             yield break;
         }
 
         Debug.Log($"Handle for scene {address} is valid. Starting to unload...");
 
-        // Gebruik SceneManager om de scène te ontladen
-        AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync(handle.Result.Scene);
+        AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync(loadedScenes[address].Result.Scene);
         yield return unloadOperation;
 
-        // Controleer de status van de ontlaadoperatie
         if (unloadOperation.isDone)
         {
             Debug.Log($"Scene {address} unloaded successfully.");
 
-            // Kleine vertraging toevoegen om ervoor te zorgen dat de scène volledig is ontladen
             yield return new WaitForSeconds(0.5f);
 
-            // Manueel vrijgeven van de handle, maar alleen als het nog steeds geldig is en geen StartScreen of WaitingScreen is
-            bool keepHandle = address.Equals("Assets/Scenes/WaitingScreen.unity") || address.Equals("Assets/Scenes/StartScreen.unity");
-            if (!keepHandle && handle.IsValid())
+            if (loadedScenes[address].IsValid())
             {
-                Debug.Log("handle released");
-                Addressables.Release(handle);
+                Addressables.Release(loadedScenes[address]);
                 loadedScenes.Remove(address);
             }
-            else if (keepHandle)
+
+            // Clear the current scene if it was the one being unloaded
+            if (CurrentScene == address)
             {
-                Debug.LogWarning($"Handle for scene {address} is being kept and not released.");
+                // CurrentScene = null;
             }
         }
         else
@@ -174,29 +170,81 @@ public class SceneLoader : MonoBehaviour
         }
     }
 
-    public void LoadScenes(string address)
+    public void LoadScenes(string address, System.Action onSceneLoaded = null)
     {
-        if (!loadedScenes.ContainsKey(address))
+        if (!isQuitting && gameObject.activeInHierarchy)
         {
-            Debug.Log($"Attempting to load scene {address}.");
-            StartCoroutine(LoadSceneAsync(address));
+            StartCoroutine(LoadSceneAsync(address, onSceneLoaded));
         }
         else
         {
-            Debug.LogWarning($"Scene {address} is already loaded.");
+            Debug.LogError($"Cannot start coroutine because {gameObject.name} is inactive or application is quitting!");
         }
     }
 
+
     public void UnloadScenes(string address)
     {
-        if (loadedScenes.ContainsKey(address))
+        if (!isQuitting && gameObject.activeInHierarchy)
         {
-            Debug.Log($"Attempting to unload scene {address}.");
             StartCoroutine(UnloadSceneAsync(address));
         }
         else
         {
-            Debug.LogWarning($"Cannot unload scene {address} because it is not loaded.");
+            Debug.LogError($"Cannot start coroutine because {gameObject.name} is inactive or application is quitting!");
+        }
+    }
+
+    public void HideScene(string address)
+    {
+        if (loadedScenes.ContainsKey(address) && loadedScenes[address].IsValid())
+        {
+            Scene scene = loadedScenes[address].Result.Scene;
+            foreach (GameObject obj in scene.GetRootGameObjects())
+            {
+                obj.SetActive(false);
+            }
+            Debug.Log($"Scene {address} is now hidden.");
+        }
+        else
+        {
+            Debug.LogWarning($"Scene {address} is not loaded or handle is invalid.");
+        }
+    }
+
+    public void ShowScene(string address)
+    {
+        if (loadedScenes.ContainsKey(address) && loadedScenes[address].IsValid())
+        {
+            Scene scene = loadedScenes[address].Result.Scene;
+            foreach (GameObject obj in scene.GetRootGameObjects())
+            {
+                obj.SetActive(true);
+            }
+            CurrentScene = address;
+            Debug.Log($"Scene {address} is now visible.");
+        }
+        else
+        {
+            Debug.LogWarning($"Scene {address} is not loaded or handle is invalid.");
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+            // StartCoroutine(UnloadAllScenes());
+        }
+    }
+
+    private IEnumerator UnloadAllScenes()
+    {
+        List<string> keys = new List<string>(loadedScenes.Keys);
+        foreach (string address in keys)
+        {
+            yield return UnloadSceneAsync(address);
         }
     }
 }
