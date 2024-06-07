@@ -2746,6 +2746,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8832894184505725874, guid: f33826ba54e845b4d98414880b2b1f5a, type: 3}
+      propertyPath: m_TagString
+      value: EventTriggerButterfly
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3826,10 +3830,10 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1687443118}
-  - {fileID: 1371727044}
   - {fileID: 356941350}
   - {fileID: 519420032}
   - {fileID: 786646311}
+  - {fileID: 1371727044}
   - {fileID: 1523300043}
   - {fileID: 10553364}
   - {fileID: 382101620}

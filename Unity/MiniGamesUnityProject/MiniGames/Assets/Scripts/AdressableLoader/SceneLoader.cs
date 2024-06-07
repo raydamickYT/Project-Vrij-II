@@ -14,6 +14,10 @@ public class SceneLoader : MonoBehaviour
     private List<string> otherScenes = new List<string>();
     private List<string> unplayedMinigames;
     private List<string> playedMinigames = new List<string>();
+
+    [HideInInspector]
+    public string ButterflyGame = "Assets/Scenes/MiniGames/MiniGame3.unity";
+    
     [HideInInspector]
     public string SelectedMiniGame;
     private Dictionary<string, AsyncOperationHandle<SceneInstance>> loadedScenes = new Dictionary<string, AsyncOperationHandle<SceneInstance>>();

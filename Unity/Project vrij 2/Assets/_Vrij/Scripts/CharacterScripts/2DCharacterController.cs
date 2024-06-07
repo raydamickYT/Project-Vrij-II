@@ -19,8 +19,6 @@ public class Simple2DCharacterController : MonoBehaviour
     private Vector3 previousPosition;
     private float speed;
 
-
-
     void Start()
     {
         respawnPoints = GameObject.FindGameObjectsWithTag("RespawnPoint");
@@ -58,7 +56,7 @@ public class Simple2DCharacterController : MonoBehaviour
             rb.constraints &= ~RigidbodyConstraints2D.FreezePositionX; //unfreeze
             IsJumping = true;
 
-            rb.AddForce(new Vector2(jumpForce, jumpForce*1.6f));
+            rb.AddForce(new Vector2(jumpForce, jumpForce * 1.6f));
         }
         else
         {
@@ -79,10 +77,6 @@ public class Simple2DCharacterController : MonoBehaviour
             GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
             IsJumping = false;
         }
-        if (collision.collider.CompareTag("Fall"))
-        {
-            // StartCoroutine(PullPlayerUp());
-        }
     }
 
     void OnCollisionExit2D(Collision2D collision)
@@ -95,6 +89,7 @@ public class Simple2DCharacterController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        int Time = 10;
         switch (other.tag)
         {
             case "EventTriggerText":
@@ -104,7 +99,6 @@ public class Simple2DCharacterController : MonoBehaviour
                 }
                 break;
             case "EventTriggerOther":
-                int Time = 0;         
                 progressBarManager.SetSliderMax(inputLib.ConnectedClients);
                 if (other.GetComponent<InputTrigger>() != null)
                 {
@@ -114,12 +108,38 @@ public class Simple2DCharacterController : MonoBehaviour
                 progressBarManager.ToggleSlider?.Invoke(); //voor visual feedback laten we ook een progress bar zien met de hoeveelheid mensen die in de lobby zitten
                 Debug.Log("Time: " + Time + "");
                 DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(), "ShowButton", Time); //we willen dat de players hun input kunnen geven dus laten we in de webclient de knop zien
+                Time = 10;
+                break;
+
+            case "EventTriggerButterfly":
+                progressBarManager.SetSliderMax(inputLib.ConnectedClients);
+                if (other.GetComponent<InputTrigger>() != null)
+                {
+                    Time = other.GetComponent<InputTrigger>().CalculateTimeToEvent(speed);
+                    DelegateManager.Instance.StartTimerDelegate?.Invoke(Time);
+                }
+                progressBarManager.ToggleSlider?.Invoke(); //voor visual feedback laten we ook een progress bar zien met de hoeveelheid mensen die in de lobby zitten
+                Debug.Log("Time: " + Time + "");
+                DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(), "ShowButterFly", Time); //we willen dat de players hun input kunnen geven dus laten we in de webclient de knop zien
+                Time = 10; // reset time, incase of failure
+                break;
+            case "EventTriggerFire":
+                progressBarManager.SetSliderMax(inputLib.ConnectedClients);
+                if (other.GetComponent<InputTrigger>() != null)
+                {
+                    Time = other.GetComponent<InputTrigger>().CalculateTimeToEvent(speed);
+                    DelegateManager.Instance.StartTimerDelegate?.Invoke(Time);
+                }
+                progressBarManager.ToggleSlider?.Invoke(); //voor visual feedback laten we ook een progress bar zien met de hoeveelheid mensen die in de lobby zitten
+                Debug.Log("Time: " + Time + "");
+                DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(), "ShowFire", Time); //we willen dat de players hun input kunnen geven dus laten we in de webclient de knop zien
+                Time = 10; // reset time in case of failure
                 break;
             case "EventTriggerPerformAction":
                 // DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(), "ShowButton");
                 ExecuteJump();
-                Debug.Log("werkt");
-                DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(), "ShowButton", 0); //we willen dat de players hun input kunnen geven dus laten we in de webclient de knop zien
+                // Debug.Log("werkt");
+                // DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(), "ShowButton", 0); //we willen dat de players hun input kunnen geven dus laten we in de webclient de knop zien
                 progressBarManager.ToggleSlider?.Invoke();
                 DelegateManager.Instance.WipeInputListDelegate?.Invoke(); //ff resetten
                 break;
