@@ -14,14 +14,9 @@ server.on('connection', (clientSocket) => {
 
     // Stuur berichten van de client naar de doelserver
     clientSocket.on('message', (message) => {
-        console.log('Received message from client:', message.toString());
+        console.log('Received message from client:', message);
         if (targetSocket.readyState === WebSocket.OPEN) {
-            try {
-                const jsonMessage = JSON.parse(message);
-                targetSocket.send(JSON.stringify({ type: 'PerformUnityAction', message: jsonMessage }));
-            } catch (error) {
-                console.error('Error parsing client message:', error);
-            }
+            targetSocket.send(message);
         }
     });
 
@@ -29,14 +24,11 @@ server.on('connection', (clientSocket) => {
     targetSocket.on('message', (message) => {
         console.log('Received message from target server:', message.toString());
         if (clientSocket.readyState === WebSocket.OPEN) {
-            try {
-                const jsonMessage = JSON.parse(message);
-                clientSocket.send(JSON.stringify({ type: 'PerformUnityAction', message: jsonMessage }));
-            } catch (error) {
-                console.error('Error parsing target server message:', error);
-            }
+            var temp = JSON.parse(message)
+            clientSocket.send(JSON.stringify(temp));
         }
     });
+    
 
     // Behandel sluiting van de verbindingen
     clientSocket.on('close', () => {
