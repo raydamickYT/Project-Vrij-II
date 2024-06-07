@@ -2010,7 +2010,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6121393643170117170, guid: 703620ea3afacea4fa4df8a9826dfb8e, type: 3}
       propertyPath: Url
-      value: ws://localhost:3000/unity
+      value: ws://localhost:3000
       objectReference: {fileID: 0}
     - target: {fileID: 7344439403011785357, guid: 703620ea3afacea4fa4df8a9826dfb8e, type: 3}
       propertyPath: m_LocalPosition.x

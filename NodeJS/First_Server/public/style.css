@@ -1,6 +1,26 @@
 .hidden {
     display: none;
 }
+@font-face { 
+    font-family: 'Futura Book';
+    src: url(Fonts/FuturaBookRegular.otf);
+
+    font-family: Final Fantasy; 
+    src: url('https://www.mediafont.com/storage/contents/9961/font.eot');  /*IEI*/
+    src: local('Final Fantasy'), 
+    url('https://www.mediafont.com/storage/contents/9961/finalf.ttf'); /* non-IE */ }
+    
+h1 .highlight{
+    font-family: Futura Book; /* Specifiek lettertype voor het woord 'welkom' */
+    font-weight: 900;
+    color: #096d15; /* Specifieke kleur voor het woord */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Slagschaduw voor het woord 'welkom' */
+    text-size-adjust: 50;
+}
+h1{
+    font-family:fantasy;
+    font-weight: normal;
+}
 
 /* Voeg extra stijlen toe voor je knoppen */
 button {
@@ -8,7 +28,7 @@ button {
     margin: 10px;
     font-size: 16px;
     border: none;
-    border-radius: 5px;
+    border-radius: 50px;
     cursor: pointer;
 }
 
@@ -77,8 +97,16 @@ button:hover {
 /* Stijlen specifiek voor schermen kleiner dan 600 pixels breed */
 @media (max-width: 600px) {
     body {
+        background-image: url('Assets/background_wide.png'); /* Achtergrondafbeelding */
+        background-size: 100%;
+        background-size: cover; /* Zorg dat de afbeelding de hele achtergrond bedekt */
+        /* background-position: center; Centreer de afbeelding */
+        background-position-y: 25%;
+        background-repeat: no-repeat; /* Voorkom dat de afbeelding herhaald wordt */
         background-color: #f0f0f0;
+        
         font-size: 14px;
+        text-align: center;
     }
 
     button {
@@ -92,10 +120,16 @@ button:hover {
     }
 }
 
-/* Stijlen specifiek voor schermen tussen 600 en 1200 pixels breed */
-@media (min-width: 601px) and (max-width: 1200px) {
+/* Stijlen specifiek voor schermen tussen 600 en 2100 pixels breed */
+@media (min-width: 601px) and (max-width: 2100px) {
     body {
+        background-image: url('Assets/background_wide.png'); /* Achtergrondafbeelding */
+        background-size: cover; /* Zorg dat de afbeelding de hele achtergrond bedekt */
+        /* background-position: center; Centreer de afbeelding */
+        background-position-y: 25%;
+        background-repeat: no-repeat; /* Voorkom dat de afbeelding herhaald wordt */
         background-color: #e0e0e0;
+        text-align: center;
     }
 
     button {
@@ -107,6 +141,17 @@ button:hover {
 /* Stijlen voor schermen in portretmodus */
 @media (orientation: portrait) {
     body {
-        color: blue;
+        padding-top: 20%;
+        padding-right: 10%;
+        padding-left: 10%;
+        background-color: #E0E0E0;
+        color: rgb(0, 0, 0);
+        text-align: center;
+        background-image: url('Assets/Achtergrond.png'); /* Achtergrondafbeelding */
+        background-size: cover; /* Zorg dat de afbeelding de hele achtergrond bedekt */
+        /* background-position: center; Centreer de afbeelding */
+        background-position-y: 25%;
+        background-repeat: no-repeat; /* Voorkom dat de afbeelding herhaald wordt */
+        /* background-size: 130%; */
     }
 }
