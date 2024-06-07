@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", function() {
     initializeWebSocket(
         handleWebSocketMessage,
+        onOpen,
+        onClose,
         null, // Geen specifieke actie nodig bij het openen van de verbinding
         () => console.log('Verbinding gesloten'), // Log de sluiting van de verbinding
         (error) => console.error('WebSocket fout:', error),
@@ -11,6 +13,16 @@ document.addEventListener("DOMContentLoaded", function() {
         JoinLobby();
     }, 1000); // 1000 milliseconden = 1 seconde
 });
+
+function onOpen() {
+    console.log('Verbinding geopend');
+    hideReconnectWidget();
+}
+
+function onClose() {
+    console.log('Verbinding gesloten');
+    showReconnectWidget();
+}
 
 //function for sending messages to unity
 function sendMessageToUnity(message) {
@@ -24,7 +36,7 @@ function sendMessageToUnity(message) {
 // Unity WebGL Loader 
 function Unity() {
     var buildUrl = "/UnityBuild"; // Update the path to match your server setup
-    var version = "v15"; // Update the version as needed
+    var version = "16"; // Update the version as needed
     var loaderUrl = buildUrl + "/Build/Build_" + version + ".loader.js";
     var config = {
         dataUrl: buildUrl + "/Build/Build_" + version + ".data",
