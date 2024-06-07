@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class MiniGameManager : MonoBehaviour
 {
-    public static MiniGameManager instance;
     public Button TestButton;
     [SerializeField]
     private bool miniGameFinished;
@@ -13,23 +12,22 @@ public class MiniGameManager : MonoBehaviour
 
     void OnEnable()
     {
-        if (GameManager.Instance.unityToJava != null && GameManager.Instance.unityToJava.Count > 0)
+        if (GameManager.Instance != null)
         {
-            gameDuration = GameManager.Instance.unityToJava.Count;
+            if (GameManager.Instance.unityToJava != null && GameManager.Instance.unityToJava.Count > 0)
+            {
+                gameDuration = GameManager.Instance.unityToJava.Count;
+            }
+            else
+            {
+                gameDuration = 10;
+            }
         }
         else
         {
             gameDuration = 10;
         }
-        if (instance == null)
-        {
-            instance = this;
-            // DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Debug.LogWarning("Instance bestaat al");
-        }
+
         if (slider == null)
         {
             slider = FindObjectOfType<Canvas>().GetComponentInChildren<Slider>();
@@ -49,11 +47,7 @@ public class MiniGameManager : MonoBehaviour
     {
         if (TestButton != null)
         {
-            TestButton.onClick.AddListener(OnMiniGameFinished2);
-        }
-        else
-        {
-            Debug.LogError("TestButton is not assigned");
+            TestButton.onClick.AddListener(OnMiniGameFinished);
         }
 
         if (slider == null)
@@ -63,7 +57,7 @@ public class MiniGameManager : MonoBehaviour
     }
 
 
-    public void OnMiniGameFinished2()
+    public void OnMiniGameFinished()
     {
         miniGameFinished = true;
         GameEnded();
@@ -71,8 +65,6 @@ public class MiniGameManager : MonoBehaviour
 
     public void GameEnded()
     {
-        GameManager.Instance.sceneLoader.HideScene(SceneLoader.Instance.SelectedMiniGame);
-        GameManager.Instance.sceneLoader.ShowScene("WaitingScreen");
         GameManager.Instance.MiniGameEnded(miniGameFinished);
     }
 
@@ -104,9 +96,5 @@ public class MiniGameManager : MonoBehaviour
     {
         StopAllCoroutines();
         miniGameFinished = false;
-        if (instance == this)
-        {
-            instance = null;
-        }
     }
 }

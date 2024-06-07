@@ -54,9 +54,9 @@ function receiveMessageFromUnity(jsonMessage) {
 
 
 function handleWebSocketMessage(message) {
-    var test = JSON.parse(message)
-    console.log('Bericht ontvangen2 :', test);
-    if (test.type === "ShowButton") {
+    var ParsedMsg = JSON.parse(message)
+    console.log('Bericht ontvangen2 :', ParsedMsg);
+    if (ParsedMsg.type && ParsedMsg.type.includes("Show")) {
     console.log('tot hier gekomen');
         sendMessageToUnity(message);
     }

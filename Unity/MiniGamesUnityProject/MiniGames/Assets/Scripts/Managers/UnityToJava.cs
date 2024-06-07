@@ -23,61 +23,92 @@ public class UnityToJavaScript : MonoBehaviour
     // Deze methode wordt aangeroepen door JavaScript
     public void ReceiveMessageFromJavaScript(string message)
     {
-        Debug.Log("Bericht ontvangen van JavaScript: " + message);
-        if (message.Contains("ShowButton"))
-        {
-            Debug.Log("showbutton");
-            if (message.Contains("count"))
-            {
-                Debug.Log("Count");
-                // Zoek naar het getal achter "count"
-                string pattern = @"count"":\s*(\d+)";
-                Match match = Regex.Match(message, pattern);
-
-                if (match.Success)
-                {
-                    Count = int.Parse(match.Groups[1].Value);
-                    Debug.Log("Extracted count value: " + Count);
-                    GameManager.Instance.OnStartButtonPressed();
-
-                    // Verwerk de countValue zoals nodig
-                    // Bijvoorbeeld:
-                    // GameManager.Instance.SetCountValue(countValue);
-                }
-                else
-                {
-                    Debug.LogError("Kon het getal achter 'count' niet vinden.");
-                }
-            }
-        }
-        // var unityMessage = JsonUtility.FromJson<UnityMessage>(message.data);
-        // Debug.Log("parsed message " + unityMessage);
-        // if (unityMessage != null && unityMessage.type == "ShowButton")
+        // Debug.Log("Bericht ontvangen van JavaScript: " + message);
+        // if (message.Contains("ShowButton"))
         // {
-        //     int miniGameTime = unityMessage.count;
-        //     Debug.Log("MiniGameTime: " + miniGameTime);
-        //     GameManager.Instance.OnStartButtonPressed();
-        // }
-        // switch (message)
-        // {
-        //     case string a when a.Contains("ShowButton"):
-        //         // Zoek naar het getal achter "MiniGameTime:"
-        //         string pattern = @"Count:\s*(\d+)";
-        //         Match match = Regex.Match(a, pattern);
+        //     Debug.Log("showbutton");
+        //     if (message.Contains("count"))
+        //     {
+        //         Debug.Log("Count");
+        //         // Zoek naar het getal achter "count"
+        //         string pattern = @"count"":\s*(\d+)";
+        //         Match match = Regex.Match(message, pattern);
 
         //         if (match.Success)
         //         {
-        //             int miniGameTime = int.Parse(match.Groups[1].Value);
-        //             Debug.Log("MiniGameTime: " + miniGameTime);
+        //             Count = int.Parse(match.Groups[1].Value);
+        //             Debug.Log("Extracted count value: " + Count);
+        //             GameManager.Instance.OnStartButtonPressed();
 
-        //             // Verwerk de miniGameTime zoals nodig
+        //             // Verwerk de countValue zoals nodig
         //             // Bijvoorbeeld:
-        //             // GameManager.Instance.SetMiniGameTime(miniGameTime);
+        //             // GameManager.Instance.SetCountValue(countValue);
         //         }
-        //         break;
+        //         else
+        //         {
+        //             Debug.LogError("Kon het getal achter 'count' niet vinden.");
+        //         }
+        //     }
         // }
+        // else if (message.Contains("ShowButterFly"))
+        // {
+        //     Debug.Log("showButton");
+        //     if (message.Contains("count"))
+        //     {
+        //         Debug.Log("Count");
+        //         // Zoek naar het getal achter "count"
+        //         string pattern = @"count"":\s*(\d+)";
+        //         Match match = Regex.Match(message, pattern);
 
-        // Verwerk het bericht zoals nodig
+        //         if (match.Success)
+        //         {
+        //             Count = int.Parse(match.Groups[1].Value);
+        //             Debug.Log("Extracted count value: " + Count);
+        //             GameManager.Instance.sceneLoader.LoadScenes(GameManager.Instance.sceneLoader.ButterflyGame);
+
+        //             // Verwerk de countValue zoals nodig
+        //             // Bijvoorbeeld:
+        //             // GameManager.Instance.SetCountValue(countValue);
+        //         }
+        //         else
+        //         {
+        //             Debug.LogError("Kon het getal achter 'count' niet vinden.");
+        //         }
+        //     }
+        // }
+        switch (message)
+        {
+            case string a when a.Contains("ShowButton"):
+                Debug.Log("showbutton");
+                HandleCount(message, () => GameManager.Instance.OnStartButtonPressed());
+                break;
+
+            case string b when b.Contains("ShowButterFly"):
+                Debug.Log("showButterfly");
+                HandleCount(message, () => GameManager.Instance.ShowButterFlyGame());
+                break;
+        }
+    }
+
+    void HandleCount(string message, Action onSuccess)
+    {
+        if (message.Contains("count"))
+        {
+            Debug.Log("Count");
+            string pattern = @"count"":\s*(\d+)";
+            Match match = Regex.Match(message, pattern);
+
+            if (match.Success)
+            {
+                Count = int.Parse(match.Groups[1].Value);
+                Debug.Log("Extracted count value: " + Count);
+            }
+            else
+            {
+                Debug.LogError("Kon het getal achter 'count' niet vinden.");
+            }
+            onSuccess?.Invoke();
+        }
     }
 
     // Voorbeeld functie die wordt aangeroepen wanneer een mini-game is voltooid

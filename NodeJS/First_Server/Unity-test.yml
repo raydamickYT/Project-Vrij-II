@@ -1,0 +1,23 @@
+config:
+  target: "wss://project-vrij-ii.onrender.com/ws"
+  phases:
+    - duration: 60
+      arrivalRate: 20
+scenarios:
+  - engine: "ws"
+    flow:
+      - function: "joinLobby"
+      - log: "Sent join lobby message"
+      - think: 1 # Wait for 1 second before sending the next message
+      - function: "sendMessageToUnity"
+      - log: "Sent message to Unity"
+
+functions:
+  joinLobby:
+    - script: |
+        socket.emit('message', JSON.stringify({ lobbyStatus: 'inLobby', message: 'Deze client is gemarkeerd als: zit in de lobby' }));
+
+  sendMessageToUnity:
+    - script: |
+        socket.emit('message', JSON.stringify({ message: 'Test message to Unity' }));
+        

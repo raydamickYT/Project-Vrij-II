@@ -1,5 +1,8 @@
 <linker>
   <assembly fullname="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <type fullname="BalanceBar" preserve="all" />
+    <type fullname="BarMover" preserve="all" />
+    <type fullname="BarMoverGame" preserve="all" />
     <type fullname="Deactivatethisobject" preserve="all" />
     <type fullname="GameManager" preserve="all" />
     <type fullname="MiniGameManager" preserve="all" />

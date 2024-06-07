@@ -27,6 +27,10 @@ public class GameManager : MonoBehaviour
             {
                 sceneLoader.HideScene("WaitingScreen");
             });
+            sceneLoader.LoadScenes(sceneLoader.ButterflyGame, () =>
+            {
+                sceneLoader.HideScene(sceneLoader.ButterflyGame);
+            });
             sceneLoader.LoadScenes("StartScreen");
         }
         if (Instance == null)
@@ -37,23 +41,21 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        // if (Input.GetKeyDown(KeyCode.Escape))
-        // {
-        //     //start een minigame
-        //     sceneLoader.LoadRandomMinigame();
-        // }
-        // if (Input.GetKeyDown(KeyCode.W))
-        // {
-        //     sceneLoader.HideScene("StartScreen");
-        // }
-        // else if (Input.GetKeyDown(KeyCode.E))
-        // {
-        //     sceneLoader.ShowScene("StartScreen");
-        // }
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            ShowButterFlyGame();
+        }
+        else if (Input.GetKeyDown(KeyCode.E))
+        {
+            sceneLoader.ShowScene(sceneLoader.ButterflyGame);
+        }
     }
     public void MiniGameEnded(bool Succeeded)
     {
         unityToJava.OnMiniGameComplete(Succeeded);
+        sceneLoader.HideScene(sceneLoader.SelectedMiniGame);
+        Debug.Log(sceneLoader.SelectedMiniGame);
+        sceneLoader.ShowScene("WaitingScreen");
     }
 
     public void OnStartButtonPressed()
@@ -62,6 +64,14 @@ public class GameManager : MonoBehaviour
         sceneLoader.HideScene(sceneLoader.CurrentScene);
         sceneLoader.LoadRandomMinigame();
         sceneLoader.ShowScene(sceneLoader.SelectedMiniGame);
+    }
+
+    public void ShowButterFlyGame()
+    {
+        // Unload the start screen and load a random minigame
+        sceneLoader.HideScene(sceneLoader.CurrentScene);
+        sceneLoader.ShowScene(sceneLoader.ButterflyGame);
+        sceneLoader.SelectedMiniGame = SceneLoader.Instance.ButterflyGame;
     }
 
     public void OnButtonPressed(string currentScene, string nextScene)
