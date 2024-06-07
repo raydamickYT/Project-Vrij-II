@@ -24,7 +24,7 @@ function sendMessageToUnity(message) {
 // Unity WebGL Loader 
 function Unity() {
     var buildUrl = "/UnityBuild"; // Update the path to match your server setup
-    var version = "v11"; // Update the version as needed
+    var version = "v13"; // Update the version as needed
     var loaderUrl = buildUrl + "/Build/Build_" + version + ".loader.js";
     var config = {
         dataUrl: buildUrl + "/Build/Build_" + version + ".data",
