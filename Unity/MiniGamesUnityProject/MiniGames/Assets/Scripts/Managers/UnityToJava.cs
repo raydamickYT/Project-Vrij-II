@@ -115,7 +115,10 @@ public class UnityToJavaScript : MonoBehaviour
     public void OnMiniGameComplete(bool success)
     {
         string resultMessage = success ? "Mini-game voltooid!" : "Mini-game gefaald!";
-        SendMessageToJavaScript(resultMessage, "PerformUnityAction");
+        if (success)
+        {
+            SendMessageToJavaScript(resultMessage, "PerformUnityAction");
+        }
         // GameManager.Instance.sceneLoader.ShowScene("Assets/Scenes/WaitingScreen.unity");
         Debug.Log(resultMessage);
         Debug.Log("unload sample scene");

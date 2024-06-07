@@ -62,9 +62,10 @@ public class Simple2DCharacterController : MonoBehaviour
         {
             if (InputSize > (inputLib.ConnectedClients * SuccessGrens))
             {
-                IsJumping = true;
                 rb.constraints &= ~RigidbodyConstraints2D.FreezePositionX; //unfreeze
-                rb.AddForce(new Vector2(0f, jumpForce));
+                IsJumping = true;
+                
+                rb.AddForce(new Vector2(jumpForce, jumpForce * 1.6f));
             }
         }
     }
