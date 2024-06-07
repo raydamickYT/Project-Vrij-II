@@ -1,6 +1,6 @@
 const WebSocket = require('ws');
 
-// Luister op poort 8080 voor inkomende WebSocket-verbindingen
+// Luister op poort 3000 voor inkomende WebSocket-verbindingen
 const server = new WebSocket.Server({ port: 3000 });
 
 // Doel WebSocket-server om naar door te sturen
@@ -14,17 +14,27 @@ server.on('connection', (clientSocket) => {
 
     // Stuur berichten van de client naar de doelserver
     clientSocket.on('message', (message) => {
-        console.log('Received message from client:', message);
+        console.log('Received message from client:', message.toString());
         if (targetSocket.readyState === WebSocket.OPEN) {
-            targetSocket.send(message);
+            try {
+                const jsonMessage = JSON.parse(message);
+                targetSocket.send(JSON.stringify({ type: 'PerformUnityAction', message: jsonMessage }));
+            } catch (error) {
+                console.error('Error parsing client message:', error);
+            }
         }
     });
 
     // Stuur berichten van de doelserver naar de client
     targetSocket.on('message', (message) => {
-        console.log('Received message from target server:', message);
+        console.log('Received message from target server:', message.toString());
         if (clientSocket.readyState === WebSocket.OPEN) {
-            clientSocket.send(message);
+            try {
+                const jsonMessage = JSON.parse(message);
+                clientSocket.send(JSON.stringify({ type: 'PerformUnityAction', message: jsonMessage }));
+            } catch (error) {
+                console.error('Error parsing target server message:', error);
+            }
         }
     });
 
