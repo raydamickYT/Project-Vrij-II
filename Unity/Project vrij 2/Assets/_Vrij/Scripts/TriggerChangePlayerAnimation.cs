@@ -3,37 +3,29 @@ using UnityEngine;
 public class TriggerChangePlayerAnimation : MonoBehaviour
 {
     // The player GameObject
-    public GameObject player;
+    // public GameObject player;
     // Animation clips
     public AnimationClip collidedAnimation;
     public AnimationClip normalAnimation;
 
     // Reference to the Animator component on the player
-    private Animator playerAnimator;
+    // private Animator playerAnimator;
 
-    void Start()
-    {
-        if (player != null)
-        {
-            // Get the Animator component from the player GameObject
-            playerAnimator = player.GetComponent<Animator>();
-        }
-    }
-
-    void OnTriggerEnter2D(Collider2D collision)
+    void OnTriggerEnter2D(Collider2D other)
     {
         // Check if the colliding object is the player
-        if (collision.gameObject == player)
+        if (other.tag == "Player")
         {
             // Toggle the collided state
-            playerAnimator.Play(collidedAnimation.name, 0, 0);
+            other.GetComponent<Animator>().Play(collidedAnimation.name, 0, 0);
         }
     }
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnTriggerExit2D(Collider2D other)
     {
-        if (collision.gameObject == player)
+        if (other.tag == "Player")
         {
-            playerAnimator.Play(normalAnimation.name, 0, 0);
+            other.GetComponent<Animator>().Play(normalAnimation.name, 0, 0);
+
         }
     }
 }

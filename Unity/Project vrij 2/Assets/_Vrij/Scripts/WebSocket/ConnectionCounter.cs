@@ -1,12 +1,7 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.MemoryProfiler;
 using UnityEngine;
 using UnityEngine.UI;
 using WebSocketSharp;
-
 public class ConnectionCounter : MonoBehaviour
 {
     public Text ConnectionText;

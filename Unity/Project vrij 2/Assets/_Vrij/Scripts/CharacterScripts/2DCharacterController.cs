@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Simple2DCharacterController : MonoBehaviour
 {
     public InputLib inputLib;
+    public GameObject Vlinder;
     public ProgressBarManager progressBarManager;
     public float jumpForce = 700f;
     private bool isGrounded = true;
@@ -23,6 +24,17 @@ public class Simple2DCharacterController : MonoBehaviour
     {
         respawnPoints = GameObject.FindGameObjectsWithTag("RespawnPoint");
         previousPosition = transform.position;
+        if (Vlinder == null)
+        {
+            Debug.LogWarning("Vlinder is niet assigned");
+        }
+        else
+        {
+            if (Vlinder.activeSelf)
+            {
+                Vlinder.SetActive(false);
+            }
+        }
     }
 
     private void OnEnable()
@@ -122,6 +134,10 @@ public class Simple2DCharacterController : MonoBehaviour
                 progressBarManager.EnableSlider?.Invoke(); //voor visual feedback laten we ook een progress bar zien met de hoeveelheid mensen die in de lobby zitten
                 Debug.Log("Time: " + Time + "");
                 DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(), "ShowButterFly", Time); //we willen dat de players hun input kunnen geven dus laten we in de webclient de knop zien
+                if (Vlinder != null && !Vlinder.activeSelf)
+                {
+                    Vlinder.SetActive(true);
+                }
                 Time = 10; // reset time, incase of failure
                 break;
             case "EventTriggerFire":
@@ -142,6 +158,10 @@ public class Simple2DCharacterController : MonoBehaviour
                 // Debug.Log("werkt");
                 // DelegateManager.Instance.TextEventTriggerDetected?.Invoke(other.GetComponent<Text>(), "ShowButton", 0); //we willen dat de players hun input kunnen geven dus laten we in de webclient de knop zien
                 progressBarManager.DisableSlider?.Invoke();
+                if (Vlinder != null && Vlinder.activeSelf)
+                {
+                    Vlinder.SetActive(false);
+                }
                 DelegateManager.Instance.WipeInputListDelegate?.Invoke(); //ff resetten
                 break;
             case "Fall":
