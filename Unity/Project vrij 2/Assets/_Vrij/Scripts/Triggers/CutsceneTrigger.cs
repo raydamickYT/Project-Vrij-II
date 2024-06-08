@@ -33,6 +33,7 @@ public class CutsceneTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             PlayCutscene();
+            Debug.Log("Hoi");
         }
     }
 
