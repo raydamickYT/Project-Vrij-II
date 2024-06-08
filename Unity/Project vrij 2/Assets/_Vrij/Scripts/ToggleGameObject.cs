@@ -6,7 +6,8 @@ public class CollisionActivator : MonoBehaviour
     public GameObject targetObject;
 
     // Method called when the collider attached to this GameObject collides with another collider
-    private void OnCollisionEnter(Collision collision)
+  
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (targetObject != null)
         {
@@ -17,4 +18,5 @@ public class CollisionActivator : MonoBehaviour
             Debug.LogWarning("Target object is not assigned.");
         }
     }
+
 }
