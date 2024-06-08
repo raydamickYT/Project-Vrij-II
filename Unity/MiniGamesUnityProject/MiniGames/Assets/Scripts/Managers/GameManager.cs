@@ -31,6 +31,10 @@ public class GameManager : MonoBehaviour
             {
                 sceneLoader.HideScene(sceneLoader.ButterflyGame);
             });
+            sceneLoader.LoadScenes(sceneLoader.FireGame, () =>
+            {
+                sceneLoader.HideScene(sceneLoader.FireGame);
+            });
             sceneLoader.LoadScenes("StartScreen");
         }
         if (Instance == null)
@@ -47,7 +51,7 @@ public class GameManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.E))
         {
-            sceneLoader.ShowScene(sceneLoader.ButterflyGame);
+            ShowFireGame();
         }
     }
     public void MiniGameEnded(bool Succeeded)
@@ -71,9 +75,15 @@ public class GameManager : MonoBehaviour
         // Unload the start screen and load a random minigame
         sceneLoader.HideScene(sceneLoader.CurrentScene);
         sceneLoader.ShowScene(sceneLoader.ButterflyGame);
-        sceneLoader.SelectedMiniGame = SceneLoader.Instance.ButterflyGame;
+        sceneLoader.SelectedMiniGame = sceneLoader.ButterflyGame;
     }
-
+    public void ShowFireGame()
+    {
+        // Unload the start screen and load a random minigame
+        sceneLoader.HideScene(sceneLoader.CurrentScene);
+        sceneLoader.ShowScene(sceneLoader.FireGame);
+        sceneLoader.SelectedMiniGame = sceneLoader.FireGame;
+    }
     public void OnButtonPressed(string currentScene, string nextScene)
     {
         // Unload the start screen and load a random minigame

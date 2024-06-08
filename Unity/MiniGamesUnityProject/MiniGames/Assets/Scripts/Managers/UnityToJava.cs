@@ -87,6 +87,11 @@ public class UnityToJavaScript : MonoBehaviour
                 Debug.Log("showButterfly");
                 HandleCount(message, () => GameManager.Instance.ShowButterFlyGame());
                 break;
+
+            case string b when b.Contains("ShowFire"):
+                Debug.Log("showfire");
+                HandleCount(message, () => GameManager.Instance.ShowFireGame());
+                break;
         }
     }
 

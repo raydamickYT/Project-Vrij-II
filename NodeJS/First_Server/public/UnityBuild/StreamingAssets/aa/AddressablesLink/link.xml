@@ -6,6 +6,7 @@
     <type fullname="Deactivatethisobject" preserve="all" />
     <type fullname="GameManager" preserve="all" />
     <type fullname="MiniGameManager" preserve="all" />
+    <type fullname="PointerMovementGame" preserve="all" />
     <type fullname="SceneLoader" preserve="all" />
     <type fullname="StartScreen" preserve="all" />
     <type fullname="UnityToJavaScript" preserve="all" />

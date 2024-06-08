@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
     );
 
     document.getElementById('Join Lobby').addEventListener('click', () => {
+        console.log("knop werkt")
         window.location.href = 'UnityPage.html'; // Navigeer naar de game pagina
         // if (socket.readyState === WebSocket.OPEN) {
         //     const message = { lobbyStatus: 'inLobby', message: 'Deze client is gemarkeerd als: zit in de lobby' };
@@ -18,26 +19,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // }
     });
 
-    document.getElementById('UnityActions').addEventListener('click', () => {
-        if (socket.readyState === WebSocket.OPEN) {
-            const message = { success: true, message: "operatie voltooid", type: "PerformUnityAction" }; // Zet wat in de message
-            socket.send(JSON.stringify(message));
-            var btn = document.getElementById('UnityActions');
-            btn.style.display = 'none'; // Verberg de knop om te voorkomen dat er 2 keer op gedrukt wordt. In dit geval willen we 1 input
-        } else {
-            console.log('WebSocket is niet open.');
-        }
-    });
 });
-
-function toggleButton(show) {
-    var btn = document.getElementById('UnityActions');
-    if (show) {
-        btn.style.display = 'block'; // Toon de knop
-    } else {
-        btn.style.display = 'none'; // Verberg de knop
-    }
-}
 
 function showReconnectWidget() {
     var widget = document.getElementById('reconnect-widget');

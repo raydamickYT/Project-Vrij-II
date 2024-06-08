@@ -16,7 +16,8 @@ public class SceneLoader : MonoBehaviour
     private List<string> playedMinigames = new List<string>();
 
     [HideInInspector]
-    public string ButterflyGame = "Assets/Scenes/MiniGames/MiniGame3.unity";
+    public string ButterflyGame = "Assets/Scenes/Vlinder/ButterFlyMiniGame.unity";
+    public string FireGame = "Assets/Scenes/Vuur/FireMiniGame.unity";
     
     [HideInInspector]
     public string SelectedMiniGame;
