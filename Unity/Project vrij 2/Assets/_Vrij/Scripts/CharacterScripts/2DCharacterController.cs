@@ -163,6 +163,7 @@ public class Simple2DCharacterController : MonoBehaviour
                     Vlinder.SetActive(false);
                 }
                 DelegateManager.Instance.WipeInputListDelegate?.Invoke(); //ff resetten
+                SuccessGrens += 0.01f;
                 break;
             case "Fall":
                 TeleportPlayerToRespawn();
