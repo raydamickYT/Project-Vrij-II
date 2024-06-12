@@ -80,6 +80,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2901005112724979618, guid: 5a61c49221e63634b9aa30a7f9a18360, type: 3}
+      propertyPath: m_SortingOrder
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 5216873189887654442, guid: 5a61c49221e63634b9aa30a7f9a18360, type: 3}
       propertyPath: m_Name
       value: DesertBackground 1
@@ -87,6 +91,14 @@ PrefabInstance:
     - target: {fileID: 6057426133600062047, guid: 5a61c49221e63634b9aa30a7f9a18360, type: 3}
       propertyPath: m_LocalPosition.y
       value: 1.18
+      objectReference: {fileID: 0}
+    - target: {fileID: 6258908291808717940, guid: 5a61c49221e63634b9aa30a7f9a18360, type: 3}
+      propertyPath: m_SortingOrder
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8769421930366828490, guid: 5a61c49221e63634b9aa30a7f9a18360, type: 3}
+      propertyPath: m_SortingOrder
+      value: -2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

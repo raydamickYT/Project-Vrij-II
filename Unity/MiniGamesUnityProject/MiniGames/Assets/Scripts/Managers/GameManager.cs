@@ -47,7 +47,8 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.W))
         {
-            ShowButterFlyGame();
+            sceneLoader.LoadRandomMinigame();
+            sceneLoader.HideScene(sceneLoader.CurrentScene);
         }
         else if (Input.GetKeyDown(KeyCode.E))
         {
@@ -58,7 +59,7 @@ public class GameManager : MonoBehaviour
     {
         unityToJava.OnMiniGameComplete(Succeeded);
         sceneLoader.HideScene(sceneLoader.SelectedMiniGame);
-        Debug.Log(sceneLoader.SelectedMiniGame);
+        // Debug.Log(sceneLoader.SelectedMiniGame);
         sceneLoader.ShowScene("WaitingScreen");
     }
 
