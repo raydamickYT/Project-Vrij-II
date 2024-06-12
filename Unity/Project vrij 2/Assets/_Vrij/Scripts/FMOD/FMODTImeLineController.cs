@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems; // Voor EventTrigger
 using FMODUnity;
 using FMOD.Studio;
+using UnityEngine.SceneManagement;
 
 public class FMODTimelineController : MonoBehaviour
 {
@@ -75,8 +76,9 @@ public class FMODTimelineController : MonoBehaviour
             if (playbackState == PLAYBACK_STATE.STOPPED)
             {
                 // Reset of loop het level
-                musicInstance.setTimelinePosition(0);
-                musicInstance.start();
+                // musicInstance.setTimelinePosition(0);
+                SceneManager.LoadScene("StartScreen");
+                // musicInstance.start();
             }
         }
     }
@@ -130,14 +132,14 @@ public class FMODTimelineController : MonoBehaviour
                 player.transform.position = new Vector3(targetPosition.x, player.transform.position.y, player.transform.position.z);
                 velocity = Vector3.zero; // Reset velocity to prevent jump on release
             }
-          else if (!player.GetComponent<Simple2DCharacterController>().IsJumping) // Only update position if the player is not jumping
-        {
-            Vector3 currentPosition = player.transform.position;
-            targetPosition.y = currentPosition.y; // Maintain current y position
-            targetPosition.z = currentPosition.z; // Maintain current z position
+            else if (!player.GetComponent<Simple2DCharacterController>().IsJumping) // Only update position if the player is not jumping
+            {
+                Vector3 currentPosition = player.transform.position;
+                targetPosition.y = currentPosition.y; // Maintain current y position
+                targetPosition.z = currentPosition.z; // Maintain current z position
 
-            player.transform.position = Vector3.SmoothDamp(currentPosition, targetPosition, ref velocity, smoothTime);
-        }
+                player.transform.position = Vector3.SmoothDamp(currentPosition, targetPosition, ref velocity, smoothTime);
+            }
         }
     }
 
