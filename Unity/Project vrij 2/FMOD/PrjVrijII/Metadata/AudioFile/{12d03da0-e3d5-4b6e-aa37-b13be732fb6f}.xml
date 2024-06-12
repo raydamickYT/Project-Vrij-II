@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{12d03da0-e3d5-4b6e-aa37-b13be732fb6f}">
+		<property name="assetPath">
+			<value>Conexo_Audio.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>1002.26</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{fd96c2f9-c8ba-4a57-994f-722cf36da25a}</destination>
+		</relationship>
+	</object>
+</objects>
